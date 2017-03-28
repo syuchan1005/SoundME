@@ -1,0 +1,20 @@
+.album-art {
+    margin: 10px 5px 5px;
+}
+
+.album-name {
+    width: 165px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album-artist {
+    color: #777777;
+}
+
+#list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

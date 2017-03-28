@@ -1,0 +1,27 @@
+table.user-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.user-table th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.add-user {
+    color: #4CAF50;
+    font-size: 1.5rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.delete-user {
+    color: red;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+#user-form {
+    display: none;
+}

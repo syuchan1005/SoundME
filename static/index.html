@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SoundME</title>
+
+        <script
+                src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="style/index.css">
+
+        <script src="js/jquery.particleground.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script>
+            function sendClick() {
+                const name = $("#name").val();
+                const pass = $("#pass").val();
+                if (name && pass) {
+                    $.ajax({
+                        url: location.href,
+                        type: 'POST',
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            name: name,
+                            passhash: createHash(name, pass)
+                        }),
+                        timeout: 10000,
+                        success: function (data) {
+                            location.reload();
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            if (xhr.status === 200) {
+                                location.reload();
+                            } else {
+                                $("#warnText").css("display", "inline");
+                            }
+                        }
+                    });
+                }
+            }
+
+            function createHash(username, password) {
+                const salt = getSHA256(username);
+                let hash = "";
+                for (let i = 0; i < 10000; i++) {
+                    hash = getSHA256(hash + salt + password);
+                }
+                return hash;
+            }
+
+            function getSHA256(str) {
+                const shaObj = new jsSHA("SHA-256", "TEXT", 1);
+                shaObj.update(str);
+                return shaObj.getHash("HEX");
+            }
+
+            $(document).ready(function () {
+                $('body').particleground({
+                    dotColor: '#ffffff',
+                    lineColor: '#ffffff'
+                });
+            });
+        </script>
+    </head>
+
+    <body id="main">
+        <div id="ctx">
+            <div>
+                <p id="logo">SoundME</p>
+            </div>
+
+            <div id="login">
+                <div id="warnText">Username or Password incorrect</div>
+                <p>Username</p>
+                <p><input type="text" title="username" id="name" value="user"></p>
+                <p>Password</p>
+                <p><input type="password" title="password" id="pass" value="pass"></p>
+                <input type="button" value="ログイン" onclick="sendClick()">
+            </div>
+        </div>
+    </body>
+</html>

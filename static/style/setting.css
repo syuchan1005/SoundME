@@ -1,0 +1,108 @@
+button.setting {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    border-radius: 5px;
+    height: 3rem;
+    color: white;
+}
+
+span.setting {
+    font-size: 2rem;
+}
+
+progress {
+    width: 100%;
+}
+
+.src-input-setting {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+}
+
+.dest-input-setting {
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+}
+
+#settings {
+    margin: 5px;
+}
+
+#path-setting {
+    display: flex;
+    flex-direction: column;
+}
+
+#convert-setting {
+    display: flex;
+    border: solid #888888 2px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+#src-setting {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-right: solid #777777 1px;
+}
+
+#dest-setting {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+#warn-format {
+    display: flex;
+    justify-content: space-around;
+    border: solid #add8e6 2px;
+    border-top: none;
+    border-radius: 3px;
+}
+
+#db-management {
+    text-align: center;
+}
+
+#update {
+    width: 97%;
+    background-color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+#update-progress {
+    border: solid #000000 1px;
+    border-radius: 5px;
+    display: none;
+}
+
+#warnText {
+    color: red;
+}
+
+#risky {
+    display: flex;
+    justify-content: space-around;
+}
+
+#clear-cache {
+    width: 30%;
+    background-color: #ff7f50;
+}
+
+#reset-db {
+    width: 30%;
+    background-color: #ff7f50;
+}
+
+#reset-all {
+    width: 30%;
+    background-color: #dc143c;
+}

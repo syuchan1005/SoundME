@@ -1,0 +1,73 @@
+<div id="settings">
+    <span class="setting">Users</span>
+    <div>
+        <div id="user-form">
+            <div>Username</div>
+            <input type="text" id="form-name">
+            <div>Password</div>
+            <input type="password" id="form-pass">
+            <div>Role</div>
+            <input type="text" id="form-role">
+        </div>
+        <table class="user-table">
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th class="add-user">+</th>
+            </tr>
+            {{#each users}}
+                <tr data-userid="{{id}}">
+                    <td class="user-name">{{name}}</td>
+                    <td class="user-role">{{role}}</td>
+                    <td class="delete-user">X</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+
+    <span class="setting">Automatic conversion</span>
+    <div id="convert-setting">
+        <div id="src-setting">
+            <span>src format</span>
+            <div class="src-input-setting">
+                <label>MPEG-1/2 Audio Layer 3 (MP3)</label><input type="checkbox" disabled>
+            </div>
+            <div class="src-input-setting">
+                <label>Ogg Vorbis (OGG)</label><input type="checkbox" checked disabled>
+            </div>
+            <div class="src-input-setting">
+                <label>Advanced Audio Coding (AAC)</label><input type="checkbox" checked disabled>
+            </div>
+            <div class="src-input-setting">
+                <label>Free Lossless Audio Codec (FLAC)</label><input type="checkbox" checked disabled>
+            </div>
+            <div class="src-input-setting">
+                <label>Windows Media Audio (WMA)</label><input type="checkbox" checked disabled>
+            </div>
+        </div>
+        <div id="dest-setting">
+            <span>dest format</span>
+            <div class="dest-input-setting">
+                <input type="radio" name="dest" checked><label>MPEG-1/2 Audio Layer 3 (MP3)</label>
+            </div>
+        </div>
+    </div>
+    <span id="warn-format">If you want to use other formats please check the correspondence with ffmpeg</span>
+
+    <span class="setting">Database management</span>
+    <div id="db-management">
+        <button id="update" class="setting">Database Update (Load Musics)</button>
+        <div id="update-progress">
+            <label>Progress</label>
+            <progress value="0" max="100" id="progress"></progress>
+            <label id="process-file">Process_File - Process</label>
+            <progress value="0" max="100" id="file-progress"></progress>
+            <div id="warnText">Please do not move until it is over</div>
+        </div>
+        <div id="risky">
+            <button id="clear-cache" class="setting">Clear cache & thumbnail</button>
+            <button id="reset-db" class="setting">Reset database (without users)</button>
+            <button id="reset-all" class="setting">Reset all (Music folder will remain)</button>
+        </div>
+    </div>
+</div>

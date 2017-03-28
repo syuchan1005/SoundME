@@ -1,0 +1,21 @@
+<div class="album-songs">
+    <div class="album-data">
+        <img class="album-thumbnail" src="/thumbnail/{{album.name}}_{{album.id}}.png" width="165" height="165">
+        <div>{{album.track_number}}曲</div>
+    </div>
+    <div class="album-songs-data">
+        <div class="album-name-title">{{album.name}}</div>
+        <div class="album-artist-name">{{album.artist}}</div>
+        <div class="album-genre">{{album.genre}}</div>
+        <hr>
+        {{#each songs}}
+            <div class="song-data" data-songindex="{{@index}}" data-songid="{{id}}">
+                <div class="song-track" data-track="{{track}}" data-content="{{track}}"></div>
+                <div class="song-detail">
+                    <div class="song-title">{{title}}</div>
+                    <div class="song-artist">{{artist}}</div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

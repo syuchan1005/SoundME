@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{{title}}</title>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="/style/soundMe.css">
+        <link rel="stylesheet" href="/style/main.css">
+        <link rel="stylesheet" href="/style/player.css">
+        <link rel="stylesheet" href="/style/albums.css">
+        <link rel="stylesheet" href="/style/album.css">
+        <link rel="stylesheet" href="/style/songs.css">
+        <link rel="stylesheet" href="/style/setting.css">
+        <link rel="stylesheet" href="/style/user.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="/js/sha256.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/albums.js"></script>
+        <script src="/js/songs.js"></script>
+        <script src="/js/setting.js"></script>
+        <script src="/js/user.js"></script>
+        <script src="/js/player.js"></script>
+    </head>
+    <body>
+        <nav id="nav">
+            <div id="title">SoundME</div>
+            <div class="player">
+                <button class="pIcon-backward backward-btn"></button>
+                <button class="pIcon-play play-btn"></button>
+                <button class="pIcon-forward forward-btn"></button>
+                <span class="volume-icon pIcon-volume-medium"></span>
+                <input type="range" class="volume-range" title="volume">
+                <img class="album" width="45" height="45" src="/no_art.png">
+                <div class="song">
+                    <span class="title">Title</span>
+                    <span class="artist">Artist</span>
+                    <input type="range" class="seek-range" title="seek" step="0.1">
+                </div>
+            </div>
+        </nav>
+        <nav id="menu">
+            <a class="sIcon-artist" href="/artist"> アーティスト</a>
+            <a class="sIcon-albums" href="/albums"> アルバム</a>
+            <a class="sIcon-songs" href="/songs"> 曲</a>
+            <a class="sIcon-genre" href="/genre"> ジャンル</a>
+            <a class="sIcon-playlist"> プレイリスト</a>
+            <a class="sIcon-logout" id="logout" href="/logout"> ログアウト</a>
+            {{#if role}}
+                <a class="sIcon-setting" id="setting" href="/setting"> 詳細設定</a>
+            {{/if}}
+        </nav>
+
+        <div id="ctx">
+            {{{@body}}}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<table class="songs-table">
+    <thead>
+    <tr class="songs-header">
+        <th><span>&nbsp;</span></th>
+        <th><span>名前</span></th>
+        <th><span>時間</span></th>
+        <th><span>アーティスト</span></th>
+        <th><span>アルバム</span></th>
+        <th><span>ジャンル</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each songs}}
+        <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}">
+            <th><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
+            <th><span>{{title}}</span></th>
+            <th><span>{{min}}:{{sec}}</span></th>
+            <th><span>{{artist}}</span></th>
+            <th><span class="songs-album" data-albumid="{{album_id}}">{{name}}</span></th>
+            <th><span>{{genre}}</span></th>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'soundMe';
+    src: url('soundMe.ttf') format('truetype'),
+    url('soundMe.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="sIcon-"], [class*=" sIcon-"] {
+    font-family: 'soundMe' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.sIcon-songs:before {
+    content: "\e900";
+}
+
+.sIcon-albums:before {
+    content: "\e901";
+}
+
+.sIcon-artist:before {
+    content: "\e902";
+}
+
+.sIcon-setting:before {
+    content: "\e903";
+}
+
+.sIcon-playlist:before {
+    content: "\e936";
+}
+
+.sIcon-genre:before {
+    content: "\e9d3";
+}
+
+.sIcon-logout:before {
+    content: "\ea14";
+}
+

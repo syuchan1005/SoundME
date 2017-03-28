@@ -1,0 +1,41 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#main {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+#ctx {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 5%;
+    text-align: center;
+}
+
+#logo {
+    color: white;
+    font-size: 8rem;
+    text-shadow: 5px 5px 3px rgba(100, 100, 100, 1);
+}
+
+#login {
+    width: 300px;
+    margin: auto;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 0 5px rgba(255,255,255,0.5), 0 2px 3px 5px rgba(0,0,0,0.5);
+}
+
+#warnText {
+    color: red;
+    display: none;
+}
