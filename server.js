@@ -8,6 +8,7 @@ import bodyParser from "koa-bodyparser";
 import Router from "koa-router";
 import Route from "koa-route";
 import Serve from "koa-static";
+import Range from "koa-range";
 import unless from "koa-unless";
 import hbs from "koa-handlebars";
 import session from "koa-session";
@@ -183,6 +184,7 @@ router.delete("/setting/user", async function (ctx, next) {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+app.use(Range);
 app.use(Serve(__dirname + '/static'));
 
 app.ws.use(Route.all('/setting/load', async function (ctx) {
