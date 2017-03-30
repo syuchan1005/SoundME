@@ -1,11 +1,10 @@
 <div id="list" data-albumcount="{{albums.length}}">
     {{#each albums}}
-        <div data-index={{@index}}>
+        <div class="albums-data" data-index={{@index}}>
             <img src="/thumbnail/{{name}}_{{id}}.png" width="165" height="165"
                  onclick="artClick({{@index}}, {{id}})" class="album-art" id="album-{{id}}">
             <div class="album-name ellipsis">{{name}}</div>
             <div class="album-artist ellipsis">{{artist}}</div>
         </div>
     {{/each}}
-
 </div>
