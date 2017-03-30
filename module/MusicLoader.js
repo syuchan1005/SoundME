@@ -38,7 +38,13 @@ class MusicLoader {
                         title: Util.getFileName(f),
                     }, format.tags);
                     if (meta.track.split("/").length === 1) meta.track += "/0";
-                    if (!meta.album_artist) meta.album_artist = meta.artist;
+                    if (!meta.album_artist) {
+                        if (meta.hasOwnProperty("compilation")) {
+                            meta.album_artist = "Various Artists";
+                        } else {
+                            meta.album_artist = meta.artist;
+                        }
+                    }
                     let outPath;
                     wsSend("Convert", fpp * i + fpp * 0.2, f, 20);
                     if (Path.extname(path) === ".mp3") {
