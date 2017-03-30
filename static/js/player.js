@@ -66,7 +66,7 @@ function playSound(thumbnailURL, audioURL, title, artist) {
     $(".title").text(title);
     $(".artist").text(artist);
     $(".album").attr("src", thumbnailURL);
-    audio.src = audioURL;
+    audio.src = audioURL.replace("#", "%23");
     $(".seek-range").val(0);
     if (audio.paused) togglePlay();
 }

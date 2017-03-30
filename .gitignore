@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-/static/music
-/static/thumbnail
+static/music
+static/thumbnail
 test.db
 .idea
-/node_modules
+node_modules
