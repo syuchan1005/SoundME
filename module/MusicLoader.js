@@ -1,7 +1,6 @@
 /**
  * Created by syuchan on 2017/03/23.
  */
-import fs from "fs";
 import Path from "path";
 import FFMPEG from "fluent-ffmpeg";
 import Util from "./Util";
@@ -22,12 +21,12 @@ class MusicLoader {
         const convertMusic = this.convertMusic;
         const createThumbnail = this.createThumbnail;
         const getMetadata = this.getMetadata;
-        return new Promise(function (resolve, reject) {
-            fs.readdir(musicDir, async function (err, files) {
+        return new Promise(async function (resolve, reject) {
+            Util.getFilesRecursive(musicDir, async function (err, files) {
                 const fpp = 100.0 / files.length;
                 for (let i = 0; i < files.length; i++) {
-                    const f = files[i];
-                    const path = `${musicDir}/${f}`;
+                    const path = files[i];
+                    const f = Path.relative(musicDir, path);
                     wsSend("GetMeta", fpp * i + fpp * 0.1, f, 10);
                     const format = (await getMetadata(path)).format;
                     const meta = Object.assign({
@@ -36,8 +35,10 @@ class MusicLoader {
                         album: "unknown",
                         genre: "unknown",
                         track: "0/0",
-                        title: Path.basename(f, Path.extname(f)),
+                        title: Util.getFileName(f),
                     }, format.tags);
+                    if (meta.track.split("/").length === 1) meta.track += "/0";
+                    if (!meta.album_artist) meta.album_artist = meta.artist;
                     let outPath;
                     wsSend("Convert", fpp * i + fpp * 0.2, f, 20);
                     if (Path.extname(path) === ".mp3") {
@@ -46,14 +47,12 @@ class MusicLoader {
                         outPath = `/cache/${await convertMusic(path, function (progress) {
                             if (progress.percent !== undefined) {
                                 let convProg = 20 + 19 * (progress.percent / 100);
-                                wsSend("Convert", fpp * i + fpp * (convProg / 100), f, convProg);   
-                            }        
+                                wsSend("Convert", fpp * i + fpp * (convProg / 100), f, convProg);
+                            }
                         })}`;
                     }
                     wsSend("AddAlbum", fpp * i + fpp * 0.4, f, 40);
-                    let album_artist = meta.album_artist;
-                    if (album_artist === undefined) album_artist = meta.artist;
-                    const albumId = connector.addAlbum(meta.album, album_artist, meta.genre, meta.track.split("/")[1]);
+                    const albumId = connector.addAlbum(meta.album, meta.album_artist, meta.genre, meta.track.split("/")[1]);
                     wsSend("CreateThumbnail", fpp * i + fpp * 0.6, f, 60);
                     await createThumbnail(path, `${__dirname}/../static/thumbnail/${meta.album}_${albumId}.png`);
                     wsSend("AddSong", fpp * i + fpp * 0.8, f, 80);

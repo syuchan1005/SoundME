@@ -11,6 +11,10 @@
 
 .album-artist {
     color: #777777;
+    width: 165px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #list {

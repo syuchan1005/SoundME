@@ -1,7 +1,6 @@
 /**
  * Created by syuchan on 2017/03/12.
  */
-import fs from "fs";
 
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
