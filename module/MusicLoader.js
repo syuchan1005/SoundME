@@ -30,7 +30,14 @@ class MusicLoader {
                     const path = `${musicDir}/${f}`;
                     wsSend("GetMeta", fpp * i + fpp * 0.1, f, 10);
                     const format = (await getMetadata(path)).format;
-                    const meta = format.tags;
+                    const meta = Object.assign({
+                        album_artist: undefined,
+                        artist: "unknown",
+                        album: "unknown",
+                        genre: "unknown",
+                        track: "0/0",
+                        title: Path.basename(f, Path.extname(f)),
+                    }, format.tags);
                     let outPath;
                     wsSend("Convert", fpp * i + fpp * 0.2, f, 20);
                     if (Path.extname(path) === ".mp3") {
