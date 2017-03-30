@@ -2,6 +2,7 @@
  * Created by syuchan on 2017/03/23.
  */
 import Path from "path";
+import fs from "fs";
 import FFMPEG from "fluent-ffmpeg";
 import Util from "./Util";
 
@@ -93,7 +94,8 @@ class MusicLoader {
                 .noAudio()
                 .input(srcPath)
                 .on("error", function (err, stdout, stderr) {
-                    reject(err);
+                    fs.createReadStream(__dirname + "./../static/no_art.png").pipe(fs.createWriteStream(outPath));
+                    resolve(outPath);
                 })
                 .on('end', function () {
                     resolve(outPath);
