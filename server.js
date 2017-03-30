@@ -12,6 +12,7 @@ import unless from "koa-unless";
 import hbs from "koa-handlebars";
 import session from "koa-session";
 import websockify from "koa-websocket";
+import debug from "debug";
 
 import DBConnector from "./module/DBConnector";
 import MusicLoader from "./module/MusicLoader";
@@ -21,6 +22,7 @@ const router = Router();
 const connector = new DBConnector({type: "sqlite", database: "test.db"});
 connector.createTable();
 const loader = new MusicLoader(process.env.F_PATH, connector);
+const write = debug("soundme");
 
 app.keys = ["need change this value"];
 
@@ -202,6 +204,10 @@ app.ws.use(Route.all('/setting/load', async function (ctx) {
 
 app.use(async function (ctx, next) {
     ctx.response.redirect("/");
+});
+
+app.on("error", function (err) {
+    write(err);
 });
 
 app.listen(3000);
