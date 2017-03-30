@@ -36,6 +36,7 @@
     cursor: pointer;
     margin-top: 12px;
     color: #5d5d5d;
+    width: 2rem;
 }
 
 .song-track:before {

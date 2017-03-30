@@ -3,8 +3,8 @@
         <div data-index={{@index}}>
             <img src="/thumbnail/{{name}}_{{id}}.png" width="165" height="165"
                  onclick="artClick({{@index}}, {{id}})" class="album-art" id="album-{{id}}">
-            <div class="album-name">{{name}}</div>
-            <div class="album-artist">{{artist}}</div>
+            <div class="album-name ellipsis">{{name}}</div>
+            <div class="album-artist ellipsis">{{artist}}</div>
         </div>
     {{/each}}
 

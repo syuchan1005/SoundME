@@ -12,12 +12,12 @@
     <tbody>
     {{#each songs}}
         <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}">
-            <th><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
-            <th><span>{{title}}</span></th>
-            <th><span>{{min}}:{{sec}}</span></th>
-            <th><span>{{artist}}</span></th>
+            <th class="th-icon"><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
+            <th><span class="songs-title">{{title}}</span></th>
+            <th class="th-length"><span class="songs-length">{{min}}:{{sec}}</span></th>
+            <th><span class="songs-artist">{{artist}}</span></th>
             <th><span class="songs-album" data-albumid="{{album_id}}">{{name}}</span></th>
-            <th><span>{{genre}}</span></th>
+            <th class="th-genre"><span class="songs-genre">{{genre}}</span></th>
         </tr>
     {{/each}}
     </tbody>

@@ -4,21 +4,21 @@
 
 .album-name {
     width: 165px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .album-artist {
     color: #777777;
     width: 165px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 #list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

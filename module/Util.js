@@ -13,7 +13,7 @@ class Util {
     static rmDirInFile(dirPath) {
         fs.readdir(dirPath, function (err, files) {
            files.forEach(function (f) {
-               fs.unlink(`${dirPath}/${f}`);
+               fs.unlinkSync(`${dirPath}/${f}`);
            });
         });
     }
