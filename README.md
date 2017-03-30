@@ -1,6 +1,10 @@
 # SoundMeとは
  WebでiTunesみたいの欲しかっただけ
  
+# どんな感じなの？
+   iTunesライクな感じのデザインです  
+   [Demo](http://test.magitech.xyz)  <- ちょっと重たいかも
+ 
 # 使い方
  `npm install`して`npm start`してください
  
