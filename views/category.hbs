@@ -1,8 +1,12 @@
-<div>
-    <div>
-        Sorry, Unimplemented!
+<div id="category">
+    <div id="category-list">
+        {{#each list}}
+            <div class="category-item" onclick='artistClick("{{artist}}")'>
+                <img class="album" width="45" height="45" src="/no_art.png">
+                <div class="ellipsis">{{artist}}</div>
+            </div>
+        {{/each}}
     </div>
-    <div>
-        Sorry, Unimplemented!
+    <div id="category-album">
     </div>
 </div>

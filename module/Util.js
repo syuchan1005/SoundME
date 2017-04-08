@@ -12,9 +12,9 @@ class Util {
 
     static rmDirInFile(dirPath) {
         fs.readdir(dirPath, function (err, files) {
-           files.forEach(function (f) {
-               fs.unlinkSync(`${dirPath}/${f}`);
-           });
+            files.forEach(function (f) {
+                fs.unlinkSync(`${dirPath}/${f}`);
+            });
         });
     }
 
@@ -61,6 +61,13 @@ class Util {
                 })
             })
         })
+    }
+
+    static katakanaToHiragana(src) {
+        return src.replace(/[\u30a1-\u30f6]/g, function (match) {
+            var chr = match.charCodeAt(0) - 0x60;
+            return String.fromCharCode(chr);
+        });
     }
 }
 

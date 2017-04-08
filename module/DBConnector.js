@@ -58,6 +58,10 @@ class DBConnector {
         return this.db.run("SELECT * FROM albums");
     }
 
+    getArtistAlbums(artist) {
+        return this.db.run(`SELECT * FROM albums WHERE artist="${artist}"`);
+    }
+
     getAlbum(id) {
         id = DBConnector.singleQuoteEscape(id);
         const album = this.db.run(`SELECT * FROM albums WHERE id='${id}'`);
@@ -84,6 +88,10 @@ class DBConnector {
     getAlbumSongs(id) {
         id = DBConnector.singleQuoteEscape(id);
         return this.db.run(`SELECT * FROM songs WHERE album='${id}' ORDER BY track, title`);
+    }
+
+    getArtistSongs(artist) {
+        return this.db.run(`SELECT * FROM songs WHERE artist="${artist}"`);
     }
 
     getSong(id) {
@@ -147,6 +155,10 @@ class DBConnector {
         }
     }
 
+    getArtists() {
+        return this.db.run("SELECT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist");
+    }
+
     addUserPassword(username, password, role) {
         username = DBConnector.singleQuoteEscape(username);
         password = DBConnector.singleQuoteEscape(password);
@@ -199,9 +211,9 @@ class DBConnector {
                 case "\x1a":
                     return "\\Z";
                 case "'":
-                    return "''";
+                    return "\\'";
                 case '"':
-                    return '""';
+                    return '\\"';
                 default:
                     return "\\" + s;
             }

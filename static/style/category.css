@@ -1,0 +1,24 @@
+#category {
+    height: 100%;
+    display: flex;
+}
+
+#category-list {
+    width: 300px;
+    height: 100%;
+    overflow-y: scroll;
+    border-right: solid 1px #A9A9A9;
+}
+
+#category-album {
+    width: calc(100% - 300px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.category-item {
+    height: 49px;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #B4B4B4;
+}

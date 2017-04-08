@@ -19,9 +19,3 @@
     display: flex;
     flex-wrap: wrap;
 }
-
-.ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}

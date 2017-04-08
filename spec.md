@@ -95,6 +95,10 @@ SELECT * FROM albums;
 ```text
 SELECT * FROM albums
 ```
+## getArtistAlbums
+```text
+SELECT * FROM albums WHERE artist="${artist}"
+```
 ## getAlbum
 ```text
 SELECT * FROM albums WHERE id='${id}'
@@ -113,6 +117,10 @@ SELECT * FROM songs
 ## getAlbumSongs
 ```text
 SELECT * FROM songs WHERE album='${id}' ORDER BY track, title
+```
+## getArtistSongs
+```text
+SELECT * FROM songs WHERE artist="${artist}"
 ```
 ## getSong
 ```text
@@ -141,14 +149,21 @@ SELECT * FROM users
 SELECT * FROM users WHERE id=${id}
 ```
 
+## getArtists
+```text
+SELECT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist
+```
+
 ## addUser
 ```text
 INSERT INTO users VALUES(NULL, $name, $hash, $role)
 ```
+
 ## changeRole
 ```text
 UPDATE users SET role=${role} WHERE id="${userId}" AND name="${username}"
 ```
+
 ## deleteUser
 ```text
 DELETE FROM users WHERE id="${userId}" AND name="${username}" AND role="${role}"

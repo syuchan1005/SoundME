@@ -1,4 +1,9 @@
+html, body {
+    height: 100%;
+}
+
 body {
+    overflow: hidden;
     margin: 0;
     user-select: none;
     -webkit-touch-callout: none;
@@ -29,7 +34,7 @@ nav#menu {
     margin: 0;
     width: 215px;
     position: fixed;
-    height: 100%;
+    height: calc(100% - 45px);
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -67,4 +72,11 @@ nav#menu a.active {
 #ctx {
     margin-top: 43px;
     margin-left: 215px;
+    height: calc(100% - 44px);
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
