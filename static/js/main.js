@@ -12,7 +12,22 @@ function playById(id, thumbnailURL) {
         type: "GET",
         timeout: 10000,
         success: function (data) {
-            playSound(thumbnailURL, data.path, data.title, data.artist);
+            playSound(id, thumbnailURL, data.path, data.title, data.artist);
+        }
+    });
+}
+
+function movePage(url) {
+    const moveLink = `${location.protocol}//${location.host}${url}`;
+    $.ajax({
+        url: moveLink,
+        type: "GET",
+        timeout: 10000,
+        success: function (data) {
+            $(".active").removeClass("active");
+            history.pushState({}, "SoundME", moveLink);
+            $("#ctx").html($(data).filter("div#ctx").html());
+            $(`.sIcon-${url.substring(1)}`).addClass("active");
         }
     });
 }

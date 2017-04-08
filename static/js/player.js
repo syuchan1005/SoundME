@@ -13,6 +13,7 @@ const PlayerIcon = {
 };
 
 let audio = new Audio();
+let playingId = -1;
 
 function audioPlayer() {
     $(".play-btn").on("click", togglePlay);
@@ -62,13 +63,18 @@ function removeVolIcon() {
     volumeIcon.removeClass("pIcon-volume-mute");
 }
 
-function playSound(thumbnailURL, audioURL, title, artist) {
+function playSound(songId, thumbnailURL, audioURL, title, artist) {
+    playingId = songId;
     $(".title").text(title);
     $(".artist").text(artist);
     $(".album").attr("src", thumbnailURL);
     audio.src = audioURL.replace("#", "%23");
     $(".seek-range").val(0);
     if (audio.paused) togglePlay();
+}
+
+function getPlayingID() {
+    return playingId;
 }
 
 function togglePlay() {

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{title}}</title>
+        <title>SoundME</title>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="/style/soundMe.css">
         <link rel="stylesheet" href="/style/main.css">
@@ -44,14 +44,14 @@
             </div>
         </nav>
         <nav id="menu">
-            <a class="sIcon-artist" href="/artist"> アーティスト</a>
-            <a class="sIcon-albums" href="/albums"> アルバム</a>
-            <a class="sIcon-songs" href="/songs"> 曲</a>
-            <a class="sIcon-genre" href="/genre"> ジャンル</a>
+            <a class="sIcon-artist" onclick="movePage('/artist')"> アーティスト</a>
+            <a class="sIcon-albums" onclick="movePage('/albums')"> アルバム</a>
+            <a class="sIcon-songs" onclick="movePage('/songs')"> 曲</a>
+            <a class="sIcon-genre" onclick="movePage('/genre')"> ジャンル</a>
             <a class="sIcon-playlist"> プレイリスト</a>
-            <a class="sIcon-logout" id="logout" href="/logout"> ログアウト</a>
+            <a class="sIcon-logout" onclick="movePage('/logout')" id="logout"> ログアウト</a>
             {{#if role}}
-                <a class="sIcon-setting" id="setting" href="/setting"> 詳細設定</a>
+                <a class="sIcon-setting" id="setting" onclick="movePage('/setting')"> 詳細設定</a>
             {{/if}}
         </nav>
 
