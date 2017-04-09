@@ -1,14 +1,14 @@
 /**
  * Created by syuchan on 2017/03/19.
  */
-let before_index = undefined;
+var before_index = -1;
 
 function artClick(index, id) {
     const list = $("#list");
     const row = Math.floor(list.width() / 175);
     $(".album-songs").remove();
     if (before_index === index) {
-        before_index = undefined;
+        before_index = -1;
         return;
     }
     before_index = index;
