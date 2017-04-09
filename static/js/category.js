@@ -8,6 +8,7 @@ function artistClick(artist) {
         timeout: 10000,
         success: function (data) {
             $("#category-album").html($(data).filter("div#ctx").html());
+            setEvents();
         }
     });
 }
