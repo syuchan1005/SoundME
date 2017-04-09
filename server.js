@@ -92,7 +92,7 @@ router.get("/artist/:name", async function (ctx, next) {
     artistSongs.sort((s1, s2) => s1.id - s2.id);
     artistSongs.forEach((songData) => {
         const albumData = data.data[data.data.length - 1];
-        if (albumData.album.id === songData.album) albumData.songs.push(songData);
+        if (albumData !== undefined && albumData.album.id === songData.album) albumData.songs.push(songData);
         else data.data.push({album: connector.getAlbum(songData.album), songs: [songData]});
     });
     data.data.sort((s1, s2) => Util.katakanaToHiragana(s1.album.name).localeCompare(Util.katakanaToHiragana(s2.album.name)));
