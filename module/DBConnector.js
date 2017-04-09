@@ -59,6 +59,7 @@ class DBConnector {
     }
 
     getArtistAlbums(artist) {
+        artist = DBConnector.singleQuoteEscape(artist);
         return this.db.run(`SELECT * FROM albums WHERE artist="${artist}"`);
     }
 
@@ -91,6 +92,7 @@ class DBConnector {
     }
 
     getArtistSongs(artist) {
+        artist = DBConnector.singleQuoteEscape(artist);
         return this.db.run(`SELECT * FROM songs WHERE artist="${artist}"`);
     }
 
