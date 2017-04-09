@@ -60,7 +60,7 @@ class DBConnector {
 
     getArtistAlbums(artist) {
         artist = DBConnector.singleQuoteEscape(artist);
-        return this.db.run(`SELECT * FROM albums WHERE artist="${artist}"`);
+        return this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`);
     }
 
     getAlbum(id) {
@@ -93,7 +93,7 @@ class DBConnector {
 
     getArtistSongs(artist) {
         artist = DBConnector.singleQuoteEscape(artist);
-        return this.db.run(`SELECT * FROM songs WHERE artist="${artist}"`);
+        return this.db.run(`SELECT * FROM songs WHERE artist='${artist}'`);
     }
 
     getSong(id) {
@@ -144,7 +144,7 @@ class DBConnector {
 
     getUser(id) {
         id = DBConnector.singleQuoteEscape(id);
-        const rows = this.db.run(`SELECT * FROM users WHERE id=${id}`);
+        const rows = this.db.run(`SELECT * FROM users WHERE id='${id}'`);
         if (rows.length !== 1) {
             return undefined;
         } else {
@@ -175,14 +175,14 @@ class DBConnector {
         userId = DBConnector.singleQuoteEscape(userId);
         username = DBConnector.singleQuoteEscape(username);
         role = DBConnector.singleQuoteEscape(role);
-        this.db.run(`UPDATE users SET role="${role}" WHERE id="${userId}" AND name="${username}"`);
+        this.db.run(`UPDATE users SET role='${role}' WHERE id='${userId}' AND name='${username}'`);
     }
 
     deleteUser(userId, username, role) {
         userId = DBConnector.singleQuoteEscape(userId);
         username = DBConnector.singleQuoteEscape(username);
         role = DBConnector.singleQuoteEscape(role);
-        this.db.run(`DELETE FROM users WHERE id="${userId}" AND name="${username}" AND role="${role}"`);
+        this.db.run(`DELETE FROM users WHERE id='${userId}' AND name='${username}' AND role='${role}'`);
     }
 
     resetDB() {
