@@ -63,6 +63,11 @@ class DBConnector {
         return this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`);
     }
 
+    getGenreAlbums(genre) {
+        genre = DBConnector.singleQuoteEscape(genre);
+        return this.db.run(`SELECT * FROM albums WHERE genre='${genre}'`);
+    }
+
     getAlbum(id) {
         id = DBConnector.singleQuoteEscape(id);
         const album = this.db.run(`SELECT * FROM albums WHERE id='${id}'`);
@@ -153,7 +158,11 @@ class DBConnector {
     }
 
     getArtists() {
-        return this.db.run("SELECT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist");
+        return this.db.run("SELECT DISTINCT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist");
+    }
+
+    getGenres() {
+        return this.db.run(`SELECT DISTINCT genre FROM albums`);
     }
 
     addUserPassword(username, password, role) {

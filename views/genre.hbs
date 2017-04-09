@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/style/category.css">
+<script src="/js/genre.js"></script>
+<script src="/js/albums.js"></script>
+<div id="category">
+    <div id="category-list">
+        {{#each list}}
+            <div class="category-item" onclick='genreClick("{{genre}}")'>
+                <img class="album" width="45" height="45" src="/no_art.png">
+                <div class="ellipsis">{{genre}}</div>
+            </div>
+        {{/each}}
+    </div>
+    <div id="category-album">
+    </div>
+</div>

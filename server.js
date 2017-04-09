@@ -70,7 +70,7 @@ router.get("/logout", async function (ctx, next) {
 });
 
 router.get("/artist", async function (ctx, next) {
-    ctx.body = await ctx.renderView("category", {
+    ctx.body = await ctx.renderView("artist", {
         role: connector.getUser(ctx.session.userId).role === "admin",
         list: connector.getArtists()
     });
@@ -137,9 +137,25 @@ router.get("/songs/:id", async function (ctx, next) {
 });
 
 router.get("/genre", async function (ctx, next) {
-    ctx.body = await ctx.renderView("category", {
+    ctx.body = await ctx.renderView("genre", {
         role: connector.getUser(ctx.session.userId).role === "admin",
+        list: connector.getGenres()
     });
+});
+
+router.get("/genre/:name", async function (ctx, next) {
+    const genre = ctx.params.name;
+    const data = {
+        role: connector.getUser(ctx.session.userId).role === "admin",
+        data: []
+    };
+    connector.getGenreAlbums(genre).forEach((album) => {
+        data.data.push({
+            album: album,
+            songs: connector.getAlbumSongs(album.id)
+        })
+    });
+    ctx.body = await ctx.renderView("category-album", data);
 });
 
 settingRouter

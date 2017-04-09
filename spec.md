@@ -99,6 +99,10 @@ SELECT * FROM albums
 ```text
 SELECT * FROM albums WHERE artist='${artist}'
 ```
+## getGenreAlbums
+```text
+SELECT * FROM albums WHERE genre='${genre}'
+```
 ## getAlbum
 ```text
 SELECT * FROM albums WHERE id='${id}'
@@ -151,7 +155,12 @@ SELECT * FROM users WHERE id='${id}'
 
 ## getArtists
 ```text
-SELECT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist
+SELECT DISTINCT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist
+```
+
+## getGenres
+```text
+SELECT DISTINCT genre FROM albums
 ```
 
 ## addUser
