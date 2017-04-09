@@ -105,12 +105,7 @@ class DBConnector {
     }
 
     getFullSongs() {
-        const rows = this.db.run(`SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre FROM songs INNER JOIN albums ON songs.album = albums.id`);
-        if (rows.length < 1) {
-            return undefined;
-        } else {
-            return rows;
-        }
+        return this.db.run(`SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre FROM songs INNER JOIN albums ON songs.album = albums.id`);
     }
 
     addSong(title, album_id, track, artist, length, source_path, path) {
@@ -211,9 +206,9 @@ class DBConnector {
                 case "\x1a":
                     return "\\Z";
                 case "'":
-                    return "\\'";
+                    return "''";
                 case '"':
-                    return '\\"';
+                    return '""';
                 default:
                     return "\\" + s;
             }

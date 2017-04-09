@@ -20,6 +20,7 @@ import Util from "./module/Util";
 
 const app = websockify(new Koa());
 const router = Router();
+const settingRouter = Router();
 const connector = new DBConnector({type: "sqlite", database: "test.db"});
 connector.createTable();
 const loader = new MusicLoader(process.env.F_PATH, connector);
@@ -84,7 +85,10 @@ router.get("/artist/:name", async function (ctx, next) {
         role: connector.getUser(ctx.session.userId).role === "admin",
         data: []
     };
-    artistAlbums.forEach((albumData) => data.data.push({album: albumData, songs: connector.getAlbumSongs(albumData.id)}));
+    artistAlbums.forEach((albumData) => data.data.push({
+        album: albumData,
+        songs: connector.getAlbumSongs(albumData.id)
+    }));
     artistSongs.sort((s1, s2) => s1.id - s2.id);
     artistSongs.forEach((songData) => {
         const albumData = data.data[data.data.length - 1];
@@ -111,14 +115,11 @@ router.get("/albums/:id", async function (ctx, next) {
 
 router.get("/songs", async function (ctx, next) {
     const songs = connector.getFullSongs();
-    if (songs !== undefined) {
-        for (let i = 0; i < songs.length; i++) {
-            const song = songs[i];
-            const len = song.length / 1000.0;
-            song.min = ('   ' + Math.floor(len / 60)).slice(-3);
-            song.sec = ('00' + Math.floor(len % 60)).slice(-2);
-        }
-    }
+    songs.forEach(song => {
+        const len = song.length / 1000.0;
+        song.min = ('   ' + Math.floor(len / 60)).slice(-3);
+        song.sec = ('00' + Math.floor(len % 60)).slice(-2);
+    });
     ctx.body = await ctx.renderView("songs", {
         role: connector.getUser(ctx.session.userId).role === "admin",
         songs: songs
@@ -141,68 +142,67 @@ router.get("/genre", async function (ctx, next) {
     });
 });
 
-router.get("/setting", async function (ctx, next) {
-    if (connector.getUser(ctx.session.userId).role !== "admin") {
-        ctx.response.redirect("/albums");
-    } else {
-        ctx.body = await ctx.renderView("setting", {
-            role: connector.getUser(ctx.session.userId).role === "admin",
-            users: connector.getUsers()
-        });
-    }
-});
-
-router.delete("/setting/reset/:ops", async function (ctx, next) {
-    if (connector.getUser(ctx.session.userId).role !== "admin") {
-        ctx.response.redirect("/albums");
-    } else {
-        switch (ctx.params.ops) {
-            case "clear":
-                MusicLoader.clearCache();
-                MusicLoader.clearThumbnail();
-                break;
-            case "reset":
-                connector.resetDB();
-                break;
-            case "resetall":
-                MusicLoader.clearCache();
-                MusicLoader.clearThumbnail();
-                connector.resetDB();
-                break;
+settingRouter
+    .get("/", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            ctx.body = await ctx.renderView("setting", {
+                role: connector.getUser(ctx.session.userId).role === "admin",
+                users: connector.getUsers()
+            });
         }
-        ctx.status = 200;
-    }
-});
+    })
+    .delete("/reset/:ops", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            switch (ctx.params.ops) {
+                case "clear":
+                    MusicLoader.clearCache();
+                    MusicLoader.clearThumbnail();
+                    break;
+                case "reset":
+                    connector.resetDB();
+                    break;
+                case "resetall":
+                    MusicLoader.clearCache();
+                    MusicLoader.clearThumbnail();
+                    connector.resetDB();
+                    break;
+            }
+            ctx.status = 200;
+        }
+    })
+    .post("/user", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            const body = ctx.request.body;
+            connector.addUser(body.username, body.hash, body.role);
+            ctx.status = 200;
+        }
+    })
+    .put("/user", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            const body = ctx.request.body;
+            connector.changeRole(body.userid, body.username, body.role);
+            ctx.status = 200;
+        }
+    })
+    .delete("/user", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            const body = ctx.request.body;
+            connector.deleteUser(body.userid, body.username, body.role);
+            ctx.status = 200;
+        }
+    });
 
-router.post("/setting/user", async function (ctx, next) {
-    if (connector.getUser(ctx.session.userId).role !== "admin") {
-        ctx.response.redirect("/albums");
-    } else {
-        const body = ctx.request.body;
-        connector.addUser(body.username, body.hash, body.role);
-        ctx.status = 200;
-    }
-});
-
-router.put("/setting/user", async function (ctx, next) {
-    if (connector.getUser(ctx.session.userId).role !== "admin") {
-        ctx.response.redirect("/albums");
-    } else {
-        const body = ctx.request.body;
-        connector.changeRole(body.userid, body.username, body.role);
-        ctx.status = 200;
-    }
-});
-
-router.delete("/setting/user", async function (ctx, next) {
-    if (connector.getUser(ctx.session.userId).role !== "admin") {
-        ctx.response.redirect("/albums");
-    } else {
-        const body = ctx.request.body;
-        connector.deleteUser(body.userid, body.username, body.role);
-        ctx.status = 200;
-    }
-});
+router.use("/setting", settingRouter.routes(), settingRouter.allowedMethods());
 
 app.use(router.routes());
 app.use(router.allowedMethods());
