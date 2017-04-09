@@ -78,53 +78,21 @@ router.get("/artist", async function (ctx, next) {
 router.get("/artist/:name", async function (ctx, next) {
     const artist = ctx.params.name;
     const artistAlbums = connector.getArtistAlbums(artist);
-    const albumIds = artistAlbums.map(function (v) {
-        return v.id;
-    });
-    const artistSongs = connector.getArtistSongs(artist);
-    let count = 0;
-    artistSongs.some(function (v, i) {
-        if (albumIds.includes(v.album)) {
-            count++;
-            delete artistSongs[i];
-        }
-    });
-    artistSongs.length -= count;
-    const data = [];
-    artistAlbums.forEach(function (albumData) {
-        data.push({
-            album: albumData,
-            songs: connector.getAlbumSongs(albumData.id)
-        });
-    });
-    artistSongs.sort(function (s1, s2) {
-        return s1.id - s2.id;
-    });
-    artistSongs.forEach(function (songData) {
-        const pushData = data[data.length - 1];
-        if (pushData.album.id === songData.album) {
-            pushData.songs.push(songData);
-        } else {
-            data.push({
-                album: connector.getAlbum(songData.album),
-                songs: [songData]
-            });
-        }
-    });
-    data.sort(function (s1, s2) {
-        const a = Util.katakanaToHiragana(s1.album.name);
-        const b = Util.katakanaToHiragana(s2.album.name);
-        if(a < b){
-            return -1;
-        }else if(a > b){
-            return 1;
-        }
-        return 0;
-    });
-    ctx.body = await ctx.renderView("category-album", {
+    const albumIds = artistAlbums.map((v) => v.id);
+    const artistSongs = connector.getArtistSongs(artist).filter((e, i, d) => !albumIds.includes(e.album));
+    const data = {
         role: connector.getUser(ctx.session.userId).role === "admin",
-        data: data
+        data: []
+    };
+    artistAlbums.forEach((albumData) => data.data.push({album: albumData, songs: connector.getAlbumSongs(albumData.id)}));
+    artistSongs.sort((s1, s2) => s1.id - s2.id);
+    artistSongs.forEach((songData) => {
+        const albumData = data.data[data.data.length - 1];
+        if (albumData.album.id === songData.album) albumData.songs.push(songData);
+        else data.data.push({album: connector.getAlbum(songData.album), songs: [songData]});
     });
+    data.data.sort((s1, s2) => Util.katakanaToHiragana(s1.album.name).localeCompare(Util.katakanaToHiragana(s2.album.name)));
+    ctx.body = await ctx.renderView("category-album", data);
 });
 
 router.get("/albums", async function (ctx, next) {
