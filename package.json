@@ -22,5 +22,8 @@
     "koa-websocket": "^3.0.1",
     "sqlite-sync": "^0.3.6",
     "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1"
   }
 }

@@ -1,6 +1,7 @@
 /**
  * Created by syuchan on 2017/03/12.
  */
+import Path from "path";
 
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
@@ -224,11 +225,11 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.use(Range);
-app.use(Serve(__dirname + '/static'));
+app.use(Serve(Path.join(__dirname, '/static')));
 
 app.ws.use(Route.all('/setting/load', async function (ctx) {
     if (connector.getUser(ctx.session.userId).role === "admin") {
-        await loader.loadAllMusic(`${__dirname}/static/music`, function (process, progress, process_file, progress_file) {
+        await loader.loadAllMusic(`${Path.join(__dirname, "/static/music")}`, function (process, progress, process_file, progress_file) {
             ctx.websocket.send(JSON.stringify({
                 process: process,
                 progress: progress,

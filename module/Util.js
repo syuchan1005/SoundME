@@ -4,6 +4,9 @@
 import fs from "fs";
 import Path from "path";
 import crypto from "crypto";
+import debug from "debug";
+
+const write = debug("soundme");
 
 class Util {
     static getSHA256(str) {
@@ -12,9 +15,13 @@ class Util {
 
     static rmDirInFile(dirPath) {
         fs.readdir(dirPath, function (err, files) {
-            files.forEach(function (f) {
-                fs.unlinkSync(`${dirPath}/${f}`);
-            });
+            if (!err) {
+                files.forEach(function (f) {
+                    fs.unlinkSync(`${dirPath}/${f}`);
+                });
+            } else {
+                write(err);
+            }
         });
     }
 

@@ -61,7 +61,7 @@ class MusicLoader {
                     wsSend("AddAlbum", fpp * i + fpp * 0.4, f, 40);
                     const albumId = connector.addAlbum(meta.album, meta.album_artist, meta.genre, meta.track.split("/")[1]);
                     wsSend("CreateThumbnail", fpp * i + fpp * 0.6, f, 60);
-                    await createThumbnail(path, `${__dirname}/../static/thumbnail/${meta.album}_${albumId}.png`);
+                    await createThumbnail(path, Path.join(__dirname, `../static/thumbnail/${meta.album}_${albumId}.png`));
                     wsSend("AddSong", fpp * i + fpp * 0.8, f, 80);
                     connector.addSong(meta.title, albumId, meta.track.split("/")[0], meta.artist,
                         Math.floor(format.duration * 1000), `/music/${f}`, outPath);
@@ -73,7 +73,7 @@ class MusicLoader {
 
     convertMusic(srcPath, progressFunc) {
         return new Promise(function (resolve, reject) {
-            const output = __dirname + "./../static/cache/" + Util.getSHA256(srcPath) + ".mp3";
+            const output = Path.join(__dirname, `./../static/cache/${Util.getSHA256(srcPath)}.mp3`);
             const f = ffmpeg.clone()
                 .noVideo()
                 .input(srcPath)
@@ -94,7 +94,7 @@ class MusicLoader {
                 .noAudio()
                 .input(srcPath)
                 .on("error", function (err, stdout, stderr) {
-                    fs.createReadStream(__dirname + "./../static/no_art.png").pipe(fs.createWriteStream(outPath));
+                    fs.createReadStream(Path.join(__dirname, "./../static/no_art.png")).pipe(fs.createWriteStream(outPath));
                     resolve(outPath);
                 })
                 .on('end', function () {
@@ -116,11 +116,11 @@ class MusicLoader {
     }
 
     static clearCache() {
-        Util.rmDirInFile(__dirname + "./../static/cache");
+        Util.rmDirInFile(Path.join(__dirname, "./../static/cache"));
     }
 
     static clearThumbnail() {
-        Util.rmDirInFile(__dirname + "./../static/thumbnail");
+        Util.rmDirInFile(Path.join(__dirname, "./../static/thumbnail"));
     }
 }
 
