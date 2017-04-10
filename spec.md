@@ -75,20 +75,8 @@ CREATE TABLE IF NOT EXISTS albums (
 )
 ```
 
-
 # Routing
-## /
-### GET
-紹介,ログインページ
-### POST
-ログイン
-    
-## /album
-### GET
-アルバム一覧の表示
-```text
-SELECT * FROM albums;
-```
+ - 省略
 
 # SQL
 ## getAlbums

@@ -1,7 +1,5 @@
 <link rel="stylesheet" href="/style/setting.css">
-<link rel="stylesheet" href="/style/user.css">
 <script src="/js/setting.js"></script>
-<script src="/js/user.js"></script>
 <div id="settings">
     <span class="setting">Path</span>
     <div>
@@ -22,13 +20,13 @@
             <tr>
                 <th>Username</th>
                 <th>Role</th>
-                <th class="add-user">+</th>
+                <th class="add-user" onclick="addUserClick()">+</th>
             </tr>
             {{#each users}}
                 <tr data-userid="{{id}}">
                     <td class="user-name">{{name}}</td>
                     <td class="user-role">{{role}}</td>
-                    <td class="delete-user">X</td>
+                    <td class="delete-user" onclick="deleteUserClick()">X</td>
                 </tr>
             {{/each}}
         </table>
@@ -65,7 +63,7 @@
 
     <span class="setting">Database management</span>
     <div id="db-management">
-        <button id="update" class="setting">Database Update (Load Musics)</button>
+        <button id="update" class="setting" onclick="updateClick()">Database Update (Load Musics)</button>
         <div id="update-progress">
             <label>Progress</label>
             <progress value="0" max="100" id="progress"></progress>
@@ -74,9 +72,9 @@
             <div id="warnText">Please do not move until it is over</div>
         </div>
         <div id="risky">
-            <button id="clear-cache" class="setting">Clear cache & thumbnail</button>
-            <button id="reset-db" class="setting">Reset database (without users)</button>
-            <button id="reset-all" class="setting">Reset all (Music folder will remain)</button>
+            <button id="clear-cache" class="setting" onclick="deleteAjax('clear')">Clear cache & thumbnail</button>
+            <button id="reset-db" class="setting" onclick="deleteAjax('reset')">Reset database (without users)</button>
+            <button id="reset-all" class="setting" onclick="deleteAjax('resetall')">Reset all (Music folder will remain)</button>
         </div>
     </div>
 </div>
