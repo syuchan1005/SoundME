@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'soundMe';
-    src: url('soundMe.ttf') format('truetype'),
-    url('soundMe.woff') format('woff');
+    src: url('fonts/soundMe.ttf') format('truetype'),
+    url('fonts/soundMe.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }

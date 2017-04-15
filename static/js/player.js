@@ -12,7 +12,7 @@ const PlayerIcon = {
     MUTE: ""
 };
 
-let audio = new Audio();
+let audioContext = new Audio();
 let playingId = -1;
 
 function audioPlayer() {
@@ -21,9 +21,9 @@ function audioPlayer() {
     const volumeIcon = $(".volume-icon");
     volume.on("input change", function () {
         const volume = $(".volume-range").val();
-        audio.volume = volume / 100;
+        audioContext.volume = volume / 100;
         removeVolIcon();
-        if (volume == 0) {
+        if (volume === 0) {
             volumeIcon.addClass("pIcon-volume-mute");
         } else if (volume <= 33) {
             volumeIcon.addClass("pIcon-volume-low");
@@ -39,19 +39,19 @@ function audioPlayer() {
     });
     const seek = $(".seek-range");
     seek.on("mousedown", function () {
-        audio.pause();
+        audioContext.pause();
     });
     seek.on("mouseup", function () {
         if ($(".play-btn").hasClass("pIcon-pause")) {
-            audio.play();
+            audioContext.play();
         }
     });
     seek.on("input change", function () {
-        audio.currentTime = $(this).val();
+        audioContext.currentTime = $(this).val();
     });
-    audio.addEventListener('timeupdate',function (){
-        seek.attr("max", audio.duration);
-        seek.val(audio.currentTime);
+    audioContext.addEventListener('timeupdate',function (){
+        seek.attr("max", audioContext.duration);
+        seek.val(audioContext.currentTime);
     });
 }
 
@@ -68,9 +68,9 @@ function playSound(songId, thumbnailURL, audioURL, title, artist) {
     $(".title").text(title);
     $(".artist").text(artist);
     $(".album").attr("src", thumbnailURL);
-    audio.src = audioURL.replace("#", "%23");
+    audioContext.src = audioURL.replace("#", "%23");
     $(".seek-range").val(0);
-    if (audio.paused) togglePlay();
+    if (audioContext.paused) togglePlay();
 }
 
 function getPlayingID() {
@@ -79,13 +79,13 @@ function getPlayingID() {
 
 function togglePlay() {
     const btn = $(".play-btn");
-    if (audio.paused) {
+    if (audioContext.paused) {
         btn.removeClass("pIcon-play");
         btn.addClass("pIcon-pause");
-        audio.play();
+        audioContext.play();
     } else {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");
-        audio.pause();
+        audioContext.pause();
     }
 }
