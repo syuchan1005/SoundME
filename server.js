@@ -225,6 +225,15 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.use(Range);
+app.use(async function (ctx, next) {
+    const url = ctx.url.split("\/");
+    if (url[1] === "music") {
+        url.splice(1, 1);
+        ctx.url = url.join("\/");
+    }
+    await next();
+});
+app.use(Serve(Path.join(__dirname, '/static/music')));
 app.use(Serve(Path.join(__dirname, '/static')));
 
 app.ws.use(Route.all('/setting/load', async function (ctx) {
