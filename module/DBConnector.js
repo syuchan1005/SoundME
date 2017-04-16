@@ -62,7 +62,7 @@ class DBConnector {
     }
 
     getSetting() {
-        return this.db.run("SELECT * FROM settings");
+        return this.db.run("SELECT * FROM settings")[0];
     }
 
     updateSetting(music_path, src, theme) {

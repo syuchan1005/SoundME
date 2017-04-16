@@ -165,16 +165,18 @@ settingRouter
         if (connector.getUser(ctx.session.userId).role !== "admin") {
             ctx.response.redirect("/albums");
         } else {
+            const setting = connector.getSetting();
+            const cnvSrc = setting.cnv_src;
             ctx.body = await ctx.renderView("setting", {
                 role: connector.getUser(ctx.session.userId).role === "admin",
                 users: connector.getUsers(),
-                music_path: "/static/music",
-                theme_name: "DEFAULT",
-                src_mp3: false,
-                src_ogg: true,
-                src_aac: true,
-                src_flac: true,
-                src_wma: true,
+                music_path: setting.music_path,
+                theme_name: setting.default_theme,
+                src_mp3: cnvSrc.includes("MP3"),
+                src_ogg: cnvSrc.includes("OGG"),
+                src_aac: cnvSrc.includes("AAC"),
+                src_flac: cnvSrc.includes("FLAC"),
+                src_wma: cnvSrc.includes("WMA"),
             });
         }
     })
@@ -250,12 +252,13 @@ app.use(async function (ctx, next) {
     }
     await next();
 });
-app.use(Serve(Path.join(__dirname, '/static/music')));
+const musicPath = connector.getSetting().music_path;
+app.use(Serve(Path.join(__dirname, musicPath)));
 app.use(Serve(Path.join(__dirname, '/static')));
 
 app.ws.use(Route.all('/setting/load', async function (ctx) {
     if (connector.getUser(ctx.session.userId).role === "admin") {
-        await loader.loadAllMusic(`${Path.join(__dirname, "/static/music")}`, function (process, progress, process_file, progress_file) {
+        await loader.loadAllMusic(`${Path.join(__dirname, musicPath)}`, function (process, progress, process_file, progress_file) {
             ctx.websocket.send(JSON.stringify({
                 process: process,
                 progress: progress,
