@@ -22,7 +22,7 @@ import Util from "./module/Util";
 const app = websockify(new Koa());
 const router = Router();
 const settingRouter = Router();
-const connector = new DBConnector({type: "sqlite", database: "test.db"});
+const connector = new DBConnector({type: "sqlite", database: "test.db", version: "0.0.1"});
 connector.createTable();
 const loader = new MusicLoader(process.env.F_PATH, connector);
 const write = debug("soundme");
@@ -37,6 +37,7 @@ app.use(session({key: 'SoundME'}, app));
 
 let idCheck = async function (ctx, next) {
     if (!(ctx.url === "/" || ctx.session.userId)) {
+        ctx.session = undefined;
         ctx.response.redirect("/");
     } else {
         await next();
@@ -166,8 +167,24 @@ settingRouter
         } else {
             ctx.body = await ctx.renderView("setting", {
                 role: connector.getUser(ctx.session.userId).role === "admin",
-                users: connector.getUsers()
+                users: connector.getUsers(),
+                music_path: "/static/music",
+                theme_name: "DEFAULT",
+                src_mp3: false,
+                src_ogg: true,
+                src_aac: true,
+                src_flac: true,
+                src_wma: true,
             });
+        }
+    })
+    .post("/", async function (ctx, next) {
+        if (connector.getUser(ctx.session.userId).role !== "admin") {
+            ctx.response.redirect("/albums");
+        } else {
+            let body = ctx.request.body;
+            connector.updateSetting(body.music_path, body.src, body.theme_name);
+            ctx.status = 200;
         }
     })
     .delete("/reset/:ops", async function (ctx, next) {

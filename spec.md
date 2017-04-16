@@ -75,10 +75,34 @@ CREATE TABLE IF NOT EXISTS albums (
 )
 ```
 
+## 設定 (settings)
+
+| カラム        | データ           | いろいろ           |
+|---------------|------------------|--------------------|
+| version_id    | 0.0.1            | SoundMeのバージョン|
+| music_path    | /static/music    | フォルダ           |
+| cnv_src       | OGG,AAC,FLAC,WMA | 変換対象の拡張子   |
+| default_theme | DEFAULT          | 標準のテーマ       |
+
+```text
+CREATE TABLE IF NOT EXISTS settings (
+  version_id TEXT NOT NULL UNIQUE,
+  music_path TEXT NOT NULL,
+  cnv_src TEXT NOT NULL,
+  default_theme TEXT NOT NULL
+)
+INSERT INTO settings VALUES ('0.0.1', '/static/music', 'OGG,AAC,FLAC,WMA', 'DEFAULT')
+```
+
 # Routing
  - 省略
 
 # SQL
+## updateSetting
+```text
+UPDATE settings SET music_path='${music_path}', cnv_src='${src}', default_theme='${theme}' WHERE version_id='${version}'
+```
+
 ## getAlbums
 ```text
 SELECT * FROM albums

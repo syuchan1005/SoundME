@@ -44,6 +44,13 @@ class DBConnector {
                   track_number INT,
                   UNIQUE (name, artist)
                 )`);
+        db.run(`CREATE TABLE IF NOT EXISTS settings (
+                  version_id TEXT NOT NULL UNIQUE,
+                  music_path TEXT NOT NULL,
+                  cnv_src TEXT NOT NULL,
+                  default_theme TEXT NOT NULL
+                )`);
+        db.run(`INSERT INTO settings VALUES ('${this.config.version}', '/static/music', 'OGG,AAC,FLAC,WMA', 'DEFAULT')`);
     }
 
     getConfig() {
@@ -52,6 +59,10 @@ class DBConnector {
 
     getDB() {
         return this.db;
+    }
+
+    updateSetting(music_path, src, theme) {
+        this.db.run(`UPDATE settings SET music_path='${music_path}', cnv_src='${src}', default_theme='${theme}' WHERE version_id='${this.config.version}'`);
     }
 
     getAlbums() {

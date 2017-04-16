@@ -1,6 +1,32 @@
 /**
  * Created by syuchan on 2017/03/24.
  */
+
+function submitClick() {
+    let src_format = [];
+    $(".src-input-setting")
+        .find("[data-format]")
+        .each((i, val) => {
+            if ($(val).prop("checked")) {
+                src_format.push($(val).attr("data-format"));
+            }
+        });
+    let data = {
+        music_path: $("#music-path").val(),
+        theme_name: $("#theme-name").val(),
+        src: src_format
+    };
+    $.ajax({
+        url: `${location.protocol}//${location.host}/setting/`,
+        type: "POST",
+        timeout: 10000,
+        data: data,
+        success: function () {
+            location.reload();
+        }
+    })
+}
+
 function updateClick() {
     const socket = new WebSocket(((location.protocol === "http:") ? "ws:" : "wss:") + "//" + location.host + "/setting/load");
     socket.onopen = function (event) {

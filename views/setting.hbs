@@ -1,11 +1,6 @@
 <link rel="stylesheet" href="/style/setting.css">
 <script src="/js/setting.js"></script>
 <div id="settings">
-    <span class="setting">Path</span>
-    <div>
-        <label for="music-path">MusicPath</label><input type="text" id="music-path" value="/static/music" disabled>
-    </div>
-
     <span class="setting">Users</span>
     <div>
         <div id="user-form">
@@ -32,34 +27,55 @@
         </table>
     </div>
 
-    <span class="setting">Automatic conversion</span>
-    <div id="convert-setting">
-        <div id="src-setting">
-            <span>src format</span>
-            <div class="src-input-setting">
-                <label>MPEG-1/2 Audio Layer 3 (MP3)</label><input type="checkbox" disabled>
+    <div id="send-data">
+        <span class="setting">Path</span>
+        <div>
+            <label for="music-path">MusicPath</label><input type="text" id="music-path" value="{{ music_path }}">
+        </div>
+
+        <span class="setting">Theme</span>
+        <div>
+            <input type="text" id="theme-name" value="{{ theme_name }}">
+        </div>
+
+        <span class="setting">Automatic conversion</span>
+        <div id="convert-setting">
+            <div id="src-setting">
+                <span>src format</span>
+                <div class="src-input-setting">
+                    <label>MPEG-1/2 Audio Layer 3 (MP3)</label>
+                    <input type="checkbox" data-format="MP3" {{#if src_mp3}}checked{{/if}}>
+                </div>
+                <div class="src-input-setting">
+                    <label>Ogg Vorbis (OGG)</label>
+                    <input type="checkbox" data-format="OGG" {{#if src_ogg}}checked{{/if}}>
+                </div>
+                <div class="src-input-setting">
+                    <label>Advanced Audio Coding (AAC)</label>
+                    <input type="checkbox" data-format="AAC" {{#if src_aac}}checked{{/if}}>
+                </div>
+                <div class="src-input-setting">
+                    <label>Free Lossless Audio Codec (FLAC)</label>
+                    <input type="checkbox" data-format="FLAC" {{#if src_flac}}checked{{/if}}>
+                </div>
+                <div class="src-input-setting">
+                    <label>Windows Media Audio (WMA)</label>
+                    <input type="checkbox" data-format="WMA" {{#if src_wma}}checked{{/if}}>
+                </div>
+                <div class="src-input-setting">
+                    <label>Other Formats</label><input type="checkbox" checked disabled>
+                </div>
             </div>
-            <div class="src-input-setting">
-                <label>Ogg Vorbis (OGG)</label><input type="checkbox" checked disabled>
-            </div>
-            <div class="src-input-setting">
-                <label>Advanced Audio Coding (AAC)</label><input type="checkbox" checked disabled>
-            </div>
-            <div class="src-input-setting">
-                <label>Free Lossless Audio Codec (FLAC)</label><input type="checkbox" checked disabled>
-            </div>
-            <div class="src-input-setting">
-                <label>Windows Media Audio (WMA)</label><input type="checkbox" checked disabled>
+            <div id="dest-setting">
+                <span>dest format</span>
+                <div class="dest-input-setting">
+                    <input type="radio" name="dest" checked><label>MPEG-1/2 Audio Layer 3 (MP3)</label>
+                </div>
             </div>
         </div>
-        <div id="dest-setting">
-            <span>dest format</span>
-            <div class="dest-input-setting">
-                <input type="radio" name="dest" checked><label>MPEG-1/2 Audio Layer 3 (MP3)</label>
-            </div>
-        </div>
+        <span id="warn-format">If you want to use other formats please check the correspondence with ffmpeg</span>
+        <button class="setting" id="submit" onclick="submitClick()">Submit</button>
     </div>
-    <span id="warn-format">If you want to use other formats please check the correspondence with ffmpeg</span>
 
     <span class="setting">Database management</span>
     <div id="db-management">

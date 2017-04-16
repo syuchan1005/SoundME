@@ -67,6 +67,19 @@ progress {
     border-radius: 3px;
 }
 
+#submit {
+    background-color: #4CAF50;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+#send-data {
+    border: solid black 2px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+}
+
 #db-management {
     text-align: center;
 }
