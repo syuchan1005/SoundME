@@ -103,6 +103,11 @@ INSERT INTO settings VALUES ('0.0.1', '/static/music', 'OGG,AAC,FLAC,WMA', 'DEFA
 UPDATE settings SET music_path='${music_path}', cnv_src='${src}', default_theme='${theme}' WHERE version_id='${version}'
 ```
 
+## getSetting
+```text
+SELECT * FROM settings
+```       
+
 ## getAlbums
 ```text
 SELECT * FROM albums

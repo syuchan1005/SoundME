@@ -19,6 +19,8 @@ class MusicLoader {
 
     loadAllMusic(musicDir, wsSend) {
         const connector = this.connector;
+        let src = this.connector.getSetting().cnv_src;
+        src = ["MP3", "OGG", "AAC", "FLAC", "WMA", "OTHER"].filter((e) => !src.includes(e));
         const convertMusic = this.convertMusic;
         const createThumbnail = this.createThumbnail;
         const getMetadata = this.getMetadata;
@@ -48,7 +50,7 @@ class MusicLoader {
                     }
                     let outPath;
                     wsSend("Convert", fpp * i + fpp * 0.2, f, 20);
-                    if (Path.extname(path) === ".mp3") {
+                    if (src.includes(Path.extname(path).substring(1).toUpperCase())) {
                         outPath = `/music/${f}`;
                     } else {
                         outPath = `/cache/${await convertMusic(path, function (progress) {
