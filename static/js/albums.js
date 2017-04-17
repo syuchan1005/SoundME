@@ -5,7 +5,7 @@ var before_index = -1;
 
 function artClick(index, id) {
     const list = $("#list");
-    const row = Math.floor(list.width() / 175);
+    const row = Math.floor(list.width() / 185);
     $(".album-songs").remove();
     if (before_index === index) {
         before_index = -1;

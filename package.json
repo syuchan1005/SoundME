@@ -10,6 +10,7 @@
     "babel-preset-es2017": "^6.22.0",
     "debug": "^2.6.3",
     "fluent-ffmpeg": "^2.0.1",
+    "handlebars": "^4.0.6",
     "koa": "^2.1.0",
     "koa-bodyparser": "^4.1.0",
     "koa-handlebars": "^2.0.0",
@@ -20,6 +21,7 @@
     "koa-static": "^3.0.0",
     "koa-unless": "^1.0.0",
     "koa-websocket": "^3.0.1",
+    "node-sass": "^4.5.2",
     "sqlite-sync": "^0.3.6",
     "sqlite3": "^3.1.8"
   },

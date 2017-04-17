@@ -2,6 +2,7 @@
  * Created by syuchan on 2017/03/12.
  */
 import Path from "path";
+import fs from "fs";
 
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
@@ -14,9 +15,11 @@ import hbs from "koa-handlebars";
 import session from "koa-session";
 import websockify from "koa-websocket";
 import debug from "debug";
+import Handlebars from "handlebars";
 
 import DBConnector from "./module/DBConnector";
 import MusicLoader from "./module/MusicLoader";
+import ThemeLoader from "./module/ThemeLoader";
 import Util from "./module/Util";
 
 const app = websockify(new Koa());
@@ -24,16 +27,21 @@ const router = Router();
 const settingRouter = Router();
 const connector = new DBConnector({type: "sqlite", database: "test.db", version: "0.0.1"});
 connector.createTable();
-const loader = new MusicLoader(process.env.F_PATH, connector);
+const musicLoader = new MusicLoader(process.env.F_PATH, connector);
+const themeLoader = new ThemeLoader(connector);
 const write = debug("soundme");
+let hbsIndex;
+fs.readFile(Path.join(__dirname, "views", "index.hbs"), 'utf8', function (err, data) {
+    hbsIndex = Handlebars.compile(data);
+});
 
 app.keys = ["need change this value"];
-
-app.use(hbs({defaultLayout: 'main'}));
 
 app.use(bodyParser());
 
 app.use(session({key: 'SoundME'}, app));
+
+app.use(hbs({defaultLayout: 'main'}));
 
 let idCheck = async function (ctx, next) {
     if (!(ctx.url === "/" || ctx.session.userId)) {
@@ -50,7 +58,9 @@ router.get("/", async function (ctx, next) {
     if (ctx.session.userId) {
         ctx.response.redirect("/albums");
     } else {
-        await next();
+        ctx.body = hbsIndex({
+            theme: connector.getThemeFolder(connector.getSetting().default_theme)
+        });
     }
 });
 
@@ -62,6 +72,7 @@ router.post("/", async function (ctx, next) {
         ctx.body = "wrong name";
     } else {
         ctx.session.userId = id;
+        ctx.session.theme = connector.getSetting().default_theme;
         ctx.body = "set userId";
     }
 });
@@ -73,6 +84,7 @@ router.get("/logout", async function (ctx, next) {
 
 router.get("/artist", async function (ctx, next) {
     ctx.body = await ctx.renderView("artist", {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         list: connector.getArtists()
     });
@@ -84,6 +96,7 @@ router.get("/artist/:name", async function (ctx, next) {
     const albumIds = artistAlbums.map((v) => v.id);
     const artistSongs = connector.getArtistSongs(artist).filter((e, i, d) => !albumIds.includes(e.album));
     const data = {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         data: []
     };
@@ -103,6 +116,7 @@ router.get("/artist/:name", async function (ctx, next) {
 
 router.get("/albums", async function (ctx, next) {
     ctx.body = await ctx.renderView("albums", {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         albums: connector.getAlbums()
     });
@@ -110,6 +124,7 @@ router.get("/albums", async function (ctx, next) {
 
 router.get("/albums/:id", async function (ctx, next) {
     ctx.body = await ctx.renderView("album", {
+        theme: connector.getThemeFolder(ctx.session.theme),
         album: connector.getAlbum(ctx.params.id),
         songs: connector.getAlbumSongs(ctx.params.id)
     });
@@ -123,6 +138,7 @@ router.get("/songs", async function (ctx, next) {
         song.sec = ('00' + Math.floor(len % 60)).slice(-2);
     });
     ctx.body = await ctx.renderView("songs", {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         songs: songs
     });
@@ -140,6 +156,7 @@ router.get("/songs/:id", async function (ctx, next) {
 
 router.get("/genre", async function (ctx, next) {
     ctx.body = await ctx.renderView("genre", {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         list: connector.getGenres()
     });
@@ -148,6 +165,7 @@ router.get("/genre", async function (ctx, next) {
 router.get("/genre/:name", async function (ctx, next) {
     const genre = ctx.params.name;
     const data = {
+        theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         data: []
     };
@@ -168,6 +186,7 @@ settingRouter
             const setting = connector.getSetting();
             const cnvSrc = setting.cnv_src;
             ctx.body = await ctx.renderView("setting", {
+                theme: connector.getThemeFolder(ctx.session.theme),
                 role: connector.getUser(ctx.session.userId).role === "admin",
                 users: connector.getUsers(),
                 music_path: setting.music_path,
@@ -246,7 +265,7 @@ app.use(router.allowedMethods());
 app.use(Range);
 app.use(async function (ctx, next) {
     const url = ctx.url.split("\/");
-    if (url[1] === "music") {
+    if (["music", "theme"].includes(url[1])) {
         url.splice(1, 1);
         ctx.url = url.join("\/");
     }
@@ -254,11 +273,12 @@ app.use(async function (ctx, next) {
 });
 const musicPath = connector.getSetting().music_path;
 app.use(Serve(Path.join(__dirname, musicPath)));
+app.use(Serve(Path.join(__dirname, '/theme')));
 app.use(Serve(Path.join(__dirname, '/static')));
 
 app.ws.use(Route.all('/setting/load', async function (ctx) {
     if (connector.getUser(ctx.session.userId).role === "admin") {
-        await loader.loadAllMusic(`${Path.join(__dirname, musicPath)}`, function (process, progress, process_file, progress_file) {
+        await musicLoader.loadAllMusic(`${Path.join(__dirname, musicPath)}`, function (process, progress, process_file, progress_file) {
             ctx.websocket.send(JSON.stringify({
                 process: process,
                 progress: progress,

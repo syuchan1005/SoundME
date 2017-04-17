@@ -1,6 +1,10 @@
 # MEMO
 test.db.bakにはusersに["user","pass"]のユーザーが入っている
 
+# Front
+## CSS
+class, idの命名規則を"{hbs_name}-{display_info}とする
+
 # DB
 ```text
 CREATE DATABASE IF NOT EXISTS SoundME;
@@ -75,6 +79,26 @@ CREATE TABLE IF NOT EXISTS albums (
 )
 ```
 
+## テーマ (themes)
+
+| カラム      | データ                         | いろいろ           |
+|-------------|--------------------------------|--------------------|
+| id          | 1                              | auto_increment     |
+| folder      | default                        | フォルダ名         |
+| name        | DEFAULT                        | 名前               |
+| description | This is SoundME Default Theme! | 説明               | 
+| version     | 0.0.1                          | テーマのバージョン |
+
+```text
+CREATE TABLE IF NOT EXISTS themes (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  folder TEXT NOT NULL,
+  name TEXT NOT NULL UNIQUE,
+  description TEXT,
+  version TEXT
+)
+```
+
 ## 設定 (settings)
 
 | カラム        | データ           | いろいろ           |
@@ -129,6 +153,21 @@ SELECT * FROM albums WHERE id='${id}'
 INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number})
 
 SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'
+```
+
+## getThemes
+```text
+SELECT * FROM themes
+```
+
+## getThemeFolder
+```text
+SELECT folder FROM themes WHERE name='${name}'
+```
+
+## addTheme
+```text
+INSERT INTO themes VALUES(NULL, '${folder}', '${name}', '${description}', '${version}')
 ```
 
 ## getSongs

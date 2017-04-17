@@ -44,6 +44,13 @@ class DBConnector {
                   track_number INT,
                   UNIQUE (name, artist)
                 )`);
+        db.run(`CREATE TABLE IF NOT EXISTS themes (
+                  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                  folder TEXT NOT NULL,
+                  name TEXT NOT NULL UNIQUE,
+                  description TEXT,
+                  version TEXT
+                )`);
         db.run(`CREATE TABLE IF NOT EXISTS settings (
                   version_id TEXT NOT NULL UNIQUE,
                   music_path TEXT NOT NULL,
@@ -100,6 +107,28 @@ class DBConnector {
         track_number = DBConnector.singleQuoteEscape(track_number);
         this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number})`);
         return this.db.run(`SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'`)[0]['id'];
+    }
+
+    getThemes() {
+        return this.db.run(`SELECT * FROM themes`);
+    }
+
+    getThemeFolder(name) {
+        name = DBConnector.singleQuoteEscape(name);
+        const rows = this.db.run(`SELECT folder FROM themes WHERE name='${name}'`);
+        if (rows.length === 0) {
+            return undefined;
+        } else {
+            return rows[0].folder;
+        }
+    }
+
+    addTheme(folder, name, description, version) {
+        folder = DBConnector.singleQuoteEscape(folder);
+        name = DBConnector.singleQuoteEscape(name);
+        description = DBConnector.singleQuoteEscape(description);
+        version = DBConnector.singleQuoteEscape(version);
+        this.db.run(`INSERT INTO themes VALUES(NULL, '${folder}', '${name}', '${description}', '${version}')`);
     }
 
     getSongs() {
