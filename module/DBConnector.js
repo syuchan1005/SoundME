@@ -57,7 +57,7 @@ class DBConnector {
                   cnv_src TEXT NOT NULL,
                   default_theme TEXT NOT NULL
                 )`);
-        db.run(`INSERT INTO settings VALUES ('${this.config.version}', '/static/music', 'OGG,AAC,FLAC,WMA,OTHER', 'DEFAULT')`);
+        db.run(`INSERT INTO settings VALUES ('${this.config.version}', '/music', 'OGG,AAC,FLAC,WMA,OTHER', 'DEFAULT')`);
     }
 
     getConfig() {

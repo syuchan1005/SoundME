@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS themes (
 | カラム        | データ           | いろいろ           |
 |---------------|------------------|--------------------|
 | version_id    | 0.0.1            | SoundMeのバージョン|
-| music_path    | /static/music    | フォルダ           |
+| music_path    | /music    | フォルダ           |
 | cnv_src       | OGG,AAC,FLAC,WMA | 変換対象の拡張子   |
 | default_theme | DEFAULT          | 標準のテーマ       |
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS settings (
   cnv_src TEXT NOT NULL,
   default_theme TEXT NOT NULL
 )
-INSERT INTO settings VALUES ('0.0.1', '/static/music', 'OGG,AAC,FLAC,WMA', 'DEFAULT')
+INSERT INTO settings VALUES ('0.0.1', '/music', 'OGG,AAC,FLAC,WMA', 'DEFAULT')
 ```
 
 # Routing
