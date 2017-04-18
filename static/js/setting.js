@@ -2,6 +2,22 @@
  * Created by syuchan on 2017/03/24.
  */
 
+function themeUpload() {
+    const formData = new FormData($("#theme-form").get(0));
+    $.ajax({
+        url: `${location.protocol}//${location.host}/setting/theme`,
+        type: "POST",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "html",
+        success: function (data) {
+            location.reload();
+        }
+    });
+}
+
 function submitClick() {
     let src_format = [];
     $(".src-input-setting")

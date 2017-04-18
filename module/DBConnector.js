@@ -238,6 +238,11 @@ class DBConnector {
         this.db.run(`DELETE FROM users WHERE id='${userId}' AND name='${username}' AND role='${role}'`);
     }
 
+    resetThemes() {
+        this.db.run(`DROP TABLE themes`);
+        this.createTable();
+    }
+
     resetDB() {
         this.db.run("DROP TABLE albums");
         this.db.run("DROP TABLE songs");

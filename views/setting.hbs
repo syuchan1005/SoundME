@@ -34,7 +34,15 @@
 
         <span class="setting">Theme</span>
         <div>
-            <input type="text" id="theme-name" value="{{ theme_name }}">
+            <form id="theme-form">
+                <input type="file" name="file" id="theme-file">
+                <input type="button" id="theme-upload" onclick="themeUpload()" value="Upload"/>
+            </form>
+            <select name="default-theme" size="1">
+                {{#each themes}}
+                    <option value="{{name}}">{{name}}</option>
+                {{/each}}
+            </select>
         </div>
 
         <span class="setting">Automatic conversion</span>
