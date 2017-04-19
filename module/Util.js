@@ -13,6 +13,17 @@ class Util {
         return crypto.createHash("sha256").update(str).digest('hex');
     }
 
+    static putThumbnailData(v) {
+        if (Array.isArray(v)) {
+            v.forEach((album) => {
+                album.thumbnail = Util.getSHA256(`${album.name}_${album.id}`);
+            });
+        } else {
+            v.thumbnail = Util.getSHA256(`${v.name}_${v.id}`);
+        }
+        return v;
+    }
+
     static rmDirInFile(dirPath) {
         fs.readdir(dirPath, function (err, files) {
             if (!err) {

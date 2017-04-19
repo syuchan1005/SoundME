@@ -2,6 +2,7 @@
  * Created by syuchan on 2017/03/16.
  */
 import User from "./User";
+import Util from "./Util";
 import sqlite from "sqlite-sync";
 
 class DBConnector {
@@ -77,17 +78,17 @@ class DBConnector {
     }
 
     getAlbums() {
-        return this.db.run("SELECT * FROM albums");
+        return Util.putThumbnailData(this.db.run("SELECT * FROM albums"));
     }
 
     getArtistAlbums(artist) {
         artist = DBConnector.singleQuoteEscape(artist);
-        return this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`);
+        return Util.putThumbnailData(this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`));
     }
 
     getGenreAlbums(genre) {
         genre = DBConnector.singleQuoteEscape(genre);
-        return this.db.run(`SELECT * FROM albums WHERE genre='${genre}'`);
+        return Util.putThumbnailData(this.db.run(`SELECT * FROM albums WHERE genre='${genre}'`));
     }
 
     getAlbum(id) {
@@ -96,7 +97,7 @@ class DBConnector {
         if (album.length === 0) {
             return undefined;
         } else {
-            return album[0];
+            return Util.putThumbnailData(album[0]);
         }
     }
 

@@ -6,5 +6,5 @@ function songClick(index ,id) {
     const $this = $(`[data-songid="${id}"]`);
     $this.find(".songs-icon").attr("data-content", PlayerIcon.MEDIUM);
     const album = $this.find(".songs-album");
-    playById($this.attr("data-songid"), `/thumbnail/${album.text()}_${album.attr("data-albumid")}.png`);
+    playById($this.attr("data-songid"), `/thumbnail/${getSHA256(`${album.text()}_${album.attr("data-albumid")}`)}.png`);
 }
