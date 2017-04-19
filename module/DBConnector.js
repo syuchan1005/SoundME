@@ -117,7 +117,7 @@ class DBConnector {
         name = DBConnector.singleQuoteEscape(name);
         const rows = this.db.run(`SELECT folder FROM themes WHERE name='${name}'`);
         if (rows.length === 0) {
-            return undefined;
+            return "default";
         } else {
             return rows[0].folder;
         }
