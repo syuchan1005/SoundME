@@ -6,6 +6,7 @@ import fs from "fs";
 
 import Koa from "koa";
 import koaBody from "koa-body";
+import bodyParser from "koa-bodyparser";
 import Router from "koa-router";
 import Route from "koa-route";
 import Serve from "koa-static";
@@ -39,7 +40,7 @@ fs.readFile(Path.join(__dirname, "views", "index.hbs"), 'utf8', function (err, d
 
 app.keys = ["need change this value"];
 
-app.use(koaBody({multipart: true, formidable: {uploadDir: Path.join(__dirname, "theme")}}));
+app.use(bodyParser());
 
 app.use(session({key: 'SoundME'}, app));
 
@@ -258,22 +259,22 @@ settingRouter
             ctx.status = 200;
         }
     })
-    .post("/theme", async function (ctx, next) {
-        const data = ctx.request.body.files.file;
-        if (data === undefined || data.type !== "application/x-zip-compressed") {
-            ctx.status = 400;
-        } else {
-            extractZip(data.path, {
-                dir: Path.join(__dirname, "theme", Path.basename(data.name, Path.extname(data.name)))
-            }, function (err) {
-                console.error(err);
-                fs.unlinkSync(data.path);
-                connector.resetThemes();
-                themeLoader.loadAllThemes();
-            });
-            ctx.status = 200;
-        }
-    });
+    .post("/theme", koaBody({multipart: true, formidable: {uploadDir: Path.join(__dirname, "theme")}}),
+        async function (ctx, next) {
+            const data = ctx.request.body.files.file;
+            if (data === undefined || data.type !== "application/x-zip-compressed") {
+                ctx.status = 400;
+            } else {
+                extractZip(data.path, {
+                    dir: Path.join(__dirname, "theme", Path.basename(data.name, Path.extname(data.name)))
+                }, function (err) {
+                    fs.unlinkSync(data.path);
+                    connector.resetThemes();
+                    themeLoader.loadAllThemes();
+                });
+                ctx.status = 200;
+            }
+        });
 
 router.use("/setting", settingRouter.routes(), settingRouter.allowedMethods());
 

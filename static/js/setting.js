@@ -119,10 +119,11 @@ function addUserClick() {
     });
 }
 
-function deleteUserClick() {
-    const id = $(this).parent().attr("data-userid");
-    const name = $(this).parent().find(".user-name").text();
-    const role = $(this).parent().find(".user-role").text();
+function deleteUserClick(self) {
+    const parent = $(self).parent();
+    const id = parent.attr("data-userid");
+    const name = parent.find(".user-name").text();
+    const role = parent.find(".user-role").text();
     userExec("DELETE", {
         userid: id,
         username: name,
