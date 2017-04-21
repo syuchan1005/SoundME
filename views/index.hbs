@@ -14,10 +14,8 @@
 
         <link rel="stylesheet" href="/theme/{{theme}}/top.css">
 
-        <script
-                src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
         <script src="/js/jquery.particleground.min.js"></script>
         <script src="/js/sha256.js"></script>
@@ -26,26 +24,17 @@
                 const name = $("#name").val();
                 const pass = $("#pass").val();
                 if (name && pass) {
-                    $.ajax({
+                    axios({
                         url: location.href,
-                        type: 'POST',
-                        dataType: "json",
-                        contentType: 'application/json',
-                        data: JSON.stringify({
+                        method: "POST",
+                        data: {
                             name: name,
                             passhash: createHash(name, pass)
-                        }),
-                        timeout: 10000,
-                        success: function (data) {
-                            location.reload();
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            if (xhr.status === 200) {
-                                location.reload();
-                            } else {
-                                $("#warnText").css("display", "inline");
-                            }
                         }
+                    }).then(function (response) {
+                        location.reload();
+                    }).catch(function (error) {
+                        $("#warnText").css("display", "inline");
                     });
                 }
             }
@@ -80,13 +69,11 @@
                 <p id="logo">SoundME</p>
             </div>
 
-            <div id="login">
+            <div class="login">
                 <div id="warnText">Username or Password incorrect</div>
-                <p>Username</p>
-                <p><input type="text" title="username" id="name" value="user"></p>
-                <p>Password</p>
-                <p><input type="password" title="password" id="pass" value="pass"></p>
-                <input type="button" value="ログイン" onclick="sendClick()" id="login-btn">
+                <input type="text" title="username" id="name" placeholder="UserName" value="user">
+                <input type="password" title="password" id="pass" placeholder="Password" value="pass">
+                <button onclick="sendClick()" id="login-btn">ログイン</button>
             </div>
         </div>
     </body>
