@@ -24,6 +24,7 @@ let audioContext = new Audio();
 let playing = -1;
 let isListShow = false;
 let queueList = [];
+let queueIndex = 0;
 
 function audioPlayer() {
     $(".play-btn").on("click", togglePlay);
@@ -69,6 +70,7 @@ function audioPlayer() {
         if (event.target.id !== "list-window" && isListShow) toggleList();
     });
     $(".forward-btn").on("click", nextQueue);
+    $(".backward-btn").on("click", backQueue);
 }
 
 function removeVolIcon() {
@@ -81,16 +83,16 @@ function removeVolIcon() {
 
 function setQueue(queues) {
     if (!Array.isArray(queues)) queues = [queues];
-    playSound(queues[0]);
-    queues.shift();
     queueList = queues;
+    playSound(queueList[queueIndex]);
+    queueIndex++;
     _renderQueue();
 }
 
 function _renderQueue() {
     const list = $("#list-ctx");
     list.html("");
-    for (let i = 0; i < queueList.length; i++) {
+    for (let i = queueIndex; i < queueList.length; i++) {
         const e = queueList[i];
         list.append(`<div class="queue-item">
                 <img width="40" height="40" src="${e.thumbnail}">
@@ -102,7 +104,28 @@ function _renderQueue() {
     }
 }
 
+function nextQueue() {
+    if (queueIndex === queueList.length) {
+        playSound(defaultSongData);
+    } else {
+        playSound(queueList[queueIndex]);
+        queueIndex++;
+    }
+    _renderQueue();
+}
+
+function backQueue() {
+    if (queueIndex === 0) {
+        playSound(defaultSongData);
+    } else {
+        queueIndex--;
+        playSound(queueList[queueIndex]);
+    }
+    _renderQueue();
+}
+
 function playSound(song) {
+    console.log(queueIndex);
     playing = song;
     $(".title").text(song.title);
     $(".artist").text(song.artist);
@@ -138,11 +161,3 @@ function toggleList() {
     isListShow = !isListShow;
 }
 
-function nextQueue() {
-    if (queueList.length === 0) {
-        playSound(defaultSongData);
-    } else {
-        playSound(queueList[0]);
-        queueList.shift();
-    }
-}

@@ -62,7 +62,6 @@ function setEvents() {
                 const e = nextAll.eq(i);
                 songs.push(await getSongData($(e).attr("data-songid"), thumbnailURL));
             }
-            console.log(songs.length);
             setQueue(songs);
         }
     });
