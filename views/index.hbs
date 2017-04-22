@@ -13,16 +13,13 @@
         <title>SoundME</title>
 
         <link rel="stylesheet" href="/theme/{{theme}}/top.css">
-
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
         <script src="/js/jquery.particleground.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="/js/sha256.js"></script>
         <script>
             function sendClick() {
-                const name = $("#name").val();
-                const pass = $("#pass").val();
+                const name = document.getElementById("name").value;
+                const pass = document.getElementById("pass").value;
                 if (name && pass) {
                     axios({
                         url: location.href,
@@ -34,7 +31,7 @@
                     }).then(function (response) {
                         location.reload();
                     }).catch(function (error) {
-                        $("#warnText").css("display", "inline");
+                        document.getElementById("warnText").style.display = "inline";
                     });
                 }
             }
@@ -54,8 +51,8 @@
                 return shaObj.getHash("HEX");
             }
 
-            $(document).ready(function () {
-                $('body').particleground({
+            document.addEventListener('DOMContentLoaded', function () {
+                particleground(document.getElementById("main"), {
                     dotColor: '#ffffff',
                     lineColor: '#ffffff'
                 });
