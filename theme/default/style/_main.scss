@@ -73,6 +73,7 @@ nav#menu a.active {
     margin-top: 43px;
     margin-left: 215px;
     height: calc(100% - 44px);
+    overflow-y: auto;
 }
 
 .ellipsis {

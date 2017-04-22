@@ -17,6 +17,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="/js/sha256.js"></script>
         <script src="/js/main.js"></script>
         <script src="/js/player.js"></script>
@@ -32,12 +33,18 @@
                 <input type="range" class="volume-range" title="volume">
                 <img class="album" width="45" height="45" src="/no_art.png">
                 <div class="song">
-                    <span class="title">Title</span>
-                    <span class="artist">Artist</span>
+                    <div class="title">Title</div>
+                    <div class="artist">Artist</div>
                     <input type="range" class="seek-range" title="seek" step="0.1">
                 </div>
+                <button class="pIcon-list list-btn"></button>
             </div>
         </nav>
+        <div id="list-window">
+            <span class="list-queue">キュー</span>
+            <span class="list-lyrics">歌詞</span>
+            <div id="list-ctx"></div>
+        </div>
         <nav id="menu">
             <a class="sIcon-artist" onclick="movePage('/artist')"> アーティスト</a>
             <a class="sIcon-albums" onclick="movePage('/albums')"> アルバム</a>

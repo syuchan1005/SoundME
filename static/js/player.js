@@ -12,8 +12,18 @@ const PlayerIcon = {
     MUTE: ""
 };
 
+let defaultSongData = {
+    id: -1,
+    thumbnail: "/no_art.png",
+    audio: undefined,
+    title: "Title",
+    artist: "Artist"
+};
+
 let audioContext = new Audio();
-let playingId = -1;
+let playing = -1;
+let isListShow = false;
+let queueList = [];
 
 function audioPlayer() {
     $(".play-btn").on("click", togglePlay);
@@ -23,7 +33,7 @@ function audioPlayer() {
         const volume = $(".volume-range").val();
         audioContext.volume = volume / 100;
         removeVolIcon();
-        if (volume === 0) {
+        if (volume === "0") {
             volumeIcon.addClass("pIcon-volume-mute");
         } else if (volume <= 33) {
             volumeIcon.addClass("pIcon-volume-low");
@@ -49,10 +59,16 @@ function audioPlayer() {
     seek.on("input change", function () {
         audioContext.currentTime = $(this).val();
     });
-    audioContext.addEventListener('timeupdate',function (){
+    audioContext.addEventListener('timeupdate', function () {
         seek.attr("max", audioContext.duration);
         seek.val(audioContext.currentTime);
     });
+    $(".list-btn").on("click", toggleList);
+    $(document).on("click", function (event) {
+        if (event.target.classList.contains("list-btn")) return;
+        if (event.target.id !== "list-window" && isListShow) toggleList();
+    });
+    $(".forward-btn").on("click", nextQueue);
 }
 
 function removeVolIcon() {
@@ -63,18 +79,45 @@ function removeVolIcon() {
     volumeIcon.removeClass("pIcon-volume-mute");
 }
 
-function playSound(songId, thumbnailURL, audioURL, title, artist) {
-    playingId = songId;
-    $(".title").text(title);
-    $(".artist").text(artist);
-    $(".album").attr("src", thumbnailURL);
-    audioContext.src = audioURL.replace("#", "%23");
-    $(".seek-range").val(0);
-    if (audioContext.paused) togglePlay();
+function setQueue(queues) {
+    if (!Array.isArray(queues)) queues = [queues];
+    playSound(queues[0]);
+    queues.shift();
+    queueList = queues;
+    _renderQueue();
 }
 
-function getPlayingID() {
-    return playingId;
+function _renderQueue() {
+    const list = $("#list-ctx");
+    list.html("");
+    for (let i = 0; i < queueList.length; i++) {
+        const e = queueList[i];
+        list.append(`<div class="queue-item">
+                <img width="40" height="40" src="${e.thumbnail}">
+                <div class="queue-song-data">
+                    <span class="queue-title">${e.title}</span>
+                    <span class="queue-artist">${e.artist}</span>
+                </div>
+             </div>`);
+    }
+}
+
+function playSound(song) {
+    playing = song;
+    $(".title").text(song.title);
+    $(".artist").text(song.artist);
+    $(".album").attr("src", song.thumbnail);
+    if (song.audio) {
+        audioContext.src = song.audio.replace("#", "%23");
+        $(".seek-range").val(0);
+        if (audioContext.paused) togglePlay();
+    } else {
+        audioContext.src = undefined;
+    }
+}
+
+function getPlaying() {
+    return playing;
 }
 
 function togglePlay() {
@@ -87,5 +130,19 @@ function togglePlay() {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");
         audioContext.pause();
+    }
+}
+
+function toggleList() {
+    $("#list-window").css("visibility", isListShow ? "hidden" : "visible");
+    isListShow = !isListShow;
+}
+
+function nextQueue() {
+    if (queueList.length === 0) {
+        playSound(defaultSongData);
+    } else {
+        playSound(queueList[0]);
+        queueList.shift();
     }
 }

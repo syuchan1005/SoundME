@@ -4,30 +4,52 @@
 $(document).ready(function () {
     audioPlayer();
     $(`.sIcon-${location.pathname.substring(1, location.pathname.length)}`).addClass("active");
+    $.fn.hasScrollBar = function () {
+        return this.get(0).scrollHeight > this.get(0).clientHeight;
+    }
 });
 
+function getSHA256(str) {
+    const shaObj = new jsSHA("SHA-256", "TEXT", 1);
+    shaObj.update(str);
+    return shaObj.getHash("HEX");
+}
+
 function playById(id, thumbnailURL) {
-    $.ajax({
-        url: `${location.protocol}//${location.host}/songs/${id}`,
-        type: "GET",
-        timeout: 10000,
-        success: function (data) {
-            playSound(id, thumbnailURL, data.path, data.title, data.artist);
-        }
+    getSongData(id, thumbnailURL).then(function (data) {
+        setQueue(data);
+    });
+}
+
+function getSongData(id, thumbnailURL) {
+    return new Promise(function(resolve, reject) {
+        axios({
+            url: `${location.protocol}//${location.host}/songs/${id}`,
+            method: "GET"
+        }).then(function (response) {
+            const data = response.data;
+            resolve({
+                id :id,
+                thumbnail: thumbnailURL,
+                audio: data.path,
+                title: data.title,
+                artist: data.artist
+            });
+        }).catch(function (error) {
+            reject(error);
+        });
     });
 }
 
 function movePage(url) {
     const moveLink = `${location.protocol}//${location.host}${url}`;
-    $.ajax({
+    axios({
         url: moveLink,
-        type: "GET",
-        timeout: 10000,
-        success: function (data) {
-            $(".active").removeClass("active");
-            history.pushState({}, "SoundME", moveLink);
-            $("#ctx").html($(data).filter("div#ctx").html());
-            $(`.sIcon-${url.substring(1)}`).addClass("active");
-        }
+        method: "GET"
+    }).then(function (response) {
+        $(".active").removeClass("active");
+        history.pushState({}, "SoundME", moveLink);
+        $("#ctx").html($(response.data).filter("div#ctx").html());
+        $(`.sIcon-${url.substring(1)}`).addClass("active");
     });
 }

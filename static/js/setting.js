@@ -3,18 +3,12 @@
  */
 
 function themeUpload() {
-    const formData = new FormData($("#theme-form").get(0));
-    $.ajax({
+    axios({
         url: `${location.protocol}//${location.host}/setting/theme`,
-        type: "POST",
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "html",
-        success: function (data) {
-            location.reload();
-        }
+        method: "POST",
+        data: new FormData($("#theme-form").get(0))
+    }).then(function (response) {
+        location.reload();
     });
 }
 
@@ -32,15 +26,13 @@ function submitClick() {
         theme_name: $("#theme-name").val(),
         src: src_format
     };
-    $.ajax({
+    axios({
         url: `${location.protocol}//${location.host}/setting/`,
-        type: "POST",
-        timeout: 10000,
-        data: data,
-        success: function () {
-            location.reload();
-        }
-    })
+        method: "POST",
+        data: data
+    }).then(function (response) {
+        location.reload();
+    });
 }
 
 function updateClick() {
@@ -62,23 +54,20 @@ function updateClick() {
     };
 }
 
-function deleteAjax(path) {
-    $.ajax({
+function sendDelete(path) {
+    axios({
         url: `${location.protocol}//${location.host}/setting/reset/${path}`,
-        type: "DELETE",
-        timeout: 10000
+        method: "DELETE"
     });
 }
 
 function userExec(type, data) {
-    $.ajax({
-        url: `${location.protocol}//${location.host}/setting/user`,
-        type: type,
-        data: data,
-        timeout: 10000,
-        success: function () {
-            location.reload();
-        }
+    axios({
+        url: `${location.protocol}//${location.host}/setting/reset/${path}`,
+        method: type,
+        data: data
+    }).then(function (response) {
+        location.reload();
     });
 }
 
@@ -89,12 +78,6 @@ function createHash(username, password) {
         hash = getSHA256(hash + salt + password);
     }
     return hash;
-}
-
-function getSHA256(str) {
-    const shaObj = new jsSHA("SHA-256", "TEXT", 1);
-    shaObj.update(str);
-    return shaObj.getHash("HEX");
 }
 
 function addUserClick() {

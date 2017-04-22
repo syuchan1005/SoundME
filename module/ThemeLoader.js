@@ -25,10 +25,8 @@ class ThemeLoader {
                         sourceMap: true
                     }, function (err, result) {
                         const saveCSS = Path.join(folder, `main.css`);
-                        if (!fs.existsSync(saveCSS)) {
-                            fs.writeFileSync(saveCSS, result.css);
-                            fs.writeFileSync(`${saveCSS}.map`, result.map);
-                        }
+                        fs.writeFileSync(saveCSS, result.css);
+                        fs.writeFileSync(`${saveCSS}.map`, result.map);
                         connector.addTheme(folder_name, json.name, json.description, json.version);
                     });
                 }

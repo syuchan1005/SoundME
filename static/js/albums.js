@@ -5,7 +5,7 @@ var before_index = -1;
 
 function artClick(index, id) {
     const list = $("#list");
-    const row = Math.floor(list.width() / 185);
+    const row = Math.floor((list.width() - ((list.hasScrollBar()) ? 17 : 0)) / 185);
     $(".album-songs").remove();
     if (before_index === index) {
         before_index = -1;
@@ -13,21 +13,17 @@ function artClick(index, id) {
     }
     before_index = index;
     let insert = ((Math.floor(index / row) + 1) * row) - 1;
-    const albumCount = list.attr("data-albumcount");
-    if (albumCount < insert) insert = albumCount - 1;
-    $.ajax({
+    insert = Math.min(insert, list.attr("data-albumcount") - 1);
+    axios({
         url: `${location.protocol}//${location.host}/albums/${id}`,
-        type: "GET",
-        timeout: 10000,
-        success: function (data) {
-            $(data).find(".album-songs")
-                .insertAfter(`[data-index=${insert}]`);
-            setEvents();
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            $(`<div class='album-songs' style='color: red'>${textStatus}</div>`)
-                .insertAfter(`[data-index=${insert}]`);
-        }
+        method: "GET"
+    }).then(function (response) {
+        $(response.data).find(".album-songs")
+            .insertAfter(`[data-index=${insert}]`);
+        setEvents();
+    }).catch(function (error) {
+        $(`<div class='album-songs' style='color: red'>${textStatus}</div>`)
+            .insertAfter(`[data-index=${insert}]`);
     });
 }
 
@@ -50,7 +46,7 @@ function setEvents() {
             songTrack.attr("data-content", songTrack.attr("data-track"));
         }
     });
-    songTrack.on("click", function () {
+    songTrack.on("click", async function () {
         const track = $(this);
         if (track.attr("data-content") === PlayerIcon.PAUSE) {
             track.attr("data-content", PlayerIcon.PLAY);
@@ -59,7 +55,15 @@ function setEvents() {
             const m = $(`[data-content="${PlayerIcon.MEDIUM}"]`);
             m.attr("data-content", m.attr("data-track"));
             track.attr("data-content", PlayerIcon.PAUSE);
-            playById(track.parent().attr("data-songid"), $(".album-thumbnail").attr("src"));
+            const thumbnailURL = $(".album-thumbnail").attr("src");
+            const songs = [await getSongData(track.parent().attr("data-songid"), thumbnailURL)];
+            const nextAll = track.parent().nextAll();
+            for (let i = 0; i < nextAll.length; i++) {
+                const e = nextAll.eq(i);
+                songs.push(await getSongData($(e).attr("data-songid"), thumbnailURL));
+            }
+            console.log(songs.length);
+            setQueue(songs);
         }
     });
 }

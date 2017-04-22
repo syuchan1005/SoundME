@@ -47,7 +47,6 @@ app.use(session({key: 'SoundME'}, app));
 app.use(hbs({defaultLayout: 'main'}));
 
 let idCheck = async function (ctx, next) {
-    console.log(Path.basename(ctx.url));
     if (ctx.session.userId || Path.basename(ctx.url) === "icon.png") {
         await next();
     } else {
