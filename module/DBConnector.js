@@ -2,7 +2,6 @@
  * Created by syuchan on 2017/03/16.
  */
 import User from "./User";
-import Util from "./Util";
 import sqlite from "sqlite-sync";
 
 class DBConnector {
@@ -43,6 +42,7 @@ class DBConnector {
                   artist TEXT,
                   genre TEXT,
                   track_number INT,
+                  thumbnail TEXT,
                   UNIQUE (name, artist)
                 )`);
         db.run(`CREATE TABLE IF NOT EXISTS themes (
@@ -78,17 +78,17 @@ class DBConnector {
     }
 
     getAlbums() {
-        return Util.putThumbnailData(this.db.run("SELECT * FROM albums"));
+        return this.db.run("SELECT * FROM albums");
     }
 
     getArtistAlbums(artist) {
         artist = DBConnector.singleQuoteEscape(artist);
-        return Util.putThumbnailData(this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`));
+        return this.db.run(`SELECT * FROM albums WHERE artist='${artist}'`);
     }
 
     getGenreAlbums(genre) {
         genre = DBConnector.singleQuoteEscape(genre);
-        return Util.putThumbnailData(this.db.run(`SELECT * FROM albums WHERE genre='${genre}'`));
+        return this.db.run(`SELECT * FROM albums WHERE genre='${genre}'`);
     }
 
     getAlbum(id) {
@@ -97,7 +97,7 @@ class DBConnector {
         if (album.length === 0) {
             return undefined;
         } else {
-            return Util.putThumbnailData(album[0]);
+            return album[0];
         }
     }
 
@@ -106,8 +106,14 @@ class DBConnector {
         artist = DBConnector.singleQuoteEscape(artist);
         genre = DBConnector.singleQuoteEscape(genre);
         track_number = DBConnector.singleQuoteEscape(track_number);
-        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number})`);
+        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number}, NULL)`);
         return this.db.run(`SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'`)[0]['id'];
+    }
+
+    setAlbumThumbnail(albumId, thumbnail) {
+        albumId = DBConnector.singleQuoteEscape(albumId);
+        thumbnail = DBConnector.singleQuoteEscape(thumbnail);
+        this.db.run(`UPDATE albums SET thumbnail='${thumbnail}' WHERE id='${albumId}'`)
     }
 
     getThemes() {
@@ -149,6 +155,25 @@ class DBConnector {
     getSong(id) {
         id = DBConnector.singleQuoteEscape(id);
         const rows = this.db.run(`SELECT * FROM songs WHERE id='${id}'`);
+        if (rows.length !== 1) {
+            return undefined;
+        } else {
+            return rows[0];
+        }
+    }
+
+    getSongAndThumbnail(id) {
+        id = DBConnector.singleQuoteEscape(id);
+        const rows = this.db.run(`SELECT
+          songs.id         AS id,
+          songs.title      AS title,
+          songs.artist     AS artist,
+          songs.length     AS length,
+          songs.album      AS album,
+          songs.track      AS track,
+          songs.path       AS path,
+          albums.thumbnail AS thumbnail
+        FROM songs JOIN albums ON songs.album = albums.id WHERE songs.id = '${id}'`);
         if (rows.length !== 1) {
             return undefined;
         } else {

@@ -60,13 +60,14 @@ CREATE TABLE IF NOT EXISTS songs (
 
 ## アルバム (albums)
 
-| カラム       | データ  | いろいろ       |
-|--------------|---------|----------------|
-| id           | 1       | auto_increment |
-| name         | Karaoke | アルバム名     |
-| artist       | syuchan | アーティスト名 |
-| genre        | J-POP   | ジャンル       |
-| track_number | 10      | 合計曲数       |
+| カラム       | データ      | いろいろ       |
+|--------------|-------------|----------------|
+| id           | 1           | auto_increment |
+| name         | Karaoke     | アルバム名     |
+| artist       | syuchan     | アーティスト名 |
+| genre        | J-POP       | ジャンル       |
+| track_number | 10          | 合計曲数       |
+| thumbnail    | /no_art.png | サムネイルURL  |
 
 ```text
 CREATE TABLE IF NOT EXISTS albums (
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS albums (
   artist TEXT,
   genre TEXT,
   track_number INT,
+  thumbnail TEXT,
   UNIQUE (name, artist)
 )
 ```
@@ -154,6 +156,10 @@ INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${trac
 
 SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'
 ```
+## setAlbumThumbnail
+```text
+UPDATE albums SET thumbnail='${thumbnail}' WHERE id='${albumId}'
+```
 
 ## getThemes
 ```text
@@ -185,6 +191,19 @@ SELECT * FROM songs WHERE artist='${artist}'
 ## getSong
 ```text
 SELECT * FROM songs WHERE id='${id}'
+```
+## getSongAndThumbnail
+```text
+SELECT
+  songs.id         AS id,
+  songs.title      AS title,
+  songs.artist     AS artist,
+  songs.length     AS length,
+  songs.album      AS album,
+  songs.track      AS track,
+  songs.path       AS path,
+  albums.thumbnail AS thumbnail
+FROM songs JOIN albums ON songs.album = albums.id WHERE songs.id = '${id}'
 ```
 ## getFullSongs
 ```text

@@ -15,13 +15,7 @@ function getSHA256(str) {
     return shaObj.getHash("HEX");
 }
 
-function playById(id, thumbnailURL) {
-    getSongData(id, thumbnailURL).then(function (data) {
-        setQueue(data);
-    });
-}
-
-function getSongData(id, thumbnailURL) {
+function getSongData(id) {
     return new Promise(function(resolve, reject) {
         axios({
             url: `${location.protocol}//${location.host}/songs/${id}`,
@@ -30,7 +24,7 @@ function getSongData(id, thumbnailURL) {
             const data = response.data;
             resolve({
                 id :id,
-                thumbnail: thumbnailURL,
+                thumbnail: data.thumbnail,
                 audio: data.path,
                 title: data.title,
                 artist: data.artist

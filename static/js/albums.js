@@ -55,12 +55,11 @@ function setEvents() {
             const m = $(`[data-content="${PlayerIcon.MEDIUM}"]`);
             m.attr("data-content", m.attr("data-track"));
             track.attr("data-content", PlayerIcon.PAUSE);
-            const thumbnailURL = $(".album-thumbnail").attr("src");
-            const songs = [await getSongData(track.parent().attr("data-songid"), thumbnailURL)];
+            const songs = [await getSongData(track.parent().attr("data-songid"))];
             const nextAll = track.parent().nextAll();
             for (let i = 0; i < nextAll.length; i++) {
                 const e = nextAll.eq(i);
-                songs.push(await getSongData($(e).attr("data-songid"), thumbnailURL));
+                songs.push(await getSongData($(e).attr("data-songid")));
             }
             setQueue(songs);
         }

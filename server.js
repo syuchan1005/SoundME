@@ -148,8 +148,7 @@ router.get("/songs", async function (ctx, next) {
 });
 
 router.get("/songs/:id", async function (ctx, next) {
-    const song = connector.getSong(ctx.params.id);
-    delete song.source_path;
+    const song = connector.getSongAndThumbnail(ctx.params.id);
     if (song === undefined) {
         await next;
     } else {
