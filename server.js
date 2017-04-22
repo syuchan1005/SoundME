@@ -47,11 +47,11 @@ app.use(session({key: 'SoundME'}, app));
 app.use(hbs({defaultLayout: 'main'}));
 
 let idCheck = async function (ctx, next) {
-    if (!(ctx.url === "/" || ctx.session.userId)) {
-        ctx.session = undefined;
-        ctx.response.redirect("/");
-    } else {
+    console.log(Path.basename(ctx.url));
+    if (ctx.session.userId || Path.basename(ctx.url) === "icon.png") {
         await next();
+    } else {
+        ctx.response.redirect("/");
     }
 };
 idCheck.unless = unless;
@@ -62,7 +62,8 @@ router.get("/", async function (ctx, next) {
         ctx.response.redirect("/albums");
     } else {
         ctx.body = hbsIndex({
-            theme: connector.getThemeFolder(connector.getSetting().default_theme)
+            theme: connector.getThemeFolder(connector.getSetting().default_theme),
+            baseUrl: ctx.href
         });
     }
 });
