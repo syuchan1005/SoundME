@@ -45,5 +45,6 @@ function movePage(url) {
         history.pushState({}, "SoundME", moveLink);
         $("#ctx").html($(response.data).filter("div#ctx").html());
         $(`.sIcon-${url.substring(1)}`).addClass("active");
+        $(window).trigger("load");
     });
 }
