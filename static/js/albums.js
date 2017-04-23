@@ -71,9 +71,11 @@ function alignAlbum() {
     const row = Math.floor(list.width() / 185);
     if (row !== 1) {
         const add = row - list.attr("data-albumcount") % row;
-        console.log(`row: ${row}   add: ${add}   ${add !== row}`);
         if (add !== row) {
-            list.append(`<div class="dummy_album"></div>`);
+            $(".dummy_album").remove();
+            for (let i = 0; i < add; i++) {
+                list.append(`<div class="dummy_album"></div>`);
+            }
         }
     }
 }
