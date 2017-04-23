@@ -5,7 +5,7 @@ var before_index = -1;
 
 function artClick(index, id) {
     const list = $("#list");
-    const row = Math.floor((list.width() - ((list.hasScrollBar()) ? 17 : 0)) / 185);
+    const row = Math.floor(list.width() / 185);
     $(".album-songs").remove();
     if (before_index === index) {
         before_index = -1;
@@ -65,3 +65,23 @@ function setEvents() {
         }
     });
 }
+
+function alignAlbum() {
+    const list = $("#list");
+    const row = Math.floor(list.width() / 185);
+    if (row !== 1) {
+        const add = row - list.attr("data-albumcount") % row;
+        console.log(`row: ${row}   add: ${add}   ${add !== row}`);
+        if (add !== row) {
+            list.append(`<div class="dummy_album"></div>`);
+        }
+    }
+}
+
+$(window).on("load", alignAlbum);
+
+var timer = false;
+$(window).resize(function() {
+    if (timer !== false) clearTimeout(timer);
+    timer = setTimeout(alignAlbum, 200);
+});
