@@ -13,7 +13,7 @@ function artClick(index, id) {
     }
     before_index = index;
     let insert = ((Math.floor(index / row) + 1) * row) - 1;
-    insert = Math.min(insert, list.attr("data-albumcount") - 1);
+    insert = Math.min(insert, list.attr("data-count") - 1);
     axios({
         url: `${location.protocol}//${location.host}/albums/${id}`,
         method: "GET"
@@ -70,12 +70,14 @@ function alignAlbum() {
     const list = $("#list");
     const row = Math.floor(list.width() / 185);
     if (row !== 1) {
-        const add = row - list.attr("data-albumcount") % row;
+        const count = parseInt(list.attr("data-albumcount"));
+        const add = row - count % row;
         if (add !== row) {
             $(".dummy_album").remove();
             for (let i = 0; i < add; i++) {
-                list.append(`<div class="dummy_album"></div>`);
+                list.append(`<div class="dummy_album" data-index="${count + i}"></div>`);
             }
+            list.attr("data-count", count + add);
         }
     }
 }
