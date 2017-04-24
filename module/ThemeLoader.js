@@ -19,14 +19,16 @@ class ThemeLoader {
                 const folder = Path.join(themeFolder, folder_name);
                 if (fs.statSync(folder).isDirectory()) {
                     const json = JSON.parse(fs.readFileSync(Path.join(folder, "theme.json")));
+                    const saveCSS = Path.join(folder, `main.css`);
                     sass.render({
                         file: Path.join(folder, "main.scss"),
+                        outFile: saveCSS,
                         outputStyle: "compressed",
                         sourceMap: true
                     }, function (err, result) {
-                        const saveCSS = Path.join(folder, `main.css`);
                         fs.writeFileSync(saveCSS, result.css);
                         fs.writeFileSync(`${saveCSS}.map`, result.map);
+                        fs.appendFileSync(saveCSS, `//# sourceMappingURL=main.css.map`);
                         connector.addTheme(folder_name, json.name, json.description, json.version);
                     });
                 }
