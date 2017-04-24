@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    font-family: "Noto Sans Japanese";
 }
 
 body {
@@ -34,7 +35,7 @@ body {
     width: 500px;
     padding: 30px;
     background: rgba(85, 85, 85, 0.5);
-    margin: 50px auto;
+    margin: 20vh auto;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.22);
 }
 
