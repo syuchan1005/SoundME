@@ -21,8 +21,9 @@
 
 #list {
     display: flex;
+    height: 100%;
     flex-wrap: wrap;
     justify-content: space-around;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
