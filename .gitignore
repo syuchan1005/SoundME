@@ -1,6 +1,7 @@
 music
 static/thumbnail
 static/cache
+reset.bat
 test.db
 .idea
 node_modules
