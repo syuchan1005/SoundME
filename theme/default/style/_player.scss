@@ -238,7 +238,7 @@ input[type=range].seek-range:focus::-ms-fill-upper {
 
 input[type=range].volume-range {
     -webkit-appearance: none;
-    width: 20%;
+    width: 100px;
     margin: 4px 0;
 }
 
@@ -260,7 +260,7 @@ input[type=range].volume-range {
 }
 
 .song {
-    width: 40%;
+    width: 100%;
     font-size: 0.5rem;
 }
 
