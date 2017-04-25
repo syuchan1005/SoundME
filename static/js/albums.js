@@ -23,7 +23,7 @@ function artClick(index, id) {
         setEvents();
         $("#list").scrollTop($(".album-songs").offset().top - 300);
     }).catch(function (error) {
-        $(`<div class='album-songs' style='color: red'>${textStatus}</div>`)
+        $(`<div class='album-songs' style='color: red'>${error}</div>`)
             .insertAfter(`[data-index=${insert}]`);
     });
 }
