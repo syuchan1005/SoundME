@@ -5,3 +5,5 @@ reset.bat
 test.db
 .idea
 node_modules
+main.css.map
+main.css
