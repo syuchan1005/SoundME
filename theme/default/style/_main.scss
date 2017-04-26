@@ -20,10 +20,7 @@ nav#nav {
     display: flex;
     width: 100%;
     height: 43px;
-    top: 0;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
     border: 1px solid #e7e7e7;
     background-color: #f3f3f3;
@@ -33,8 +30,6 @@ nav#menu {
     display: flex;
     top: 45px;
     list-style-type: none;
-    padding: 0;
-    margin: 0;
     width: 215px;
     height: calc(100% - 45px);
     overflow: auto;
@@ -106,6 +101,6 @@ nav#menu a.active {
 
     #ctx {
         width: 100%;
-        height: 100%;
+        height: calc(100% - 80px);
     }
 }
