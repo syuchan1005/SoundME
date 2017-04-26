@@ -63,7 +63,7 @@ function sendDelete(path) {
 
 function userExec(type, data) {
     axios({
-        url: `${location.protocol}//${location.host}/setting/reset/${path}`,
+        url: `${location.protocol}//${location.host}/setting/user`,
         method: type,
         data: data
     }).then(function (response) {

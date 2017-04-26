@@ -18,3 +18,21 @@ $breakpoint-mobile: 640px;
         @content;
     }
 }
+
+@mixin pc() {
+    @include min-screen($breakpoint-tablet) {
+        @content;
+    }
+}
+
+@mixin tablet() {
+    @include screen($breakpoint-mobile, $breakpoint-tablet) {
+        @content;
+    }
+}
+
+@mixin mobile() {
+    @include max-screen($breakpoint-mobile) {
+        @content;
+    }
+}

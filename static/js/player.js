@@ -125,7 +125,6 @@ function backQueue() {
 }
 
 function playSound(song) {
-    console.log(queueIndex);
     playing = song;
     $(".title").text(song.title);
     $(".artist").text(song.artist);

@@ -8,6 +8,8 @@ body {
     margin: 0;
     user-select: none;
     -webkit-touch-callout: none;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 a {
@@ -18,7 +20,6 @@ nav#nav {
     display: flex;
     width: 100%;
     height: 43px;
-    position: fixed;
     top: 0;
     list-style-type: none;
     margin: 0;
@@ -29,15 +30,14 @@ nav#nav {
 }
 
 nav#menu {
+    display: flex;
     top: 45px;
     list-style-type: none;
     padding: 0;
     margin: 0;
     width: 215px;
-    position: fixed;
     height: calc(100% - 45px);
     overflow: auto;
-    display: flex;
     flex-direction: column;
     border-right: solid #dadada 1px;
 }
@@ -71,8 +71,7 @@ nav#menu a.active {
 }
 
 #ctx {
-    margin-top: 43px;
-    margin-left: 215px;
+    width: calc(100% - 216px);
     height: calc(100% - 44px);
 }
 
@@ -80,4 +79,33 @@ nav#menu a.active {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@include mobile() {
+    nav#menu {
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+    }
+
+    nav#menu a:before {
+        font-size: 1rem;
+    }
+
+    nav#menu a {
+        text-align: center;
+        font-size: 0;
+        white-space: pre;
+        flex-grow: 1;
+    }
+
+    #logout {
+        margin-top: auto;
+        background-color: #ff0000;
+    }
+
+    #ctx {
+        width: 100%;
+        height: 100%;
+    }
 }

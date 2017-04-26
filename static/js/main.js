@@ -6,7 +6,7 @@ $(document).ready(function () {
     $(`.sIcon-${location.pathname.substring(1, location.pathname.length)}`).addClass("active");
     $.fn.hasScrollBar = function () {
         return this.get(0).scrollHeight > this.get(0).clientHeight;
-    }
+    };
 });
 
 function getSHA256(str) {
@@ -16,14 +16,14 @@ function getSHA256(str) {
 }
 
 function getSongData(id) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         axios({
             url: `${location.protocol}//${location.host}/songs/${id}`,
             method: "GET"
         }).then(function (response) {
             const data = response.data;
             resolve({
-                id :id,
+                id: id,
                 thumbnail: data.thumbnail,
                 audio: data.path,
                 title: data.title,

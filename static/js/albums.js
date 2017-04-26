@@ -21,7 +21,7 @@ function artClick(index, id) {
         $(response.data).find(".album-songs")
             .insertAfter(`[data-index=${insert}]`);
         setEvents();
-        $("#list").scrollTop($(".album-songs").offset().top - 300);
+        $("#list").scrollTop(($(".album-songs").offset().top || 300) - 300);
     }).catch(function (error) {
         $(`<div class='album-songs' style='color: red'>${error}</div>`)
             .insertAfter(`[data-index=${insert}]`);
@@ -70,16 +70,18 @@ function setEvents() {
 function alignAlbum() {
     const list = $("#list");
     const row = Math.floor(list.width() / 185);
+    const count = parseInt(list.attr("data-albumcount"));
     if (row !== 1) {
-        const count = parseInt(list.attr("data-albumcount"));
         const add = row - count % row;
         if (add !== row) {
             $(".dummy_album").remove();
             for (let i = 0; i < add; i++) {
                 list.append(`<div class="dummy_album" data-index="${count + i}"></div>`);
             }
-            list.attr("data-count", count + add);
         }
+        list.attr("data-count", count + add);
+    } else {
+        list.attr("data-count", count);
     }
 }
 
