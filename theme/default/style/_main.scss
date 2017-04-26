@@ -77,6 +77,12 @@ nav#menu a.active {
 }
 
 @include mobile() {
+    #title {
+        font-size: 0;
+        width: 0;
+        height: 0;
+    }
+
     nav#menu {
         flex-direction: row;
         width: 100%;

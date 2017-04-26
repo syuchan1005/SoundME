@@ -21,7 +21,6 @@ function artClick(index, id) {
         $(response.data).find(".album-songs")
             .insertAfter(`[data-index=${insert}]`);
         setEvents();
-        $("#list").scrollTop(($(".album-songs").offset().top || 300) - 300);
     }).catch(function (error) {
         $(`<div class='album-songs' style='color: red'>${error}</div>`)
             .insertAfter(`[data-index=${insert}]`);

@@ -3,19 +3,22 @@
         <img class="album-thumbnail" src="{{album.thumbnail}}" width="165" height="165">
         <div>{{album.track_number}}曲</div>
     </div>
-    <div class="album-songs-data">
-        <div class="album-name-title ellipsis">{{album.name}}</div>
-        <div class="album-artist-name ellipsis">{{album.artist}}</div>
-        <div class="album-genre">{{album.genre}}</div>
-        <hr>
-        {{#each songs}}
-            <div class="song-data" data-songindex="{{@index}}" data-songid="{{id}}">
-                <div class="song-track" data-track="{{track}}" data-content="{{track}}"></div>
-                <div class="song-detail">
-                    <div class="song-title">{{title}}</div>
-                    <div class="song-artist">{{artist}}</div>
+    <div id="datas">
+        <div class="albums-data">
+            <div class="album-name-title ellipsis">{{album.name}}</div>
+            <div class="album-artist-name ellipsis">{{album.artist}}</div>
+            <div class="album-genre">{{album.genre}}</div>
+        </div>
+        <div class="songs-data">
+            {{#each songs}}
+                <div class="song-data" data-songindex="{{@index}}" data-songid="{{id}}">
+                    <div class="song-track" data-track="{{track}}" data-content="{{track}}"></div>
+                    <div class="song-detail">
+                        <div class="song-title">{{title}}</div>
+                        <div class="song-artist">{{artist}}</div>
+                    </div>
                 </div>
-            </div>
-        {{/each}}
+            {{/each}}
+        </div>
     </div>
 </div>

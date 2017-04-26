@@ -1,6 +1,7 @@
 .album-songs {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     margin-top: 5px;
     padding-bottom: 10px;
     box-shadow:0 0 3px 1px #ededed inset;
@@ -11,8 +12,8 @@
     margin: 20px;
 }
 
-.album-songs-data {
-    width: 100%;
+#datas {
+    width: calc(100% - 225px);
     margin-top: 20px;
 }
 
@@ -26,6 +27,9 @@
 
 .album-genre {
     color: #5d5d5d;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: solid #5d5d5d 1px;
 }
 
 .song-data {
@@ -51,4 +55,24 @@
 
 .song-artist {
     color: #5d5d5d;
+}
+
+@include mobile() {
+    .album-thumbnail {
+        max-width: 45px;
+        max-height: 45px;
+    }
+
+    #datas {
+        width: calc(100% - 85px);
+        margin-top: 20px;
+    }
+
+    .album-name-title {
+        font-size: 1rem;
+    }
+
+    .album-artist-name {
+        font-size: 0.75rem;
+    }
 }
