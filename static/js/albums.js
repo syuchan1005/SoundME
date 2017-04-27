@@ -46,7 +46,7 @@ function setEvents() {
             songTrack.attr("data-content", songTrack.attr("data-track"));
         }
     });
-    songTrack.on("click", async function () {
+    songTrack.on("click", function () {
         const track = $(this);
         if (track.attr("data-content") === PlayerIcon.PAUSE) {
             track.attr("data-content", PlayerIcon.PLAY);
@@ -55,13 +55,18 @@ function setEvents() {
             const m = $(`[data-content="${PlayerIcon.MEDIUM}"]`);
             m.attr("data-content", m.attr("data-track"));
             track.attr("data-content", PlayerIcon.PAUSE);
-            const songs = [await getSongData(track.parent().attr("data-songid"))];
-            const nextAll = track.parent().nextAll();
-            for (let i = 0; i < nextAll.length; i++) {
-                const e = nextAll.eq(i);
-                songs.push(await getSongData($(e).attr("data-songid")));
-            }
-            setQueue(songs);
+            let songs;
+            getSongData(track.parent().attr("data-songid")).then(function (song) {
+                songs = [song];
+                const nextAll = track.parent().nextAll();
+                const promises = [];
+                for (let i = 0; i < nextAll.length; i++) {
+                    promises.push(getSongData($(nextAll.eq(i)).attr("data-songid")));
+                }
+                return Promise.all(promises);
+            }).then(function (values) {
+                setQueue(songs.concat(values));
+            });
         }
     });
 }
