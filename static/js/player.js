@@ -144,10 +144,17 @@ function getPlaying() {
 
 function togglePlay() {
     const btn = $(".play-btn");
+    audioContext.load();
     if (audioContext.paused) {
         btn.removeClass("pIcon-play");
         btn.addClass("pIcon-pause");
-        audioContext.play();
+        jQuery.ajax({
+            url: `${location.protocol}//${location.host}/empty`,
+            async: false,
+            success: function () {
+                audioContext.play();
+            }
+        });
     } else {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");

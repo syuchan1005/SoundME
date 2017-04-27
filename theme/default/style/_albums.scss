@@ -1,5 +1,6 @@
 .albums-data {
     margin: 0 10px;
+    height: 210px;
 }
 
 .album-art {
@@ -17,11 +18,11 @@
 
 .dummy_album {
     width: 185px;
+    height: 210px;
 }
 
 #list {
     display: flex;
-    height: 100%;
     flex-wrap: wrap;
     justify-content: space-around;
     overflow-x: hidden;
