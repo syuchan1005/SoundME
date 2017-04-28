@@ -1,12 +1,12 @@
-<script src="/js/artist.js"></script>
+<script src="/js/category.js"></script>
 <script src="/js/albums.js"></script>
 {{#if list.length}}
     <div id="category">
         <div id="category-list">
             {{#each list}}
-                <div class="category-item" onclick='artistClick("{{artist}}")'>
+                <div class="category-item" onclick='categoryClick("{{../page}}", "{{value}}")'>
                     <img class="album" width="45" height="45" src="/no_art.png">
-                    <div class="ellipsis">{{artist}}</div>
+                    <div class="ellipsis">{{value}}</div>
                 </div>
             {{/each}}
         </div>

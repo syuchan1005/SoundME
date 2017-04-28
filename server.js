@@ -90,10 +90,17 @@ router.get("/logout", async function (ctx, next) {
 });
 
 router.get("/artist", async function (ctx, next) {
-    ctx.body = await ctx.renderView("artist", {
+    const data = [];
+    connector.getArtists().forEach(function (v) {
+       data.push({
+           value: v.artist
+       });
+    });
+    ctx.body = await ctx.renderView("category", {
         theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
-        list: connector.getArtists()
+        page: "artist",
+        list: data
     });
 });
 
@@ -161,10 +168,17 @@ router.get("/songs/:id", async function (ctx, next) {
 });
 
 router.get("/genre", async function (ctx, next) {
-    ctx.body = await ctx.renderView("genre", {
+    const data = [];
+    connector.getGenres().forEach(function (v) {
+        data.push({
+            value: v.genre
+        });
+    });
+    ctx.body = await ctx.renderView("category", {
         theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
-        list: connector.getGenres()
+        page: "genre",
+        list: data
     });
 });
 
