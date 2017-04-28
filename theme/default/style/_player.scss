@@ -341,3 +341,22 @@ input[type=range].seek-range {
     white-space: nowrap;
     overflow: hidden;
 }
+
+@include mobile() {
+    .volume-icon {
+        display: none;
+    }
+
+    .volume-range {
+        display: none;
+    }
+
+    .player {
+        width: 100%;
+    }
+
+    #list-window {
+        margin-top: auto;
+        bottom: 100px;
+    }
+}

@@ -82,11 +82,15 @@ nav#menu a.active {
         width: 0;
         height: 0;
     }
+    nav#nav {
+        order: 2;
+    }
 
     nav#menu {
         flex-direction: row;
         width: 100%;
         height: auto;
+        order: 3;
     }
 
     nav#menu a:before {
@@ -95,7 +99,7 @@ nav#menu a.active {
 
     nav#menu a {
         text-align: center;
-        font-size: 0;
+        font-size: 0.5rem;
         white-space: pre;
         flex-grow: 1;
     }
@@ -107,6 +111,7 @@ nav#menu a.active {
 
     #ctx {
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 86px);
+        order: 1;
     }
 }
