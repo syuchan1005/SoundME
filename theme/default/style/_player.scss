@@ -278,20 +278,19 @@ input[type=range].seek-range {
 }
 
 #list-window {
+    display: flex;
+    visibility: collapse;
+    flex-wrap: wrap;
     position: absolute;
-    border: 2px solid #919191;
-    border-radius: 10px;
-    background: #dedede;
     z-index: 3;
-    margin-top: 60px;
     right: 0;
     width: 30%;
     max-width: 300px;
     min-height: 20%;
     max-height: 90%;
-    display: flex;
-    visibility: collapse;
-    flex-wrap: wrap;
+    margin-top: 60px;
+    border: 1px solid #e2e2e2;
+    background-color: #ffffff;
 }
 
 .list-queue, .list-lyrics {
@@ -303,15 +302,14 @@ input[type=range].seek-range {
 }
 
 .list-queue {
-    border-top-left-radius: 8px;
-    border-right: solid #808080 1px;
-    border-bottom: solid #808080 1px;
+    border-right: solid #e2e2e2 1px;
+    border-bottom: solid #e2e2e2 1px;
+    background-color: #f4f4f4;
 }
 
 .list-lyrics {
-    border-top-right-radius: 8px;
-    border-left: solid #808080 1px;
-    border-bottom: solid #808080 1px;
+    border-left: solid #e2e2e2 1px;
+    border-bottom: solid #e2e2e2 1px;
 }
 
 #list-ctx {
