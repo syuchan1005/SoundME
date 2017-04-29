@@ -2,14 +2,24 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="shortcut icon" sizes="196x196" href="/icon.png">
+        <link rel="apple-touch-icon" href="/icon.png" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Simple Web Audio Player">
         <meta property="og:title" content="SoundME">
         <meta property="og:type" content="article">
         <meta property="og:description" content="Simple Web Audio Player">
-        <meta property="og:image" content="/icon.jpg">
+        <meta property="og:image" content="/icon.png">
         <meta property="og:site_name" content="SoundME">
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@syu_chan_1005" />
+        <meta name="twitter:creator" content="@syu_chan_1005" />
+        <meta name="twitter:title" content="SoundME" />
+        <meta name="twitter:description" content="Simple Web Audio Player" />
+        <meta name="twitter:image" content="/icon.png" />
 
         <title>SoundME</title>
 
@@ -53,7 +63,7 @@
             <a class="sIcon-albums" onclick="movePage('/albums')">アルバム</a>
             <a class="sIcon-songs" onclick="movePage('/songs')">曲</a>
             <a class="sIcon-genre" onclick="movePage('/genre')">ジャンル</a>
-            <a class="sIcon-logout" id="logout" href="/logout">ログアウト</a>
+            <a class="sIcon-logout" id="logout" onclick="movePage('/logout')">ログアウト</a>
             {{#if role}}
                 <a class="sIcon-setting" id="setting" onclick="movePage('/setting')"> 詳細設定</a>
             {{/if}}

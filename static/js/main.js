@@ -36,11 +36,13 @@ function getSongData(id) {
 }
 
 function movePage(url) {
+    if (isListShow) toggleList();
     const moveLink = `${location.protocol}//${location.host}${url}`;
     axios({
         url: moveLink,
         method: "GET"
     }).then(function (response) {
+        if (response.data === "OK") location.href = `${location.protocol}//${location.host}/`;
         $(".active").removeClass("active");
         history.pushState({}, "SoundME", moveLink);
         $("#ctx").html($(response.data).filter("div#ctx").html());

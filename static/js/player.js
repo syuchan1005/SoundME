@@ -65,10 +65,6 @@ function audioPlayer() {
         seek.val(audioContext.currentTime);
     });
     $(".list-btn").on("click", toggleList);
-    $(document).on("click", function (event) {
-        if (event.target.classList.contains("list-btn")) return;
-        if (event.target.id !== "list-window" && isListShow) toggleList();
-    });
     $(".forward-btn").on("click", nextQueue);
     $(".backward-btn").on("click", backQueue);
 }

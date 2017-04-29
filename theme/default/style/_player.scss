@@ -291,6 +291,7 @@ input[type=range].seek-range {
     margin-top: 60px;
     border: 1px solid #e2e2e2;
     background-color: #ffffff;
+    align-items: flex-start;
 }
 
 .list-queue, .list-lyrics {
@@ -359,7 +360,14 @@ input[type=range].seek-range {
     }
 
     #list-window {
+        width: 100%;
+        max-width: 100%;
+        height: calc(100% - 86px);
         margin-top: auto;
-        bottom: 100px;
+    }
+
+    #list-ctx {
+        height: calc(100% - 1.5rem);
+        max-height: calc(100% - 1.5rem);
     }
 }

@@ -86,7 +86,7 @@ router.post("/", async function (ctx, next) {
 
 router.get("/logout", async function (ctx, next) {
     ctx.session = null;
-    ctx.response.redirect("/");
+    ctx.body = "OK";
 });
 
 router.get("/artist", async function (ctx, next) {
