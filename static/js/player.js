@@ -84,15 +84,15 @@ function removeVolIcon() {
 function setQueue(queues) {
     if (!Array.isArray(queues)) queues = [queues];
     queueList = queues;
-    playSound(queueList[queueIndex]);
-    queueIndex++;
+    playSound(queueList[0]);
+    queueIndex = 0;
     _renderQueue();
 }
 
 function _renderQueue() {
     const list = $("#list-ctx");
     list.html("");
-    for (let i = queueIndex; i < queueList.length; i++) {
+    for (let i = queueIndex + 1; i < queueList.length; i++) {
         const e = queueList[i];
         list.append(`<div class="queue-item">
                 <img width="40" height="40" src="${e.thumbnail}">
@@ -108,8 +108,8 @@ function nextQueue() {
     if (queueIndex === queueList.length) {
         playSound(defaultSongData);
     } else {
-        playSound(queueList[queueIndex]);
         queueIndex++;
+        playSound(queueList[queueIndex]);
     }
     _renderQueue();
 }
@@ -118,8 +118,8 @@ function backQueue() {
     if (queueIndex === 0) {
         playSound(defaultSongData);
     } else {
-        queueIndex--;
         playSound(queueList[queueIndex]);
+        queueIndex--;
     }
     _renderQueue();
 }
@@ -144,17 +144,10 @@ function getPlaying() {
 
 function togglePlay() {
     const btn = $(".play-btn");
-    audioContext.load();
     if (audioContext.paused) {
         btn.removeClass("pIcon-play");
         btn.addClass("pIcon-pause");
-        jQuery.ajax({
-            url: `${location.protocol}//${location.host}/empty`,
-            async: false,
-            success: function () {
-                audioContext.play();
-            }
-        });
+        audioContext.play();
     } else {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");

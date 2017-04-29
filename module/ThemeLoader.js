@@ -28,7 +28,6 @@ class ThemeLoader {
                     }, function (err, result) {
                         fs.writeFileSync(saveCSS, result.css);
                         fs.writeFileSync(`${saveCSS}.map`, result.map);
-                        fs.appendFileSync(saveCSS, `//# sourceMappingURL=main.css.map`);
                         connector.addTheme(folder_name, json.name, json.description, json.version);
                     });
                 }

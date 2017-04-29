@@ -217,7 +217,7 @@ input[type=range].seek-range:focus::-ms-fill-upper {
 
 .player {
     background-color: #f1f1f1;
-    width: 80%;
+    width: calc(100% - 216px);
     display: flex;
     align-items: center;
 }
@@ -248,19 +248,21 @@ input[type=range].volume-range {
 }
 
 .title {
+    width: 95%;
     height: 16px;
     white-space: nowrap;
     overflow: hidden;
 }
 
 .artist {
+    width: 95%;
     height: 12px;
     white-space: nowrap;
     overflow: hidden;
 }
 
 .song {
-    width: 100%;
+    width: calc(100% - 21rem);
     font-size: 0.5rem;
 }
 
@@ -273,7 +275,6 @@ input[type=range].seek-range {
 .list-btn {
     padding: 2px 6px !important;
     font-size: 1.5rem !important;
-    margin-left: auto;
 }
 
 #list-window {
@@ -353,6 +354,10 @@ input[type=range].seek-range {
 
     .player {
         width: 100%;
+    }
+
+    .song {
+        width: calc(100% - 13rem);
     }
 
     #list-window {

@@ -2,7 +2,6 @@
  * Created by syuchan on 2017/03/23.
  */
 import Path from "path";
-import fs from "fs";
 import FFMPEG from "fluent-ffmpeg";
 import Util from "./Util";
 
