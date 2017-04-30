@@ -54,7 +54,7 @@ let idCheck = async function (ctx, next) {
     }
 };
 idCheck.unless = unless;
-app.use(idCheck.unless({path: ["/"], ext: ["css", "js", "ico", "woff", "ttf"]}));
+app.use(idCheck.unless({path: ["/"], ext: ["css", "js", "ico", "woff", "ttf", "mp3"]}));
 
 router.get("/empty", async function (ctx, next) {
     ctx.body = "";

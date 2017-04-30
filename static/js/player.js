@@ -20,7 +20,12 @@ let defaultSongData = {
     artist: "Artist"
 };
 
-let audioContext = new Audio();
+document.addEventListener("touchstart", function () {
+    togglePlay();
+    document.removeEventListener("touchstart", arguments.callee, false);
+}, false);
+
+let audio = new Audio();
 let playing = -1;
 let isListShow = false;
 let queueList = [];
@@ -32,7 +37,7 @@ function audioPlayer() {
     const volumeIcon = $(".volume-icon");
     volume.on("input change", function () {
         const volume = $(".volume-range").val();
-        audioContext.volume = volume / 100;
+        audio.volume = volume / 100;
         removeVolIcon();
         if (volume === "0") {
             volumeIcon.addClass("pIcon-volume-mute");
@@ -50,19 +55,19 @@ function audioPlayer() {
     });
     const seek = $(".seek-range");
     seek.on("mousedown", function () {
-        audioContext.pause();
+        audio.pause();
     });
     seek.on("mouseup", function () {
         if ($(".play-btn").hasClass("pIcon-pause")) {
-            audioContext.play();
+            audio.play();
         }
     });
     seek.on("input change", function () {
-        audioContext.currentTime = $(this).val();
+        audio.currentTime = $(this).val();
     });
-    audioContext.addEventListener('timeupdate', function () {
-        seek.attr("max", audioContext.duration);
-        seek.val(audioContext.currentTime);
+    audio.addEventListener('timeupdate', function () {
+        seek.attr("max", audio.duration);
+        seek.val(audio.currentTime);
     });
     $(".list-btn").on("click", toggleList);
     $(".forward-btn").on("click", nextQueue);
@@ -126,11 +131,11 @@ function playSound(song) {
     $(".artist").text(song.artist);
     $(".album").attr("src", song.thumbnail);
     if (song.audio) {
-        audioContext.src = song.audio.replace("#", "%23");
+        audio.src = song.audio.replace("#", "%23");
         $(".seek-range").val(0);
-        if (audioContext.paused) togglePlay();
+        if (audio.paused) togglePlay();
     } else {
-        audioContext.src = undefined;
+        audio.src = undefined;
     }
 }
 
@@ -140,14 +145,14 @@ function getPlaying() {
 
 function togglePlay() {
     const btn = $(".play-btn");
-    if (audioContext.paused) {
+    if (audio.paused) {
         btn.removeClass("pIcon-play");
         btn.addClass("pIcon-pause");
-        audioContext.play();
+        console.log(audio.play());
     } else {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");
-        audioContext.pause();
+        audio.pause();
     }
 }
 
