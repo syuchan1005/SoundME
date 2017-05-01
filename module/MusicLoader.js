@@ -2,10 +2,12 @@
  * Created by syuchan on 2017/03/23.
  */
 import Path from "path";
+import fs from "fs";
 import FFMPEG from "fluent-ffmpeg";
 import Util from "./Util";
 
 let ffmpeg = FFMPEG();
+let instance;
 
 class MusicLoader {
     constructor(binPath, connector) {
@@ -14,6 +16,7 @@ class MusicLoader {
             ffmpeg.setFfprobePath(binPath + "/ffprobe.exe");
         }
         this.connector = connector;
+        instance = this;
     }
 
     loadAllMusic(musicDir, wsSend) {
@@ -98,7 +101,10 @@ class MusicLoader {
                 .on("error", function (err, stdout, stderr) {
                     resolve("no_art.png");
                 })
-                .on('end', function () {
+                .on('end', async function () {
+                    await instance.resizeImage(outPath, MusicLoader.insertBeforeExt(outPath, "_big"), 165);
+                    await instance.resizeImage(outPath, MusicLoader.insertBeforeExt(outPath, "_small"), 45);
+                    fs.renameSync(outPath, MusicLoader.insertBeforeExt(outPath, "_orig"));
                     resolve(Path.basename(outPath));
                 })
                 .save(outPath);
@@ -114,6 +120,23 @@ class MusicLoader {
                     resolve(metadata);
                 });
         });
+    }
+
+    resizeImage(srcPath, outPath, size) {
+        return new Promise(function (resolve, reject) {
+            ffmpeg.clone()
+                .input(srcPath)
+                .videoFilter(`scale=${size}:${size}:force_original_aspect_ratio=decrease`)
+                .on('end', function () {
+                    resolve(outPath);
+                })
+                .save(outPath);
+        });
+    }
+
+    static insertBeforeExt(path, insertStr) {
+        const ext = Path.extname(path);
+        return `${Path.dirname(path)}/${Path.basename(path, ext)}${insertStr}${ext}`;
     }
 
     static clearCache() {

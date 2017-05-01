@@ -92,9 +92,9 @@ router.get("/logout", async function (ctx, next) {
 router.get("/artist", async function (ctx, next) {
     const data = [];
     connector.getArtists().forEach(function (v) {
-       data.push({
-           value: v.artist
-       });
+        data.push({
+            value: v.artist
+        });
     });
     ctx.body = await ctx.renderView("category", {
         theme: connector.getThemeFolder(ctx.session.theme),
@@ -114,10 +114,13 @@ router.get("/artist/:name", async function (ctx, next) {
         role: connector.getUser(ctx.session.userId).role === "admin",
         data: []
     };
-    artistAlbums.forEach((albumData) => data.data.push({
-        album: albumData,
-        songs: connector.getAlbumSongs(albumData.id)
-    }));
+    artistAlbums.forEach((albumData) => {
+        if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
+        data.data.push({
+            album: albumData,
+            songs: connector.getAlbumSongs(albumData.id)
+        })
+    });
     artistSongs.sort((s1, s2) => s1.id - s2.id);
     artistSongs.forEach((songData) => {
         const albumData = data.data[data.data.length - 1];
@@ -129,17 +132,23 @@ router.get("/artist/:name", async function (ctx, next) {
 });
 
 router.get("/albums", async function (ctx, next) {
+    const albumData = connector.getAlbums();
+    albumData.forEach((e) => {
+        if (e.thumbnail !== "/no_art.png") e.thumbnail = MusicLoader.insertBeforeExt(e.thumbnail, "_big");
+    });
     ctx.body = await ctx.renderView("albums", {
         theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
-        albums: connector.getAlbums()
+        albums: albumData
     });
 });
 
 router.get("/albums/:id", async function (ctx, next) {
+    const albumData = connector.getAlbum(ctx.params.id);
+    if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
     ctx.body = await ctx.renderView("album", {
         theme: connector.getThemeFolder(ctx.session.theme),
-        album: connector.getAlbum(ctx.params.id),
+        album: albumData,
         songs: connector.getAlbumSongs(ctx.params.id)
     });
 });
@@ -190,6 +199,7 @@ router.get("/genre/:name", async function (ctx, next) {
         data: []
     };
     connector.getGenreAlbums(genre).forEach((album) => {
+        if (album.thumbnail !== "/no_art.png") album.thumbnail = MusicLoader.insertBeforeExt(album.thumbnail, "_big");
         data.data.push({
             album: album,
             songs: connector.getAlbumSongs(album.id)

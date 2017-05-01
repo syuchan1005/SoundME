@@ -127,9 +127,10 @@ function backQueue() {
 
 function playSound(song) {
     playing = song;
-    $(".title").text(song.title);
-    $(".artist").text(song.artist);
-    $(".album").attr("src", song.thumbnail);
+    $(".player .title").text(song.title);
+    $(".player .artist").text(song.artist);
+    if (song.thumbnail !== "/no_art.png") song.thumbnail = song.thumbnail.substring(0, song.thumbnail.length - 4) + "_small" + song.thumbnail.substring(song.thumbnail.length -4);
+    $(".player .album").attr("src", song.thumbnail);
     if (song.audio) {
         audio.src = song.audio.replace("#", "%23");
         $(".seek-range").val(0);
