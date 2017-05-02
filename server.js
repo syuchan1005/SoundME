@@ -3,6 +3,7 @@
  */
 import Path from "path";
 import fs from "fs";
+import URL from "url";
 
 import Koa from "koa";
 import koaBody from "koa-body";
@@ -47,14 +48,15 @@ app.use(session({key: 'SoundME'}, app));
 app.use(hbs({defaultLayout: 'main'}));
 
 let idCheck = async function (ctx, next) {
-    if (ctx.session.userId || Path.basename(ctx.url) === "icon.png") {
+    if (ctx.session.userId || Path.basename(ctx.url) === "icon.png" ||
+        Path.extname(ctx.url) === ".mp3" && URL.parse(ctx.request.header.referer).pathname !== "/") {
         await next();
     } else {
         ctx.response.redirect("/");
     }
 };
 idCheck.unless = unless;
-app.use(idCheck.unless({path: ["/"], ext: ["css", "js", "ico", "woff", "ttf", "mp3"]}));
+app.use(idCheck.unless({path: ["/"], ext: ["css", "js", "ico", "woff", "ttf"]}));
 
 router.get("/empty", async function (ctx, next) {
     ctx.body = "";
