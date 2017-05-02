@@ -42,7 +42,9 @@ function movePage(url) {
         url: moveLink,
         method: "GET"
     }).then(function (response) {
-        if (response.data === "OK") location.href = `${location.protocol}//${location.host}/`;
+        const parser = document.createElement('a');
+        parser.href = response.request.responseURL;
+        if (parser.pathname === "/" || response.data === "OK") location.href = `${location.protocol}//${location.host}/`;
         $(".active").removeClass("active");
         history.pushState({}, "SoundME", moveLink);
         $("#ctx").html($(response.data).filter("div#ctx").html());
