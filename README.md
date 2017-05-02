@@ -4,13 +4,18 @@
 # どんな感じなの？
    iTunesライクな感じのデザインです  
    [Demo](http://test.magitech.xyz)  <- ちょっと重たいかも
-   
+
+
 <details> 
-  <summary>デフォルトテーマ</summary>
-      ![artist](/ReadmeFiles/Artist.png)
-      ![albums](/ReadmeFiles/Albums.png)
-      ![songs](/ReadmeFiles/Songs.png)
-      ![Settings](/ReadmeFiles/Settings.png) 
+ <summary>デフォルトテーマ</summary>
+ <span>Artist</span>
+ <img src="ReadmeFiles/Artist.png">
+ <span>Albums</span>
+ <img src="ReadmeFiles/Albums.png">
+ <span>Songs</span>
+ <img src="ReadmeFiles/Songs.png">
+ <span>Settings</span>
+ <img src="ReadmeFiles/Settings.png">
 </details>
    
 テーマを自分で作成し使用することも出来ます
