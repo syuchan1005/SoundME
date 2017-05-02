@@ -4,6 +4,16 @@
 # どんな感じなの？
    iTunesライクな感じのデザインです  
    [Demo](http://test.magitech.xyz)  <- ちょっと重たいかも
+   
+<details> 
+  <summary>デフォルトテーマ</summary>
+      ![artist](/ReadmeFiles/Artist.png)
+      ![albums](/ReadmeFiles/Albums.png)
+      ![songs](/ReadmeFiles/Songs.png)
+      ![Settings](/ReadmeFiles/Settings.png) 
+</details>
+   
+テーマを自分で作成し使用することも出来ます
  
 # 使い方
  `npm install`して`npm start`してください
@@ -12,20 +22,8 @@
  
  初期ユーザーは
  ```text
-User: user
-Pass: pass
+User: "user"
+Pass: "pass"
 ```
   になっています
  
-# Q&A
- Q. データ保存とかどうなってる  
- A. 同じディレクトリのspec.md見て
-
- Q. フルスタックなフレームワーク使えばいいのに  
- A. 使い方なんぞしらぬ
- 
- Q. 似たようなのあるじゃん  
- A. しってる
- 
- Q. 機能全然ないじゃん  
- A. 許してください！なんでもしますから！(なんでもするとは言ってない)
