@@ -38,6 +38,7 @@
                 <input type="file" name="file" id="theme-file">
                 <input type="button" id="theme-upload" onclick="themeUpload()" value="Upload"/>
             </form>
+            <span>現在のテーマ:</span>
             <select name="default-theme" size="1">
                 {{#each themes}}
                     <option value="{{name}}">{{name}}</option>
