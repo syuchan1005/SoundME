@@ -220,6 +220,46 @@ class SQLiteImpl {
     getGenres() {
         return this.db.run(`SELECT DISTINCT genre FROM albums`);
     }
+
+    addUserPassword(username, password, role) {
+        username = DBConnector.singleQuoteEscape(username);
+        password = DBConnector.singleQuoteEscape(password);
+        role = DBConnector.singleQuoteEscape(role);
+        this.addUser(username, User.createStorePassword(username, password), role);
+    }
+
+    addUser(username, hash, role) {
+        this.db.insert("users", {
+            name: DBConnector.singleQuoteEscape(username),
+            password: DBConnector.singleQuoteEscape(hash),
+            role: DBConnector.singleQuoteEscape(role)
+        });
+    }
+
+    changeRole(userId, username, role) {
+        userId = DBConnector.singleQuoteEscape(userId);
+        username = DBConnector.singleQuoteEscape(username);
+        role = DBConnector.singleQuoteEscape(role);
+        this.db.run(`UPDATE users SET role='${role}' WHERE id='${userId}' AND name='${username}'`);
+    }
+
+    deleteUser(userId, username, role) {
+        userId = DBConnector.singleQuoteEscape(userId);
+        username = DBConnector.singleQuoteEscape(username);
+        role = DBConnector.singleQuoteEscape(role);
+        this.db.run(`DELETE FROM users WHERE id='${userId}' AND name='${username}' AND role='${role}'`);
+    }
+
+    resetThemes() {
+        this.db.run(`DROP TABLE themes`);
+        this.createTable();
+    }
+
+    resetDB() {
+        this.db.run("DROP TABLE albums");
+        this.db.run("DROP TABLE songs");
+        this.createTable();
+    }
 }
 
 export default SQLiteImpl;
