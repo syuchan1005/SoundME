@@ -28,7 +28,7 @@ import Util from "./module/Util";
 const app = websockify(new Koa());
 const router = Router();
 const settingRouter = Router();
-const connector = new DBConnector({type: "sqlite", database: "test.db", version: "0.0.1"});
+const connector = DBConnector.createInstance({type: "sqlite", database: "test.db", version: "0.0.1"});
 connector.createTable();
 const musicLoader = new MusicLoader(process.env.F_PATH, connector);
 const themeLoader = new ThemeLoader(connector);
