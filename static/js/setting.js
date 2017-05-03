@@ -68,6 +68,8 @@ function userExec(type, data) {
         data: data
     }).then(function (response) {
         location.reload();
+    }).catch(function (e) {
+        alert("can't delete yourself");
     });
 }
 

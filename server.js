@@ -284,8 +284,13 @@ settingRouter
             ctx.response.redirect("/albums");
         } else {
             const body = ctx.request.body;
-            connector.deleteUser(body.userid, body.username, body.role);
-            ctx.status = 200;
+            if (ctx.session.userId == body.userid) {
+                ctx.body = "can't delete yourself";
+                ctx.status = 400;
+            } else {
+                connector.deleteUser(body.userid, body.username, body.role);
+                ctx.status = 200;
+            }
         }
     })
     .post("/theme", koaBody({multipart: true, formidable: {uploadDir: Path.join(__dirname, "theme")}}),
