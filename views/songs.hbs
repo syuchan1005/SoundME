@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         {{#each songs}}
-            <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}" onclick="songClick({{@index}}, {{song_id}})">
+            <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}">
                 <th class="th-icon"><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
                 <th><span class="songs-title">{{title}}</span></th>
                 <th class="th-length"><span class="songs-length">{{min}}:{{sec}}</span></th>

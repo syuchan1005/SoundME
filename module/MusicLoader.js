@@ -135,6 +135,7 @@ class MusicLoader {
     }
 
     static insertBeforeExt(path, insertStr) {
+        if (path == undefined) return path;
         const ext = Path.extname(path);
         return `${Path.dirname(path)}/${Path.basename(path, ext)}${insertStr}${ext}`;
     }

@@ -3,8 +3,7 @@
     {{#if albums.length}}
         {{#each albums}}
             <div class="albums-data" data-index={{@index}}>
-                <img src="{{thumbnail}}" width="165" height="165"
-                     onclick="artClick({{@index}}, {{id}})" class="album-art" id="album-{{id}}">
+                <img src="{{thumbnail}}" width="165" height="165" class="album-art" id="album-{{id}}">
                 <div class="album-name ellipsis">{{name}}</div>
                 <div class="album-artist ellipsis">{{artist}}</div>
             </div>

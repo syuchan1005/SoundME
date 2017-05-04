@@ -1,30 +1,45 @@
 /**
  * Created by syuchan on 2017/03/19.
  */
-var before_index = -1;
+var before_id = -1;
+
+$(window).on("page", function() {
+    $(".albums-data img").on("click", function () {
+        const img = $(this);
+        artClick(img.parent().prevAll().length, img.attr("id").substring(6));
+    });
+    alignAlbum();
+});
+
+var timer = false;
+$(window).resize(function() {
+    if (timer !== false) clearTimeout(timer);
+    timer = setTimeout(alignAlbum, 200);
+});
 
 function artClick(index, id) {
-    const list = $("#list");
-    const row = Math.floor(list.width() / 185);
+    console.log(`${index}:${id}`);
     $(".album-songs").remove();
-    if (before_index === index) {
-        before_index = -1;
-        return;
+    if (before_id === id) {
+        before_id = -1;
+    } else {
+        const list = $("#list");
+        const row = Math.floor(list.width() / 185);
+        before_id = id;
+        let insert = ((Math.floor(index / row) + 1) * row) - 1;
+        insert = Math.min(insert, list.attr("data-count") - 1);
+        axios({
+            url: `${location.protocol}//${location.host}/albums/${id}`,
+            method: "GET"
+        }).then(function (response) {
+            $(response.data).find(".album-songs")
+                .insertAfter(`[data-index=${insert}]`);
+            setEvents();
+        }).catch(function (error) {
+            $(`<div class='album-songs' style='color: red'>${error}</div>`)
+                .insertAfter(`[data-index=${insert}]`);
+        });
     }
-    before_index = index;
-    let insert = ((Math.floor(index / row) + 1) * row) - 1;
-    insert = Math.min(insert, list.attr("data-count") - 1);
-    axios({
-        url: `${location.protocol}//${location.host}/albums/${id}`,
-        method: "GET"
-    }).then(function (response) {
-        $(response.data).find(".album-songs")
-            .insertAfter(`[data-index=${insert}]`);
-        setEvents();
-    }).catch(function (error) {
-        $(`<div class='album-songs' style='color: red'>${error}</div>`)
-            .insertAfter(`[data-index=${insert}]`);
-    });
 }
 
 function setEvents() {
@@ -88,11 +103,3 @@ function alignAlbum() {
         list.attr("data-count", count);
     }
 }
-
-$(window).on("load", alignAlbum);
-
-var timer = false;
-$(window).resize(function() {
-    if (timer !== false) clearTimeout(timer);
-    timer = setTimeout(alignAlbum, 200);
-});

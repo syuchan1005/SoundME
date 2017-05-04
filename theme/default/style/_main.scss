@@ -36,14 +36,15 @@ nav#menu {
     border-right: solid #dadada 1px;
 }
 
-nav#menu a {
+nav#menu span {
     display: block;
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-nav#menu a.active {
+nav#menu span.active {
     background-color: #dddddd;
 }
 

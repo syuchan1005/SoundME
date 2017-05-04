@@ -2,9 +2,9 @@
 <script src="/js/albums.js"></script>
 {{#if list.length}}
     <div id="category">
-        <div id="category-list">
+        <div id="category-list" data-type="{{page}}">
             {{#each list}}
-                <div class="category-item" onclick='categoryClick("{{../page}}", "{{value}}")'>
+                <div class="category-item">
                     <img class="album" width="45" height="45" src="/no_art.png">
                     <div class="ellipsis">{{value}}</div>
                 </div>

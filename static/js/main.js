@@ -1,12 +1,18 @@
 /**
  * Created by syuchan on 2017/03/22.
  */
+$.fn.hasScrollBar = function () {
+    return this.get(0).scrollHeight > this.get(0).clientHeight;
+};
+
 $(document).ready(function () {
     audioPlayer();
+    $("nav#menu span").on("click", function () { movePage($(this).attr("data-link")) });
+    $(window).trigger("page");
+});
+
+$(window).on("page", function () {
     $(`.sIcon-${location.pathname.substring(1, location.pathname.length)}`).addClass("active");
-    $.fn.hasScrollBar = function () {
-        return this.get(0).scrollHeight > this.get(0).clientHeight;
-    };
 });
 
 function getSHA256(str) {
@@ -52,6 +58,8 @@ function movePage(url) {
         history.pushState({}, "SoundME", moveLink);
         $("#ctx").html($(response.data).filter("div#ctx").html());
         $(`.sIcon-${url.substring(1)}`).addClass("active");
-        $(window).trigger("load");
+        $(window).trigger("page");
+    }).catch(function (e) {
+        $("#ctx").html(e);
     });
 }

@@ -61,13 +61,13 @@
             <div id="list-ctx"></div>
         </div>
         <nav id="menu">
-            <a class="sIcon-artist" onclick="movePage('/artist')">アーティスト</a>
-            <a class="sIcon-albums" onclick="movePage('/albums')">アルバム</a>
-            <a class="sIcon-songs" onclick="movePage('/songs')">曲</a>
-            <a class="sIcon-genre" onclick="movePage('/genre')">ジャンル</a>
-            <a class="sIcon-logout" id="logout" onclick="movePage('/logout')">ログアウト</a>
+            <span class="sIcon-artist" data-link="/artist">アーティスト</span>
+            <span class="sIcon-albums" data-link="/albums">アルバム</span>
+            <span class="sIcon-songs" data-link="/songs">曲</span>
+            <span class="sIcon-genre" data-link="/genre">ジャンル</span>
+            <span class="sIcon-logout" id="logout" data-link="/logout">ログアウト</span>
             {{#if role}}
-                <a class="sIcon-setting" id="setting" onclick="movePage('/setting')"> 詳細設定</a>
+                <span class="sIcon-setting" id="setting" data-link="/setting"> 詳細設定</span>
             {{/if}}
         </nav>
 

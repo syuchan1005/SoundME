@@ -14,13 +14,13 @@
             <tr>
                 <th>Username</th>
                 <th>Role</th>
-                <th class="add-user" onclick="addUserClick()">+</th>
+                <th class="add-user">+</th>
             </tr>
             {{#each users}}
                 <tr data-userid="{{id}}">
                     <td class="user-name">{{name}}</td>
                     <td class="user-role">{{role}}</td>
-                    <td class="delete-user" onclick="deleteUserClick(this)">X</td>
+                    <td class="delete-user">X</td>
                 </tr>
             {{/each}}
         </table>
@@ -36,7 +36,7 @@
         <div>
             <form id="theme-form">
                 <input type="file" name="file" id="theme-file">
-                <input type="button" id="theme-upload" onclick="themeUpload()" value="Upload"/>
+                <input type="button" id="theme-upload" value="Upload"/>
             </form>
             <span>現在のテーマ:</span>
             <select name="default-theme" size="1">
@@ -83,12 +83,12 @@
             </div>
         </div>
         <span id="warn-format">If you want to use other formats please check the correspondence with ffmpeg</span>
-        <button class="setting" id="submit" onclick="submitClick()">Submit</button>
+        <button class="setting" id="submit">Submit</button>
     </div>
 
     <span class="setting">Database management</span>
     <div id="db-management">
-        <button id="update" class="setting" onclick="updateClick()">Database Update (Load Musics)</button>
+        <button id="update" class="setting">Database Update (Load Musics)</button>
         <div id="update-progress">
             <label>Progress</label>
             <progress value="0" max="100" id="progress"></progress>
@@ -97,9 +97,9 @@
             <div id="warnText">Please do not move until it is over</div>
         </div>
         <div id="risky">
-            <button id="clear-cache" class="setting" onclick="sendDelete('clear')">Clear cache & thumbnail</button>
-            <button id="reset-db" class="setting" onclick="sendDelete('reset')">Reset database (without users)</button>
-            <button id="reset-all" class="setting" onclick="sendDelete('resetall')">Reset all (Music folder will remain)</button>
+            <button id="clear-cache" class="setting" data-type="clear">Clear cache & thumbnail</button>
+            <button id="reset-db" class="setting" data-type="reset">Reset database (without users)</button>
+            <button id="reset-all" class="setting" data-type="resetall">Reset all (Music folder will remain)</button>
         </div>
     </div>
 </div>

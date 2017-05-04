@@ -126,8 +126,14 @@ router.get("/artist/:name", async function (ctx, next) {
     artistSongs.sort((s1, s2) => s1.id - s2.id);
     artistSongs.forEach((songData) => {
         const albumData = data.data[data.data.length - 1];
-        if (albumData !== undefined && albumData.album.id === songData.album) albumData.songs.push(songData);
-        else data.data.push({album: connector.getAlbum(songData.album), songs: [songData]});
+        if (albumData !== undefined && albumData.album.id === songData.album) {
+            if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
+            albumData.songs.push(songData);
+        } else {
+            const albumData = connector.getAlbum(songData.album);
+            if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
+            data.data.push({album: albumData, songs: [songData]});
+        }
     });
     data.data.sort((s1, s2) => Util.katakanaToHiragana(s1.album.name).localeCompare(Util.katakanaToHiragana(s2.album.name)));
     ctx.body = await ctx.renderView("category-album", data);
