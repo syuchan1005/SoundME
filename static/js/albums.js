@@ -18,7 +18,6 @@ $(window).resize(function() {
 });
 
 function artClick(index, id) {
-    console.log(`${index}:${id}`);
     $(".album-songs").remove();
     if (before_id === id) {
         before_id = -1;

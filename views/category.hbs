@@ -2,7 +2,7 @@
 <script src="/js/albums.js"></script>
 {{#if list.length}}
     <div id="category">
-        <div id="category-list" data-type="{{page}}">
+        <div id="category-list" class="scrollable" data-type="{{page}}">
             {{#each list}}
                 <div class="category-item">
                     <img class="album" width="45" height="45" src="/no_art.png">
@@ -10,7 +10,7 @@
                 </div>
             {{/each}}
         </div>
-        <div id="category-album">
+        <div id="category-album" class="scrollable">
         </div>
     </div>
 {{else}}

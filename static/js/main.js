@@ -7,8 +7,15 @@ $.fn.hasScrollBar = function () {
 
 $(document).ready(function () {
     audioPlayer();
-    $("nav#menu span").on("click", function () { movePage($(this).attr("data-link")) });
+    $("nav#menu span").on("click", function () {
+        movePage($(this).attr("data-link"))
+    });
     $(window).trigger("page");
+    document.addEventListener("touchmove", function (e) {
+        if (!(e.target.classList.contains("scrollable") || $(e.target).parents(".scrollable").length === 1)) {
+            e.preventDefault();
+        }
+    }, false);
 });
 
 $(window).on("page", function () {

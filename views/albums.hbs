@@ -1,5 +1,5 @@
 <script src="/js/albums.js"></script>
-<div id="list" data-albumcount="{{albums.length}}">
+<div id="list" class="scrollable" data-albumcount="{{albums.length}}">
     {{#if albums.length}}
         {{#each albums}}
             <div class="albums-data" data-index={{@index}}>

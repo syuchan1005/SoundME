@@ -1,5 +1,6 @@
 # SoundMeとは
  WebでiTunesみたいの欲しかっただけ
+ スマートフォンでは一度ピンチイン操作をしないと動作しない場合があります
  
 # どんな感じなの？
    iTunesライクな感じのデザインです  
@@ -17,6 +18,7 @@
  <span>Settings</span>
  <img src="ReadmeFiles/Settings.png">
 </details>
+
    
 テーマを自分で作成し使用することも出来ます
  

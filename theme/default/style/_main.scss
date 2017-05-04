@@ -32,7 +32,7 @@ nav#menu {
     width: 215px;
     height: calc(100% - 45px);
     list-style-type: none;
-    overflow: auto;
+    overflow-y: auto;
     border-right: solid #dadada 1px;
 }
 
@@ -68,12 +68,18 @@ nav#menu span.active {
 #ctx {
     width: calc(100% - 216px);
     height: calc(100% - 44px);
+    -webkit-overflow-scrolling: touch;
 }
 
 .ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 @include mobile() {

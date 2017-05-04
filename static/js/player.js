@@ -149,7 +149,7 @@ function togglePlay() {
     if (audio.paused) {
         btn.removeClass("pIcon-play");
         btn.addClass("pIcon-pause");
-        console.log(audio.play());
+        audio.play();
     } else {
         btn.removeClass("pIcon-pause");
         btn.addClass("pIcon-play");
