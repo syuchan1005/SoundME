@@ -15,6 +15,8 @@
  <img src="ReadmeFiles/Albums.png">
  <span>Songs</span>
  <img src="ReadmeFiles/Songs.png">
+ <span>Genres</span>
+ <img src="ReadmeFiles/Genres.png">
  <span>Settings</span>
  <img src="ReadmeFiles/Settings.png">
 </details>
