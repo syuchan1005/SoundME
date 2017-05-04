@@ -9,13 +9,41 @@
     border-right: solid 1px #A9A9A9;
 }
 
-#category-album {
-    width: calc(100% - 300px);
-}
-
 .category-item {
     height: 49px;
     display: flex;
     align-items: center;
     border-bottom: solid 1px #B4B4B4;
+}
+
+#category-album {
+    width: calc(100% - 300px);
+}
+
+.back-btn {
+    display: none;
+}
+
+@include mobile() {
+    #category-list {
+        width: 100%;
+    }
+
+    #category-album {
+        width: 100%;
+        z-index: 2;
+        display: none;
+        margin-top: 25px;
+    }
+
+    .back-btn {
+        display: inline;
+        border: solid 1px #555555;
+        border-left: none;
+        padding: 4px 16px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
 }
