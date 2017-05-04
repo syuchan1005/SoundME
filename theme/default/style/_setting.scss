@@ -148,3 +148,9 @@ table.user-table {
 #user-form {
     display: none;
 }
+
+@include mobile() {
+    #settings {
+        margin: 0;
+    }
+}
