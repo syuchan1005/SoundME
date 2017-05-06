@@ -357,5 +357,6 @@ app.on("error", function (err) {
     write(err);
 });
 
-console.log("listening port: 3000");
-app.listen(3000);
+const port = process.env.port || 3000;
+console.log("listening port: " + port);
+app.listen(port);
