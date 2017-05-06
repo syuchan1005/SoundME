@@ -146,7 +146,47 @@ table.user-table {
 }
 
 #user-form {
+    width: 20%;
     display: none;
+    flex-direction: column;
+    position: absolute;
+    top: calc(50vh - 15%);
+    left: calc(50vw - 10%);
+    background-color: #ffffff;
+    padding: 10px;
+    border: solid 1px #dedede;
+
+    input {
+        box-sizing: border-box;
+        outline: none;
+        display: block;
+        width: 100%;
+        padding: 7px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        background: transparent;
+        margin-bottom: 10px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
+
+    div {
+        display: flex;
+        justify-content: space-around;
+
+        button {
+            width: 48%;
+            border: 1px solid #555555;
+            background-color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        button:hover {
+            color: #ffffff;
+            background-color: #555555;
+        }
+    }
 }
 
 @include mobile() {

@@ -3,25 +3,19 @@
  */
 $(window).on("page", function () {
     $(".add-user").on("click", function () {
-        $("#user-form").dialog({
-            buttons: {
-                '追加': function () {
-                    const name = $("#form-name").val();
-                    const pass = $("#form-pass").val();
-                    const hash = createHash(name, pass);
-                    const role = $("#form-role").val();
-                    userExec("POST", {
-                        username: name,
-                        hash: hash,
-                        role: role
-                    });
-                    $(this).dialog('close');
-                },
-                'キャンセル': function () {
-                    $(this).dialog('close');
-                },
-            }
+        $("#user-form").css("display", "flex");
+    });
+    $("#form-add").on("click", function () {
+        const name = $("#form-name").val();
+        userExec("POST", {
+            username: name,
+            hash: createHash(name, $("#form-pass").val()),
+            role: $("#form-role").val()
         });
+        $("#user-form").css("display", "none");
+    });
+    $("#form-cancel").on("click", function () {
+        $("#user-form").css("display", "none");
     });
     $(".delete-user").on("click", function () {
         const parent = $(this).parent();
