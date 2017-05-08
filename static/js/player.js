@@ -98,6 +98,7 @@ function _renderQueue() {
     list.html("");
     for (let i = queueIndex + 1; i < queueList.length; i++) {
         const e = queueList[i];
+        if (e.thumbnail !== "/no_art.png") e.thumbnail = `${e.thumbnail.substring(0, e.thumbnail.length - 4)}_small.png`;
         list.append(`<div class="queue-item">
                 <img width="40" height="40" src="${e.thumbnail}">
                 <div class="queue-song-data">
