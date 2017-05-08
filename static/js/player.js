@@ -66,9 +66,12 @@ function audioPlayer() {
         audio.currentTime = $(this).val();
     });
     audio.addEventListener('timeupdate', function () {
-        seek.attr("max", audio.duration);
         seek.val(audio.currentTime);
     });
+    audio.addEventListener('durationchange', function () {
+        seek.attr("max", audio.duration);
+    });
+    audio.addEventListener('ended', nextQueue);
     $(".list-btn").on("click", toggleList);
     $(".forward-btn").on("click", nextQueue);
     $(".backward-btn").on("click", backQueue);
@@ -98,9 +101,9 @@ function _renderQueue() {
     list.html("");
     for (let i = queueIndex + 1; i < queueList.length; i++) {
         const e = queueList[i];
-        if (e.thumbnail !== "/no_art.png") e.thumbnail = `${e.thumbnail.substring(0, e.thumbnail.length - 4)}_small.png`;
+        const thumbnail = (e.thumbnail !== "/no_art.png") ? `${e.thumbnail.substring(0, e.thumbnail.length - 4)}_small.png` : "/no_art.png";
         list.append(`<div class="queue-item">
-                <img width="40" height="40" src="${e.thumbnail}">
+                <img width="40" height="40" src="${thumbnail}">
                 <div class="queue-song-data">
                     <span class="queue-title">${e.title}</span>
                     <span class="queue-artist">${e.artist}</span>
@@ -138,6 +141,7 @@ function playSound(song) {
     if (song.audio) {
         audio.src = song.audio.replace("#", "%23");
         $(".seek-range").val(0);
+        $(".volume-range").trigger("input");
         if (audio.paused) togglePlay();
     } else {
         audio.src = undefined;
@@ -165,4 +169,3 @@ function toggleList() {
     $("#list-window").css("visibility", isListShow ? "hidden" : "visible");
     isListShow = !isListShow;
 }
-
