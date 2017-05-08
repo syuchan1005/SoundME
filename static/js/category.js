@@ -15,7 +15,7 @@ $(window).on("page", function () {
                 $("#category-list").css("display", "none");
                 $(window).trigger("page");
             }
-            setEvents();
+            setSongEvents();
         });
     });
     $(".back-btn").on("click", function () {
