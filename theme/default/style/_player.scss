@@ -245,6 +245,23 @@ input[type=range].volume-range {
 .album {
     margin: 0 5px;
     border-radius: 5px;
+    position: relative;
+}
+
+.album:hover + .album-mask {
+    display: inline;
+}
+
+.album-mask {
+    margin: 0 5px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    display: none;
+}
+
+.album-mask:hover {
+    display: inline;
 }
 
 .title {

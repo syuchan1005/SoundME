@@ -26,7 +26,7 @@ document.addEventListener("touchstart", function () {
 }, false);
 
 let audio = new Audio();
-let playing = -1;
+let playing = defaultSongData;
 let isListShow = false;
 let queueList = [];
 let queueIndex = 0;
@@ -72,6 +72,9 @@ function audioPlayer() {
     $(".list-btn").on("click", toggleList);
     $(".forward-btn").on("click", nextQueue);
     $(".backward-btn").on("click", backQueue);
+    $(".album-mask").on("click", function () {
+       window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent(`#NowPlaying\n${playing.title} - ${playing.artist}\nSoundME - ${location.protocol + "//" + location.host}`));
+    });
 }
 
 function removeVolIcon() {
@@ -129,7 +132,7 @@ function playSound(song) {
     playing = song;
     $(".player .title").text(song.title);
     $(".player .artist").text(song.artist);
-    if (song.thumbnail !== "/no_art.png") song.thumbnail = song.thumbnail.substring(0, song.thumbnail.length - 4) + "_small" + song.thumbnail.substring(song.thumbnail.length -4);
+    if (song.thumbnail !== "/no_art.png") song.thumbnail = song.thumbnail.substring(0, song.thumbnail.length - 4) + "_small" + song.thumbnail.substring(song.thumbnail.length - 4);
     $(".player .album").attr("src", song.thumbnail);
     if (song.audio) {
         audio.src = song.audio.replace("#", "%23");
