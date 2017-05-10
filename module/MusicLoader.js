@@ -31,7 +31,7 @@ class MusicLoader {
                 const fpp = 100.0 / files.length;
                 for (let i = 0; i < files.length; i++) {
                     const path = files[i];
-                    const f = Path.relative(musicDir, path);
+                    const f = Util.normalizePath(Path.relative(musicDir, path));
                     wsSend("GetMeta", fpp * i + fpp * 0.1, f, 10);
                     const format = (await getMetadata(path)).format;
                     const meta = Object.assign({

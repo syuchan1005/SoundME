@@ -75,6 +75,26 @@ class Util {
             return String.fromCharCode(match.charCodeAt(0) - 0x60);
         });
     }
+
+    static normalizePath(str, stripTrailing) {
+        str = str.replace(/[\\\/]+/g, '/');
+        if (stripTrailing !== false) {
+            str = Util.removeTrailingSeparator(str);
+        }
+        return str;
+    }
+
+    static removeTrailingSeparator(str) {
+        while (Util.endsInSeparator(str)) {
+            str = str.slice(0, -1);
+        }
+        return str;
+    }
+
+    static endsInSeparator(str) {
+        const last = str[str.length - 1];
+        return str.length > 1 && (last === '/' || (process.platform === 'win32' && last === '\\'));
+    }
 }
 
 export default Util;
