@@ -33,6 +33,7 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="/js/sha256.js"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/seekbar.js"></script>
         <script src="/js/player.js"></script>
     </head>
     <body>
@@ -51,7 +52,11 @@
                 <div class="song">
                     <div class="title">Title</div>
                     <div class="artist">Artist</div>
-                    <input type="range" class="seek-range" title="seek" step="0.1">
+                    <div class="seekbar">
+                        <div class='track'></div>
+                        <div class="buffered-tracks"></div>
+                        <div class='thumb'></div>
+                    </div>
                 </div>
                 <button class="pIcon-list list-btn"></button>
             </div>

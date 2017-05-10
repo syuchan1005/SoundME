@@ -30,8 +30,8 @@ function artClick(index, id) {
             url: `${location.protocol}//${location.host}/albums/${id}`,
             method: "GET"
         }).then(function (response) {
-            $(response.data).find(".album-songs")
-                .insertAfter(`[data-index=${insert}]`);
+            const find = $(response.data).find(".album-songs");
+            find.insertAfter(`[data-index=${insert}]`);
             setSongEvents();
             list.removeClass("loading");
         }).catch(function (error) {

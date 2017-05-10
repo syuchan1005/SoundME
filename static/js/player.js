@@ -25,6 +25,7 @@ document.addEventListener("touchstart", function () {
     document.removeEventListener("touchstart", arguments.callee, false);
 }, false);
 
+let seekBar;
 let audio = new Audio();
 let playing = defaultSongData;
 let isListShow = false;
@@ -32,6 +33,7 @@ let queueList = [];
 let queueIndex = 0;
 
 function audioPlayer() {
+    seekBar  = new SeekBar();
     $(".play-btn").on("click", togglePlay);
     const volume = $(".volume-range");
     const volumeIcon = $(".volume-icon");
@@ -53,23 +55,26 @@ function audioPlayer() {
         volume.val(0);
         volume.trigger("change");
     });
-    const seek = $(".seek-range");
-    seek.on("mousedown", function () {
+    $(window).resize(function () {
+       seekBar._renderSeekBar();
+    });
+    seekBar.addEvent("mousedown", function () {
         audio.pause();
     });
-    seek.on("mouseup", function () {
+    seekBar.addEvent("mouseup", function () {
         if ($(".play-btn").hasClass("pIcon-pause")) {
             audio.play();
         }
     });
-    seek.on("input change", function () {
-        audio.currentTime = $(this).val();
+    seekBar.addEvent("input", function () {
+        audio.currentTime = seekBar.getSeekValue();
     });
     audio.addEventListener('timeupdate', function () {
-        seek.val(audio.currentTime);
+        seekBar.setBufferedAudio(audio.buffered);
+        seekBar.setSeekValue(audio.currentTime);
     });
     audio.addEventListener('durationchange', function () {
-        seek.attr("max", audio.duration);
+        seekBar.setSeekMaxValue(audio.duration);
     });
     audio.addEventListener('ended', nextQueue);
     $(".list-btn").on("click", toggleList);
@@ -140,16 +145,12 @@ function playSound(song) {
     $(".player .album").attr("src", song.thumbnail);
     if (song.audio) {
         audio.src = song.audio.replace("#", "%23");
-        $(".seek-range").val(0);
+        seekBar.setSeekValue(0);
         $(".volume-range").trigger("input");
         if (audio.paused) togglePlay();
     } else {
         audio.src = undefined;
     }
-}
-
-function getPlaying() {
-    return playing;
 }
 
 function togglePlay() {

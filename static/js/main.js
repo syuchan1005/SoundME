@@ -13,15 +13,19 @@ $(document).ready(function () {
     });
     $(window).trigger("page");
     document.addEventListener("touchmove", function (e) {
-        if (!(e.target.classList.contains("scrollable") || $(e.target).parents(".scrollable").length === 1)) {
+        if (!(hasClass("scrollable", e.target) || hasClass("seekbar", e.target))) {
             e.preventDefault();
         }
-    }, false);
+    }, {passive: false});
 });
 
 $(window).on("page", function () {
     $(`.sIcon-${location.pathname.substring(1, location.pathname.length)}`).addClass("active");
 });
+
+function hasClass(className, elem) {
+    return elem.classList.contains(className) || $(elem).parents("." + className).length === 1;
+}
 
 function getSHA256(str) {
     const shaObj = new jsSHA("SHA-256", "TEXT", 1);

@@ -290,7 +290,7 @@ settingRouter
             ctx.response.redirect("/albums");
         } else {
             const body = ctx.request.body;
-            if (ctx.session.userId == body.userid) {
+            if (ctx.session.userId === parseInt(body.userid)) {
                 ctx.body = "can't delete yourself";
                 ctx.status = 400;
             } else {
