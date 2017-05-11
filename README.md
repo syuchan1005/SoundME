@@ -46,14 +46,12 @@
 テーマを自分で作成し使用することも出来ます
  
 # 使い方
+ マシンにffmpegをインストールしてから
  `npm install`して`npm start`してください
  
  logが見たい場合には`DEBUG=soundme`をつけてください
  
- 初期ユーザーは
- ```text
-User: "user"
-Pass: "pass"
-```
-  になっています
+ dockerは[こちら(syuchan1005/soundme)](https://hub.docker.com/r/syuchan1005/soundme/)
+ 
+ adminユーザが存在しないときは自動でアカウントが作成されるのでコンソールを見てください
  
