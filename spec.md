@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS users (
 | track       | 1               | トラック番号                                      |
 | source_path | /music/****.aac | 元のファイルパス                                  |
 | path        | /cache/***.mp3  | ogg mp3 flac wav webmの場合そのまま上をコピーする |
-| view        | ["*"]          | 表示する権限指定                                  |
+| perm        | ["*"]          | 表示する権限指定                                  |
 
 ```text
 CREATE TABLE IF NOT EXISTS songs (
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS songs (
   track INT,
   source_path TEXT UNIQUE,
   path TEXT,
+  perm TEXT DEFAULT '["*"]',
   UNIQUE (title, album)
 )
 ```
@@ -128,7 +129,7 @@ UPDATE settings SET music_path='${music_path}', cnv_src='${src}', default_theme=
 
 ## getSetting
 ```text
-SELECT * FROM settings
+SELECT * FROM settings WHERE version_id = '${this.config.version}'
 ```       
 
 ## getAlbums
@@ -238,6 +239,11 @@ SELECT DISTINCT genre FROM albums
 ## addUser
 ```text
 INSERT INTO users VALUES(NULL, $name, $hash, $role)
+```
+
+## existAdmin
+```text
+SELECT COUNT(role) FROM users WHERE role='admin'
 ```
 
 ## changeRole

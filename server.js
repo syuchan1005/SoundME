@@ -30,6 +30,12 @@ const router = Router();
 const settingRouter = Router();
 const connector = DBConnector.createInstance({type: "sqlite", database: "test.db", version: "0.0.1"});
 connector.createTable();
+if (!connector.existAdmin()) {
+    const user = Util.createRandomString(8);
+    const pass = Util.createRandomString(16);
+    connector.addUserPassword(user, pass, "admin");
+    console.log(`Create First Admin User.\nUserName: ${user}\nPassword: ${pass}\n\u001b[1;31mYou need to create new AdminUser.\u001b[0m\n`);
+}
 const musicLoader = new MusicLoader(process.env.F_PATH, connector);
 const themeLoader = new ThemeLoader(connector);
 themeLoader.loadAllThemes();

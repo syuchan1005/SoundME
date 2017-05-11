@@ -3,6 +3,7 @@
  */
 import DBConnector from "./../DBConnector";
 import sqlite from "sqlite-sync";
+import Util from "./../Util";
 
 class SQLiteImpl {
     constructor(config) {
@@ -28,6 +29,7 @@ class SQLiteImpl {
                   track INT,
                   source_path TEXT UNIQUE,
                   path TEXT,
+                  perm TEXT DEFAULT '["*"]',
                   UNIQUE (title, album)
                 )`);
         db.run(`CREATE TABLE IF NOT EXISTS albums (
@@ -56,7 +58,7 @@ class SQLiteImpl {
     }
 
     getSetting() {
-        return this.db.run("SELECT * FROM settings")[0];
+        return this.db.run(`SELECT * FROM settings WHERE version_id = '${this.config.version}'`)[0];
     }
 
     updateSetting(music_path, src, theme) {
@@ -231,7 +233,7 @@ class SQLiteImpl {
         username = DBConnector.singleQuoteEscape(username);
         password = DBConnector.singleQuoteEscape(password);
         role = DBConnector.singleQuoteEscape(role);
-        this.addUser(username, User.createStorePassword(username, password), role);
+        this.addUser(username, Util.createStorePassword(username, password), role);
     }
 
     addUser(username, hash, role) {
@@ -240,6 +242,10 @@ class SQLiteImpl {
             password: DBConnector.singleQuoteEscape(hash),
             role: DBConnector.singleQuoteEscape(role)
         });
+    }
+
+    existAdmin() {
+        return this.db.run(`SELECT COUNT(role) FROM users WHERE role='admin'`)[0]['COUNT(role)'] >= 1;
     }
 
     changeRole(userId, username, role) {

@@ -99,6 +99,24 @@ class Util {
         const last = str[str.length - 1];
         return str.length > 1 && (last === '/' || (process.platform === 'win32' && last === '\\'));
     }
+
+    static createStorePassword(username, password) {
+        const salt = Util.getSHA256(username);
+        let hash = "";
+        for (let i = 0; i < 10000; i++) {
+            hash = Util.getSHA256(hash + salt + password);
+        }
+        return hash;
+    }
+
+    static createRandomString(length) {
+        const c = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let r = "";
+        for (let i = 0; i < length; i++) {
+            r += c[Math.floor(Math.random() * c.length)];
+        }
+        return r;
+    }
 }
 
 export default Util;
