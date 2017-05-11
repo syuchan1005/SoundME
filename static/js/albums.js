@@ -20,7 +20,9 @@ function artClick(index, id) {
     const list = $("#list");
     if (albums.exists()) {
         albums.remove();
-    } else if (!$(".loading").exists()) {
+        if (albums.find(".album-data").attr("data-albumid") === id) return;
+    }
+    if (!$(".loading").exists()) {
         const row = Math.floor(list.width() / 185);
         before_id = id;
         let insert = ((Math.floor(index / row) + 1) * row) - 1;
