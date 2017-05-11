@@ -16,28 +16,28 @@ $(window).resize(function() {
 });
 
 function artClick(index, id) {
-    const albums = $(".album-songs");
+    let albums = $(".album-songs");
     const list = $("#list");
-    if (albums.exists() || list.hasClass("loading")) {
+    if (albums.exists()) {
         albums.remove();
-    } else {
-        list.addClass("loading");
+    } else if (!$(".loading").exists()) {
         const row = Math.floor(list.width() / 185);
         before_id = id;
         let insert = ((Math.floor(index / row) + 1) * row) - 1;
         insert = Math.min(insert, list.attr("data-count") - 1);
+        albums = $("<div class='album-songs loading'><div></div><div></div><div></div></div>");
+        albums.insertAfter(`[data-index=${insert}]`);
         axios({
             url: `${location.protocol}//${location.host}/albums/${id}`,
             method: "GET"
         }).then(function (response) {
             const find = $(response.data).find(".album-songs");
-            find.insertAfter(`[data-index=${insert}]`);
+            albums.removeClass("loading");
+            albums.html(find.html());
             setSongEvents();
-            list.removeClass("loading");
         }).catch(function (error) {
-            $(`<div class='album-songs' style='color: red'>${error}</div>`)
-                .insertAfter(`[data-index=${insert}]`);
-            list.removeClass("loading");
+            albums.removeClass("loading");
+            albums.html(`<div class='album-songs' style='color: red'>${error}</div>`);
         });
     }
 }

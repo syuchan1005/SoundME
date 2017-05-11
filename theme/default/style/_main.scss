@@ -71,6 +71,41 @@ nav#menu span.active {
     -webkit-overflow-scrolling: touch;
 }
 
+@keyframes loading {
+    33% {
+        transform: translateY(10px);
+    }
+    66% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@mixin loading($n: 3, $start: 1) {
+    @for $i from $start through $n {
+        > div:nth-child(#{$i}) {
+            animation: loading 0.6s #{($n - $i) * 0.06}s infinite ease-in-out;
+        }
+    }
+}
+
+.loading {
+    @include loading();
+    padding: 15px 45%;
+
+    > div {
+        background-color: #585858;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        animation-fill-mode: both;
+        display: inline-block;
+    }
+}
+
 .ellipsis {
     white-space: nowrap;
     overflow: hidden;

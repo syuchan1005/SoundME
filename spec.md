@@ -2,9 +2,6 @@
 test.db.bakにはusersに["user","pass"]のユーザーが入っている
 
 # Front
-## CSS
-class, idの命名規則を"{hbs_name}-{display_info}とする
-
 # DB
 ```text
 CREATE DATABASE IF NOT EXISTS SoundME;
@@ -42,7 +39,7 @@ CREATE TABLE IF NOT EXISTS users (
 | track       | 1               | トラック番号                                      |
 | source_path | /music/****.aac | 元のファイルパス                                  |
 | path        | /cache/***.mp3  | ogg mp3 flac wav webmの場合そのまま上をコピーする |
-| created     | 2017/3/16 13:49 | 時間                                              |
+| view        | ["*"]          | 表示する権限指定                                  |
 
 ```text
 CREATE TABLE IF NOT EXISTS songs (
