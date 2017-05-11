@@ -92,8 +92,14 @@ class SQLiteImpl {
         artist = DBConnector.singleQuoteEscape(artist);
         genre = DBConnector.singleQuoteEscape(genre);
         track_number = DBConnector.singleQuoteEscape(track_number);
-        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number}, NULL)`);
-        return this.db.run(`SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'`)[0]['id'];
+        let newAlbum = true;
+        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number}, NULL)`, function (res) {
+            if (res.error) newAlbum = false;
+        });
+        return {
+            id: this.db.run(`SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'`)[0]['id'],
+            newAlbum: newAlbum
+        }
     }
 
     setAlbumThumbnail(albumId, thumbnail) {

@@ -17,7 +17,11 @@ class Util {
         fs.readdir(dirPath, function (err, files) {
             if (!err) {
                 files.forEach(function (f) {
-                    fs.unlinkSync(`${dirPath}/${f}`);
+                    try {
+                        fs.unlinkSync(`${dirPath}/${f}`);
+                    } catch (e) {
+                        write(e);
+                    }
                 });
             } else {
                 write(err);
