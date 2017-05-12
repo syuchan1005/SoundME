@@ -20,7 +20,8 @@ $(document).ready(function () {
 });
 
 $(window).on("page", function () {
-    $(`.sIcon-${location.pathname.substring(1, location.pathname.length)}`).addClass("active");
+    const split = location.pathname.split("/");
+    $(`.sIcon-${split[split.length - 1]}`).addClass("active");
 });
 
 function hasClass(className, elem) {
@@ -110,10 +111,12 @@ function movePage(url) {
             location.href = `${location.protocol}//${location.host}/`;
             return;
         }
+        parser.href = url;
         $(".active").removeClass("active");
         history.pushState({}, "SoundME", moveLink);
         $("#ctx").html($(response.data).filter("div#ctx").html());
-        $(`.sIcon-${url.substring(1)}`).addClass("active");
+        const split = parser.pathname.split("\/");
+        $(`.sIcon-${split[split.length - 1]}`).addClass("active");
         $(window).trigger("page");
     }).catch(function (e) {
         $("#ctx").html(e);

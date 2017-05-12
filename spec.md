@@ -200,12 +200,13 @@ SELECT
   songs.album      AS album,
   songs.track      AS track,
   songs.path       AS path,
+  songs.perm       AS perm,
   albums.thumbnail AS thumbnail
 FROM songs JOIN albums ON songs.album = albums.id WHERE songs.id = '${id}'
 ```
 ## getFullSongs
 ```text
-SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre FROM songs INNER JOIN albums ON songs.album = albums.id
+SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre,perm FROM songs INNER JOIN albums ON songs.album = albums.id
 ```
 ## addSong
 ```text
@@ -228,12 +229,18 @@ SELECT * FROM users WHERE id='${id}'
 
 ## getArtists
 ```text
-SELECT DISTINCT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist
+/* admin */
+SELECT DISTINCT artist FROM songs
+/* other */
+SELECT DISTINCT artist FROM songs WHERE perm LIKE '%"${role}"%' OR perm LIKE '%"*"%'
 ```
 
 ## getGenres
 ```text
+/* admin */
 SELECT DISTINCT genre FROM albums
+/* other */
+SELECT DISTINCT genre FROM albums WHERE id IN (SELECT DISTINCT album FROM songs WHERE perm LIKE '%"${role}"%' OR perm LIKE '%"*"%')
 ```
 
 ## addUser
@@ -249,6 +256,11 @@ SELECT COUNT(role) FROM users WHERE role='admin'
 ## changeRole
 ```text
 UPDATE users SET role='${role}' WHERE id='${userId}' AND name='${username}'
+```
+
+## changePerm
+```text
+UPDATE songs SET perm='${perm}' WHERE id='${songId}' AND perm='${beforePerm}'
 ```
 
 ## deleteUser

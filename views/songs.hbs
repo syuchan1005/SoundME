@@ -1,5 +1,5 @@
-<script src="/js/songs.js"></script>
 {{#if songs.length}}
+    <script src="/js/songs.js"></script>
     <table class="songs-table scrollable">
         <thead>
         <tr class="songs-header">
@@ -9,6 +9,7 @@
             <th><span>アーティスト</span></th>
             <th><span>アルバム</span></th>
             <th><span>ジャンル</span></th>
+            {{#if role}}<th><span>権限</span></th>{{/if}}
         </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                 <th><span class="songs-artist">{{artist}}</span></th>
                 <th><span class="songs-album" data-albumid="{{album_id}}">{{name}}</span></th>
                 <th class="th-genre"><span class="songs-genre">{{genre}}</span></th>
+                {{#if ../role}}<th class="th-perm"><span>{{perm}}</span></th>{{/if}}
             </tr>
         {{/each}}
         </tbody>

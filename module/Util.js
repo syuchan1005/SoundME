@@ -117,6 +117,12 @@ class Util {
         }
         return r;
     }
+
+    static hasPerm(song, role) {
+        const perm = JSON.parse(song.perm); // song.perm = ["role", "test"]
+        if (perm.includes("*") || role === "admin") return true;
+        return perm.includes(role);
+    }
 }
 
 export default Util;

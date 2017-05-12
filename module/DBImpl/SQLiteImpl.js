@@ -166,6 +166,7 @@ class SQLiteImpl {
           songs.album      AS album,
           songs.track      AS track,
           songs.path       AS path,
+          songs.perm       AS perm,
           albums.thumbnail AS thumbnail
         FROM songs JOIN albums ON songs.album = albums.id WHERE songs.id = '${id}'`);
         if (rows.length !== 1) {
@@ -176,7 +177,7 @@ class SQLiteImpl {
     }
 
     getFullSongs() {
-        return this.db.run(`SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre FROM songs INNER JOIN albums ON songs.album = albums.id`);
+        return this.db.run(`SELECT songs.id as song_id,albums.id as album_id,title,length,songs.artist as artist,name,genre,perm FROM songs INNER JOIN albums ON songs.album = albums.id`);
     }
 
     addSong(title, album_id, track, artist, length, source_path, path) {
@@ -221,12 +222,22 @@ class SQLiteImpl {
         }
     }
 
-    getArtists() {
-        return this.db.run("SELECT DISTINCT artist FROM albums UNION SELECT artist FROM songs ORDER BY artist");
+    getArtists(role) {
+        if (!role) role = "*";
+        if (role === "admin") {
+            return this.db.run(`SELECT DISTINCT artist FROM songs`);
+        } else {
+            return this.db.run(`SELECT DISTINCT artist FROM songs WHERE perm LIKE '%"${role}"%' OR perm LIKE '%"*"%'`);
+        }
     }
 
-    getGenres() {
-        return this.db.run(`SELECT DISTINCT genre FROM albums`);
+    getGenres(role) {
+        if (!role) role = "*";
+        if (role === "admin") {
+            return this.db.run(`SELECT DISTINCT genre FROM albums`);
+        } else {
+            return this.db.run(`SELECT DISTINCT genre FROM albums WHERE id IN (SELECT DISTINCT album FROM songs WHERE perm LIKE '%"${role}"%' OR perm LIKE '%"*"%')`);
+        }
     }
 
     addUserPassword(username, password, role) {
@@ -253,6 +264,10 @@ class SQLiteImpl {
         username = DBConnector.singleQuoteEscape(username);
         role = DBConnector.singleQuoteEscape(role);
         this.db.run(`UPDATE users SET role='${role}' WHERE id='${userId}' AND name='${username}'`);
+    }
+
+    changePerm(songId, perm, beforePerm) {
+        this.db.run(`UPDATE songs SET perm='${perm}' WHERE id='${songId}' AND perm='${beforePerm}'`);
     }
 
     deleteUser(userId, username, role) {

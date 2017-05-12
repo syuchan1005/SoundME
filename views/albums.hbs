@@ -1,6 +1,6 @@
-<script src="/js/albums.js"></script>
-<div id="list" class="scrollable" data-albumcount="{{albums.length}}">
-    {{#if albums.length}}
+{{#if albums.length}}
+    <script src="/js/albums.js"></script>
+    <div id="list" class="scrollable" data-albumcount="{{albums.length}}">
         {{#each albums}}
             <div class="albums-data" data-index={{@index}}>
                 <img src="{{thumbnail}}" width="165" height="165" class="album-art" id="album-{{id}}">
@@ -8,9 +8,9 @@
                 <div class="album-artist ellipsis">{{artist}}</div>
             </div>
         {{/each}}
-    {{else}}
-        <div style="text-align: center; font-size: 20px; margin-top: 40vh">
-            アルバムがありません
-        </div>
-    {{/if}}
-</div>
+    </div>
+{{else}}
+    <div style="text-align: center; font-size: 20px; margin-top: 40vh">
+        アルバムがありません
+    </div>
+{{/if}}

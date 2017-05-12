@@ -1,11 +1,11 @@
-<script src="/js/category.js"></script>
 {{#if list.length}}
+    <script src="/js/category.js"></script>
     <div id="category">
         <div id="category-list" class="scrollable" data-type="{{page}}">
             {{#each list}}
                 <div class="category-item">
                     <img class="album" width="45" height="45" src="/no_art.png">
-                    <div class="ellipsis">{{value}}</div>
+                    <div class="ellipsis">{{this}}</div>
                 </div>
             {{/each}}
         </div>
