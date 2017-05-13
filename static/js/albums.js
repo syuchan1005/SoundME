@@ -1,8 +1,10 @@
 /**
  * Created by syuchan on 2017/03/19.
  */
-$(window).on("page", function() {
-    $(".albums-data img").on("click", function () {
+$(window).off("page.albums");
+$(window).on("page.albums", function() {
+    $(".albums-data img").off("click.albums");
+    $(".albums-data img").on("click.albums", function () {
         const img = $(this);
         artClick(img.parent().prevAll().length, img.attr("id").substring(6));
     });
@@ -24,7 +26,6 @@ function artClick(index, id) {
     }
     if (!$(".loading").exists()) {
         const row = Math.floor(list.width() / 185);
-        before_id = id;
         let insert = ((Math.floor(index / row) + 1) * row) - 1;
         insert = Math.min(insert, list.attr("data-count") - 1);
         albums = $("<div class='album-songs loading'><div></div><div></div><div></div></div>");

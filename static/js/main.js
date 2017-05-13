@@ -19,7 +19,8 @@ $(document).ready(function () {
     }, {passive: false});
 });
 
-$(window).on("page", function () {
+$(window).off("page.main");
+$(window).on("page.main", function () {
     const split = location.pathname.split("/");
     $(`.sIcon-${split[split.length - 1]}`).addClass("active");
 });

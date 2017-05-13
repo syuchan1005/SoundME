@@ -1,11 +1,14 @@
 /**
  * Created by syuchan on 2017/03/24.
  */
-$(window).on("page", function () {
-    $(".add-user").on("click", function () {
+$(window).off("page.setting");
+$(window).on("page.setting", function () {
+    $(".add-user").off("click.setting");
+    $(".add-user").on("click.setting", function () {
         $("#user-form").css("display", "flex");
     });
-    $("#form-add").on("click", function () {
+    $("#form-add").off("click.setting");
+    $("#form-add").on("click.setting", function () {
         const name = $("#form-name").val();
         userExec("POST", {
             username: name,
@@ -14,10 +17,12 @@ $(window).on("page", function () {
         });
         $("#user-form").css("display", "none");
     });
-    $("#form-cancel").on("click", function () {
+    $("#form-cancel").off("click.setting");
+    $("#form-cancel").on("click.setting", function () {
         $("#user-form").css("display", "none");
     });
-    $(".delete-user").on("click", function () {
+    $(".delete-user").off("click.setting");
+    $(".delete-user").on("click.setting", function () {
         const parent = $(this).parent();
         const id = parent.attr("data-userid");
         const name = parent.find(".user-name").text();
@@ -28,7 +33,8 @@ $(window).on("page", function () {
             role: role
         });
     });
-    $("#theme-upload").on("click", function () {
+    $("#theme-upload").off("click.setting");
+    $("#theme-upload").on("click.setting", function () {
         axios({
             url: `${location.protocol}//${location.host}/setting/theme`,
             method: "POST",
@@ -37,7 +43,8 @@ $(window).on("page", function () {
             location.reload();
         });
     });
-    $("#submit").on("click", function () {
+    $("#submit").off("click.setting");
+    $("#submit").on("click.setting", function () {
         let src_format = [];
         $(".src-input-setting")
             .find("[data-format]")
@@ -59,7 +66,8 @@ $(window).on("page", function () {
             location.reload();
         });
     });
-    $("#update").on("click", function () {
+    $("#update").off("click.setting");
+    $("#update").on("click.setting", function () {
         const socket = new WebSocket(((location.protocol === "http:") ? "ws:" : "wss:") + "//" + location.host + "/setting/load");
         socket.onopen = function (event) {
             $("#update-progress").css("display", "block");
@@ -77,7 +85,8 @@ $(window).on("page", function () {
             }
         };
     });
-    $("#risky").find("button").on("click", function () {
+    $("#risky").find("button").off("click.setting");
+    $("#risky").find("button").on("click.setting", function () {
         axios({
             url: `${location.protocol}//${location.host}/setting/reset/${$(this).attr("data-type")}`,
             method: "DELETE"
