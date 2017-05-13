@@ -6,8 +6,6 @@
     "start": "babel-node server.js"
   },
   "dependencies": {
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-es2017": "^6.22.0",
     "debug": "^2.6.3",
     "extract-zip": "^1.6.0",
     "fluent-ffmpeg": "^2.0.1",
@@ -24,10 +22,11 @@
     "koa-unless": "^1.0.0",
     "koa-websocket": "^3.0.1",
     "node-sass": "^4.5.2",
-    "sqlite-sync": "^0.3.6",
-    "sqlite3": "^3.1.8"
+    "sqlite-sync": "^0.3.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1"
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2017": "^6.22.0"
   }
 }
