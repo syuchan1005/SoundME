@@ -5,7 +5,7 @@ $(window).on("page", function () {
     $(".category-item").on("click", function () {
         const item = $(this);
         axios({
-            url: `${location.protocol}//${location.host}/${item.parent().attr("data-type")}/${item.find("div").text()}`,
+            url: `${location.protocol}//${location.host}${location.pathname}/${item.find("div").text()}`,
             method: "GET"
         }).then(function (response) {
             const album = $("#category-album");

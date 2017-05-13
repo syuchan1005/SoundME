@@ -158,49 +158,41 @@ router.get("/category/:type", async function (ctx) {
     });
 });
 
-router.get("/genre/:name", async function (ctx) {
-    const genre = ctx.params.name;
+router.get("/category/:type/:name", async function (ctx) {
+    const user = connector.getUser(ctx.session.userId);
     const data = {
         theme: connector.getThemeFolder(ctx.session.theme),
         role: connector.getUser(ctx.session.userId).role === "admin",
         data: []
     };
-    const user = connector.getUser(ctx.session.userId);
-    connector.getGenreAlbums(genre).forEach((album) => {
-        const songs = connector.getAlbumSongs(album.id).filter((e) => Util.hasPerm(e, user.role));
-        if (songs.length !== 0) {
-            if (album.thumbnail !== "/no_art.png") album.thumbnail = MusicLoader.insertBeforeExt(album.thumbnail, "_big");
-            data.data.push({
-                album: album,
-                songs: songs
-            })
-        }
-    });
-    ctx.body = await ctx.renderView("category-album", data);
-});
-
-router.get("/artist/:name", async function (ctx) {
-    const user = connector.getUser(ctx.session.userId);
-    const artist = ctx.params.name;
-    const albumIds = connector.getArtistAlbums(artist).map((v) => v.id);
-    const artistSongs = connector.getArtistSongs(artist).filter((e) => Util.hasPerm(e, user.role)).filter((e) => !albumIds.includes(e.album));
-    const data = {
-        theme: connector.getThemeFolder(ctx.session.theme),
-        role: user.role === "admin",
-        data: []
-    };
-    artistSongs.sort((s1, s2) => s1.id - s2.id);
-    artistSongs.forEach((songData) => {
-        const albumData = data.data[data.data.length - 1];
-        if (albumData !== undefined && albumData.album.id === songData.album) {
-            albumData.songs.push(songData);
-        } else {
-            const albumData = connector.getAlbum(songData.album);
-            if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
-            data.data.push({album: albumData, songs: [songData]});
-        }
-    });
-    data.data.sort((s1, s2) => Util.katakanaToHiragana(s1.album.name).localeCompare(Util.katakanaToHiragana(s2.album.name)));
+    if (ctx.params.type === "artist") {
+        connector.getArtistSongs(ctx.params.name)
+            .filter((e) => Util.hasPerm(e, user.role))
+            .sort((s1, s2) => s1.id - s2.id)
+            .forEach((songData) => {
+                    const albumData = data.data[data.data.length - 1];
+                    if (albumData !== undefined && albumData.album.id === songData.album) {
+                        albumData.songs.push(songData);
+                    } else {
+                        const albumData = connector.getAlbum(songData.album);
+                        if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
+                        data.data.push({album: albumData, songs: [songData]});
+                    }
+                }
+            );
+        data.data.sort((s1, s2) => Util.katakanaToHiragana(s1.album.name).localeCompare(Util.katakanaToHiragana(s2.album.name)));
+    } else {
+        connector.getGenreAlbums(ctx.params.name).forEach((album) => {
+            const songs = connector.getAlbumSongs(album.id).filter((e) => Util.hasPerm(e, user.role));
+            if (songs.length !== 0) {
+                if (album.thumbnail !== "/no_art.png") album.thumbnail = MusicLoader.insertBeforeExt(album.thumbnail, "_big");
+                data.data.push({
+                    album: album,
+                    songs: songs
+                })
+            }
+        });
+    }
     ctx.body = await ctx.renderView("category-album", data);
 });
 
