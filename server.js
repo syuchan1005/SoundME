@@ -182,29 +182,17 @@ router.get("/genre/:name", async function (ctx) {
 router.get("/artist/:name", async function (ctx) {
     const user = connector.getUser(ctx.session.userId);
     const artist = ctx.params.name;
-    const artistAlbums = connector.getArtistAlbums(artist);
-    const albumIds = artistAlbums.map((v) => v.id);
+    const albumIds = connector.getArtistAlbums(artist).map((v) => v.id);
     const artistSongs = connector.getArtistSongs(artist).filter((e) => Util.hasPerm(e, user.role)).filter((e) => !albumIds.includes(e.album));
     const data = {
         theme: connector.getThemeFolder(ctx.session.theme),
         role: user.role === "admin",
         data: []
     };
-    artistAlbums.forEach((albumData) => {
-        const songs = connector.getAlbumSongs(albumData.id).filter((e) => Util.hasPerm(e, user.role));
-        if (songs.length !== 0) {
-            if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
-            data.data.push({
-                album: albumData,
-                songs: songs
-            })
-        }
-    });
     artistSongs.sort((s1, s2) => s1.id - s2.id);
     artistSongs.forEach((songData) => {
         const albumData = data.data[data.data.length - 1];
         if (albumData !== undefined && albumData.album.id === songData.album) {
-            if (albumData.thumbnail !== "/no_art.png") albumData.thumbnail = MusicLoader.insertBeforeExt(albumData.thumbnail, "_big");
             albumData.songs.push(songData);
         } else {
             const albumData = connector.getAlbum(songData.album);
