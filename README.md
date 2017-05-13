@@ -4,7 +4,7 @@
  
 # どんな感じなの？
    iTunesライクな感じのデザインです  
-   [Demo](http://test.magitech.xyz)  <- ちょっと重たいかも
+   [Demo](https://sound.magitech.xyz)  <- ちょっと重たいかも
    ```text
 UserName: user
 Password: pass
