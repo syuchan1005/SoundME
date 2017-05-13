@@ -24,7 +24,6 @@ body {
     margin-top: 10%;
     color: white;
     font-size: 10vh;
-    text-shadow: 5px 5px 3px rgba(100, 100, 100, 1);
 }
 
 @media screen and (max-width: 640px) {
@@ -41,8 +40,9 @@ body {
 .login {
     padding: 30px;
     background: rgba(85, 85, 85, 0.5);
-    margin: 20vh auto;
+    margin: 18vh auto;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.22);
+    max-width: 600px;
 }
 
 #login-btn {

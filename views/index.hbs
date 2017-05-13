@@ -33,34 +33,6 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="/js/sha256.js"></script>
         <script>
-            function sendClick() {
-                const name = document.getElementById("name").value;
-                const pass = document.getElementById("pass").value;
-                if (name && pass) {
-                    axios({
-                        url: location.href,
-                        method: "POST",
-                        data: {
-                            name: name,
-                            passhash: createHash(name, pass)
-                        }
-                    }).then(function (response) {
-                        location.reload();
-                    }).catch(function (error) {
-                        document.getElementById("warnText").style.display = "inline";
-                    });
-                }
-            }
-
-            function createHash(username, password) {
-                const salt = getSHA256(username);
-                let hash = "";
-                for (let i = 0; i < 10000; i++) {
-                    hash = getSHA256(hash + salt + password);
-                }
-                return hash;
-            }
-
             function getSHA256(str) {
                 const shaObj = new jsSHA("SHA-256", "TEXT", 1);
                 shaObj.update(str);
@@ -72,9 +44,38 @@
                     dotColor: '#ffffff',
                     lineColor: '#ffffff'
                 });
+                const loginButton = document.getElementById("login-btn");
+                loginButton.addEventListener("click", function () {
+                    const name = document.getElementById("name").value;
+                    const pass = document.getElementById("pass").value;
+                    if (name && pass) {
+                        const salt = getSHA256(name);
+                        let hash = "";
+                        for (let i = 0; i < 10000; i++) {
+                            hash = getSHA256(hash + salt + pass);
+                        }
+                        axios({
+                            url: location.href,
+                            method: "POST",
+                            data: {
+                                name: name,
+                                passhash: hash
+                            }
+                        }).then(function (response) {
+                            location.reload();
+                        }).catch(function (error) {
+                            document.getElementById("warnText").style.display = "inline";
+                        });
+                    }
+                }, false);
+                document.getElementById("pass").addEventListener("keydown", function () {
+                    if(window.event.keyCode === 13) {
+                        loginButton.click();
+                    }
+                }, false);
             });
 
-            window.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
+            window.addEventListener("touchmove", (e) => e.preventDefault(), {passive: false});
         </script>
     </head>
 
@@ -88,7 +89,7 @@
                 <div id="warnText">Username or Password incorrect</div>
                 <input type="text" title="username" id="name" placeholder="UserName">
                 <input type="password" title="password" id="pass" placeholder="Password">
-                <button onclick="sendClick()" id="login-btn">ログイン</button>
+                <button id="login-btn">ログイン</button>
             </div>
         </div>
     </body>
