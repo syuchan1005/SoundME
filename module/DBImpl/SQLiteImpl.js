@@ -54,6 +54,7 @@ class SQLiteImpl {
                   cnv_src TEXT NOT NULL,
                   default_theme TEXT NOT NULL
                 )`);
+        db.run(`INSERT INTO settings SELECT '${this.config.version}', music_path, cnv_src, default_theme FROM settings ORDER BY version_id DESC LIMIT 1`);
         db.run(`INSERT INTO settings VALUES ('${this.config.version}', '/music', 'OGG,AAC,FLAC,WMA,OTHER', 'DEFAULT')`);
     }
 

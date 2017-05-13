@@ -28,7 +28,7 @@ import Util from "./module/Util";
 const app = websockify(new Koa());
 const router = Router();
 const settingRouter = Router();
-const connector = DBConnector.createInstance({type: "sqlite", database: "test.db", version: "0.0.1"});
+const connector = DBConnector.createInstance({type: "sqlite", database: "test.db", version: "1.0.0"});
 connector.createTable();
 if (!connector.existAdmin()) {
     const user = Util.createRandomString(8);
