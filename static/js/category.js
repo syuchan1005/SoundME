@@ -10,16 +10,25 @@ $(window).on("page", function () {
         }).then(function (response) {
             const album = $("#category-album");
             album.html($(response.data).filter("div#ctx").html());
-            if ($(".back-btn").css("display") !== "none") {
+            const backButton = $(".back-btn");
+            if (backButton.css("display") !== "none") {
                 album.css("display", "inline");
                 $("#category-list").css("display", "none");
                 $(window).trigger("page");
             }
             setSongEvents();
+            backButton.on("click", function () {
+                $("#category-album").css("display", "none");
+                $("#category-list").css("display", "block");
+            });
         });
     });
-    $(".back-btn").on("click", function () {
-        $("#category-album").css("display", "none");
-        $("#category-list").css("display", "inline");
-    });
+});
+
+$(window).on("resize", function () {
+    if ($(".back-btn").css("display") === "none" && $("#category-list").css("display") === "none") {
+        $("#category-list").css("display", "block");
+    } else if ($(".back-btn").css("display") === "inline" && $("#category-list").css("display") === "block") {
+        $("#category-list").css("display", "none");
+    }
 });

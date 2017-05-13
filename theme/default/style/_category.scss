@@ -24,7 +24,7 @@
     display: none;
 }
 
-@include mobile() {
+@include max-screen($breakpoint-tablet) {
     #category-list {
         width: 100%;
     }
@@ -33,7 +33,6 @@
         width: 100%;
         z-index: 2;
         display: none;
-        margin-top: 25px;
     }
 
     .back-btn {
@@ -41,7 +40,7 @@
         border: solid 1px #555555;
         border-left: none;
         padding: 4px 16px;
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
     }
