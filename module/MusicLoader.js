@@ -80,6 +80,7 @@ class MusicLoader {
 
     convertMusic(srcPath, progressFunc) {
         return new Promise(function (resolve, reject) {
+            fs.mkdirSync(Path.join(__dirname, "../static/cache"), 509);
             const output = Path.join(__dirname, `./../static/cache/${Util.getSHA256(srcPath)}.mp3`);
             const f = ffmpeg.clone()
                 .noVideo()
@@ -97,6 +98,7 @@ class MusicLoader {
 
     createThumbnail(srcPath, outPath) {
         return new Promise(function (resolve, reject) {
+            fs.mkdirSync(Path.join(__dirname, "../static/thumbnail"), 509);
             ffmpeg.clone()
                 .noAudio()
                 .input(srcPath)
