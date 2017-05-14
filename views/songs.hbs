@@ -1,31 +1,37 @@
 {{#if songs.length}}
     <script src="/js/songs.js"></script>
-    <table class="songs-table scrollable">
-        <thead>
-        <tr class="songs-header">
-            <th><span>&nbsp;</span></th>
-            <th><span>名前</span></th>
-            <th><span>時間</span></th>
-            <th><span>アーティスト</span></th>
-            <th><span>アルバム</span></th>
-            <th><span>ジャンル</span></th>
-            {{#if role}}<th><span>権限</span></th>{{/if}}
-        </tr>
-        </thead>
-        <tbody>
-        {{#each songs}}
-            <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}">
-                <th class="th-icon"><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
-                <th><span class="songs-title">{{title}}</span></th>
-                <th class="th-length"><span class="songs-length">{{min}}:{{sec}}</span></th>
-                <th><span class="songs-artist">{{artist}}</span></th>
-                <th><span class="songs-album" data-albumid="{{album_id}}">{{name}}</span></th>
-                <th class="th-genre"><span class="songs-genre">{{genre}}</span></th>
-                {{#if ../role}}<th class="th-perm"><span>{{perm}}</span></th>{{/if}}
+    <div class="songs-head">
+        <table class="songs-table">
+            <thead>
+            <tr class="songs-header">
+                <th class="th-icon"><span>&nbsp;</span></th>
+                <th><span>名前</span></th>
+                <th class="th-length"><span>時間</span></th>
+                <th><span>アーティスト</span></th>
+                <th><span>アルバム</span></th>
+                <th class="th-genre"><span>ジャンル</span></th>
+                {{#if role}}<th class="th-perm"><span>権限</span></th>{{/if}}
             </tr>
-        {{/each}}
-        </tbody>
-    </table>
+            </thead>
+        </table>
+    </div>
+    <div class="songs-body scrollable">
+        <table class="songs-table">
+            <tbody>
+            {{#each songs}}
+                <tr class="songs-data" data-songindex="{{@index}}" data-songid="{{song_id}}">
+                    <th class="th-icon"><span class="songs-icon" data-content="&nbsp;&nbsp;"></span></th>
+                    <th><span class="songs-title">{{title}}</span></th>
+                    <th class="th-length"><span class="songs-length">{{min}}:{{sec}}</span></th>
+                    <th><span class="songs-artist">{{artist}}</span></th>
+                    <th><span class="songs-album" data-albumid="{{album_id}}">{{name}}</span></th>
+                    <th class="th-genre"><span class="songs-genre">{{genre}}</span></th>
+                    {{#if ../role}}<th class="th-perm"><span>{{perm}}</span></th>{{/if}}
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
 {{else}}
     <div style="text-align: center; font-size: 20px; margin-top: 40vh">
         曲がありません
