@@ -26,11 +26,13 @@ class MusicLoader {
         const convertMusic = this.convertMusic;
         const createThumbnail = this.createThumbnail;
         const getMetadata = this.getMetadata;
+        const isAudioFile = this.isAudioFile;
         return new Promise(async function (resolve, reject) {
             Util.getFilesRecursive(musicDir, async function (err, files) {
                 const fpp = 100.0 / files.length;
                 for (let i = 0; i < files.length; i++) {
                     const path = files[i];
+                    if (!await isAudioFile(path)) continue;
                     const f = Util.normalizePath(Path.relative(musicDir, path));
                     wsSend("GetMeta", fpp * i + fpp * 0.1, f, 10);
                     const format = (await getMetadata(path)).format;
@@ -148,8 +150,19 @@ class MusicLoader {
         });
     }
 
+    isAudioFile(srcPath) {
+        return new Promise(function (resolve, reject) {
+           ffmpeg.clone()
+               .input(srcPath)
+               .ffprobe(function (err, data) {
+                   if (err) reject(err);
+                   resolve(data.streams[0].codec_type === "audio");
+               })
+        });
+    }
+
     static insertBeforeExt(path, insertStr) {
-        if (path == undefined) return path;
+        if (path === undefined) return path;
         const ext = Path.extname(path);
         return `${Path.dirname(path)}/${Path.basename(path, ext)}${insertStr}${ext}`;
     }
