@@ -2,17 +2,18 @@
  * Created by syuchan on 2017/03/19.
  */
 $(window).off("page.albums");
-$(window).on("page.albums", function() {
-    $(".albums-data img").off("click.albums");
-    $(".albums-data img").on("click.albums", function () {
-        const img = $(this);
-        artClick(img.parent().prevAll().length, img.attr("id").substring(6));
-    });
+$(window).on("page.albums", function () {
+    $(".album-art")
+        .off("click.albums")
+        .on("click.albums", function () {
+            const img = $(this);
+            artClick(img.parent().prevAll().length, img.attr("id").substring(6));
+        });
     alignAlbum();
 });
 
 var timer = false;
-$(window).resize(function() {
+$(window).resize(function () {
     if (timer !== false) clearTimeout(timer);
     timer = setTimeout(alignAlbum, 200);
 });

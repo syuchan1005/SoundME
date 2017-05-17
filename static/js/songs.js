@@ -3,8 +3,7 @@
  */
 $(window).off("page.songs");
 $(window).on("page.songs", function () {
-    $(".songs-data").off("click.songs");
-    $(".songs-data").on("click.songs", function () {
+    $(".songs-data").off("click.songs").on("click.songs", function () {
         const id = $(this).attr("data-songid");
         $(`.songs-icon[data-content=${PlayerIcon.MEDIUM}]`).attr("data-content", "  ");
         const $this = $(`[data-songid="${id}"]`);
@@ -23,8 +22,7 @@ $(window).on("page.songs", function () {
             setQueue(songs.concat(values));
         });
     });
-    $(".th-perm").off("click.songs");
-    $(".th-perm").on("click.songs", function () {
+    $(".th-perm").off("click.songs").on("click.songs", function () {
         const $this = $(this);
         const perm = $this.find("span").html();
         const input = window.prompt('Permission(default ["*"](json array))', perm);

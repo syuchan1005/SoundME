@@ -3,8 +3,9 @@
  */
 $(window).off("page.category");
 $(window).on("page.category", function () {
-    $(".category-item").off("click.category");
-    $(".category-item").on("click.category", function () {
+    $(".category-item")
+        .off("click.category")
+        .on("click.category", function () {
         const item = $(this);
         axios({
             url: `${location.protocol}//${location.host}${location.pathname}/${item.find("div").text()}`,
@@ -29,9 +30,11 @@ $(window).on("page.category", function () {
 
 $(window).off("resize.category");
 $(window).on("resize.category", function () {
-    if ($(".back-btn").css("display") === "none" && $("#category-list").css("display") === "none") {
-        $("#category-list").css("display", "block");
-    } else if ($(".back-btn").css("display") === "inline" && $("#category-list").css("display") === "block") {
-        $("#category-list").css("display", "none");
+    const list = $("#category-list");
+    const btn = $(".back-btn");
+    if (btn.css("display") === "none" && list.css("display") === "none") {
+        list.css("display", "block");
+    } else if (btn.css("display") === "inline" && list.css("display") === "block") {
+        list.css("display", "none");
     }
 });

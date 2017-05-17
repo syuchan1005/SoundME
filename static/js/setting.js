@@ -3,12 +3,10 @@
  */
 $(window).off("page.setting");
 $(window).on("page.setting", function () {
-    $(".add-user").off("click.setting");
-    $(".add-user").on("click.setting", function () {
+    $(".add-user").off("click.setting").on("click.setting", function () {
         $("#user-form").css("display", "flex");
     });
-    $("#form-add").off("click.setting");
-    $("#form-add").on("click.setting", function () {
+    $("#form-add").off("click.setting").on("click.setting", function () {
         const name = $("#form-name").val();
         userExec("POST", {
             username: name,
@@ -17,12 +15,10 @@ $(window).on("page.setting", function () {
         });
         $("#user-form").css("display", "none");
     });
-    $("#form-cancel").off("click.setting");
-    $("#form-cancel").on("click.setting", function () {
+    $("#form-cancel").off("click.setting").on("click.setting", function () {
         $("#user-form").css("display", "none");
     });
-    $(".delete-user").off("click.setting");
-    $(".delete-user").on("click.setting", function () {
+    $(".delete-user").off("click.setting").on("click.setting", function () {
         const parent = $(this).parent();
         const id = parent.attr("data-userid");
         const name = parent.find(".user-name").text();
@@ -33,8 +29,7 @@ $(window).on("page.setting", function () {
             role: role
         });
     });
-    $("#theme-upload").off("click.setting");
-    $("#theme-upload").on("click.setting", function () {
+    $("#theme-upload").off("click.setting").on("click.setting", function () {
         axios({
             url: `${location.protocol}//${location.host}/setting/theme`,
             method: "POST",
@@ -43,8 +38,7 @@ $(window).on("page.setting", function () {
             location.reload();
         });
     });
-    $("#submit").off("click.setting");
-    $("#submit").on("click.setting", function () {
+    $("#submit").off("click.setting").on("click.setting", function () {
         let src_format = [];
         $(".src-input-setting")
             .find("[data-format]")
@@ -66,8 +60,7 @@ $(window).on("page.setting", function () {
             location.reload();
         });
     });
-    $("#update").off("click.setting");
-    $("#update").on("click.setting", function () {
+    $("#update").off("click.setting").on("click.setting", function () {
         const socket = new WebSocket(((location.protocol === "http:") ? "ws:" : "wss:") + "//" + location.host + "/setting/load");
         socket.onopen = function (event) {
             $("#update-progress").css("display", "block");
@@ -85,8 +78,7 @@ $(window).on("page.setting", function () {
             }
         };
     });
-    $("#risky").find("button").off("click.setting");
-    $("#risky").find("button").on("click.setting", function () {
+    $("#risky").find("button").off("click.setting").on("click.setting", function () {
         axios({
             url: `${location.protocol}//${location.host}/setting/reset/${$(this).attr("data-type")}`,
             method: "DELETE"

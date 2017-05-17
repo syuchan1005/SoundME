@@ -33,9 +33,10 @@ let queueList = [];
 let queueIndex = 0;
 
 function audioPlayer() {
-    seekBar  = new SeekBar();
-    $(".play-btn").off("click.audio");
-    $(".play-btn").on("click.audio", togglePlay);
+    seekBar = new SeekBar();
+    $(".play-btn")
+        .off("click.audio")
+        .on("click.audio", togglePlay);
     const volume = $(".volume-range");
     const volumeIcon = $(".volume-icon");
     volume.on("input change", function () {
@@ -57,7 +58,7 @@ function audioPlayer() {
         volume.trigger("change");
     });
     $(window).resize(function () {
-       seekBar._renderSeekBar();
+        seekBar._renderSeekBar();
     });
     seekBar.addEvent("mousedown", function () {
         audio.pause();
@@ -78,15 +79,11 @@ function audioPlayer() {
         seekBar.setSeekMaxValue(audio.duration);
     });
     audio.addEventListener('ended', nextQueue);
-    $(".list-btn").off("click.audio");
-    $(".list-btn").on("click.audio", toggleList);
-    $(".forward-btn").off("click.audio");
-    $(".forward-btn").on("click.audio", nextQueue);
-    $(".backward-btn").off("click.audio");
-    $(".backward-btn").on("click.audio", backQueue);
-    $(".album-mask").off("click.audio");
-    $(".album-mask").on("click.audio", function () {
-       window.open("https://twitter.com/intent/tweet?text="+ encodeURIComponent(`#NowPlaying\n${playing.title} - ${playing.artist}\nSoundME - ${location.protocol + "//" + location.host}`));
+    $(".list-btn").off("click.audio").on("click.audio", toggleList);
+    $(".forward-btn").off("click.audio").on("click.audio", nextQueue);
+    $(".backward-btn").off("click.audio").on("click.audio", backQueue);
+    $(".album-mask").off("click.audio").on("click.audio", function () {
+        window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(`#NowPlaying\n${playing.title} - ${playing.artist}\nSoundME - ${location.protocol + "//" + location.host}`));
     });
 }
 
