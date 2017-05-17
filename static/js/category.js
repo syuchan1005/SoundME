@@ -11,7 +11,7 @@ $(window).on("page.category", function () {
             method: "GET"
         }).then(function (response) {
             const album = $("#category-album");
-            album.html($(response.data).filter("div#ctx").html());
+            album.find(".scrollable").html($(response.data).filter("div#ctx").html());
             const backButton = $(".back-btn");
             if (backButton.css("display") !== "none") {
                 album.css("display", "inline");
