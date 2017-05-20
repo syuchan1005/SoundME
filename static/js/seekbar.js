@@ -18,6 +18,7 @@ function SeekBar() {
             instance.setSeekValue(e.offsetX / $seekbar.width() * instance.maxValue);
             instance.thumbSeeking = true;
             instance._trigger('mousedown');
+            instance._trigger('input');
         }
     });
     $document.on("mousemove touchmove", function (e) {
