@@ -4,7 +4,12 @@
 $.fn.hasScrollBar = function () {
     return this.get(0).scrollHeight > this.get(0).clientHeight;
 };
-$.fn.exists = function(){return Boolean(this.length > 0);}
+$.fn.exists = function () {
+    return Boolean(this.length > 0);
+};
+$.fn.hasAttribute = function (attr) {
+    return this[0].hasAttribute(attr);
+};
 
 $(document).ready(function () {
     audioPlayer();

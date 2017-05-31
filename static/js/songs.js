@@ -3,10 +3,10 @@
  */
 $(window).off("page.songs");
 $(window).on("page.songs", function () {
-    $(".songs-data").off("click.songs").on("click.songs", function () {
-        const id = $(this).attr("data-songid");
+    $(".songs-data").off("click.songs").on("click.songs", function (e) {
+        const $this = $(this);
+        const id = $this.attr("data-songid");
         $(`.songs-icon[data-content=${PlayerIcon.MEDIUM}]`).attr("data-content", "  ");
-        const $this = $(`[data-songid="${id}"]`);
         $this.find(".songs-icon").attr("data-content", PlayerIcon.MEDIUM);
         const album = $this.find(".songs-album");
         let songs;
@@ -22,7 +22,7 @@ $(window).on("page.songs", function () {
             setQueue(songs.concat(values));
         });
     });
-    $(".th-perm").off("click.songs").on("click.songs", function () {
+    $(".th-perm").off("contextmenu.songs").on("contextmenu.songs", function () {
         const $this = $(this);
         const perm = $this.find("span").html();
         const input = window.prompt('Permission(default ["*"](json array))', perm);

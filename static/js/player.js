@@ -123,8 +123,13 @@ function nextQueue() {
     if (queueIndex === queueList.length) {
         playSound(defaultSongData);
     } else {
+        let icon = $(`[data-songid="${playing.id}"]`).find(".song-track, .songs-icon");
+        icon.attr("data-content", icon.hasAttribute("data-track") ? icon.attr("data-track") : "  ");
         queueIndex++;
         playSound(queueList[queueIndex]);
+        $(`[data-songid="${playing.id}"]`)
+            .find(".song-track, .songs-icon")
+            .attr("data-content", PlayerIcon.MEDIUM);
     }
     _renderQueue();
 }
