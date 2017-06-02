@@ -15,7 +15,7 @@
 }
 
 .songs-body {
-    height: calc(100% - 1rem);
+    max-height: calc(100% - 1rem);
 }
 
 .songs-table tbody {
