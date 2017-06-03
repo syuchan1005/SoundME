@@ -67,8 +67,11 @@ class MusicLoader {
                     wsSend("AddAlbum", fpp * i + fpp * 0.4, f, 40);
                     const album = connector.addAlbum(meta.album, meta.album_artist, meta.genre, meta.track.split("/")[1]);
                     wsSend("CreateThumbnail", fpp * i + fpp * 0.6, f, 60);
-                    if (album.newAlbum) {
-                        const thumbnail = await createThumbnail(path, Path.join(__dirname, `../static/thumbnail/${Util.getSHA256(`${meta.album}_${album.id}`)}.png`));
+                    const thumbnailPath = Path.join(__dirname, `../static/thumbnail/${Util.getSHA256(`${meta.album}`)}.png`);
+                    try {
+                        fs.statSync(thumbnailPath)
+                    } catch (e) {
+                        const thumbnail = await createThumbnail(path, thumbnailPath);
                         connector.setAlbumThumbnail(album.id, (thumbnail === "no_art.png") ? "/no_art.png" : `/thumbnail/${thumbnail}`);
                     }
                     wsSend("AddSong", fpp * i + fpp * 0.8, f, 80);

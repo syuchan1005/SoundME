@@ -95,13 +95,9 @@ class SQLiteImpl {
         artist = DBConnector.singleQuoteEscape(artist);
         genre = DBConnector.singleQuoteEscape(genre);
         track_number = DBConnector.singleQuoteEscape(track_number);
-        let newAlbum = true;
-        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number}, NULL)`, function (res) {
-            if (res.error) newAlbum = false;
-        });
+        this.db.run(`INSERT INTO albums VALUES(NULL, '${album_name}', '${artist}', '${genre}', ${track_number}, NULL)`);
         return {
             id: this.db.run(`SELECT id FROM albums WHERE name='${album_name}' AND artist='${artist}'`)[0]['id'],
-            newAlbum: newAlbum
         }
     }
 
