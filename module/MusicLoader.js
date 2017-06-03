@@ -68,9 +68,7 @@ class MusicLoader {
                     const album = connector.addAlbum(meta.album, meta.album_artist, meta.genre, meta.track.split("/")[1]);
                     wsSend("CreateThumbnail", fpp * i + fpp * 0.6, f, 60);
                     const thumbnailPath = Path.join(__dirname, `../static/thumbnail/${Util.getSHA256(`${meta.album}`)}.png`);
-                    try {
-                        fs.statSync(thumbnailPath)
-                    } catch (e) {
+                    if (!fs.existsSync(thumbnailPath)) {
                         const thumbnail = await createThumbnail(path, thumbnailPath);
                         connector.setAlbumThumbnail(album.id, (thumbnail === "no_art.png") ? "/no_art.png" : `/thumbnail/${thumbnail}`);
                     }
