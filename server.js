@@ -40,6 +40,12 @@ const musicLoader = new MusicLoader(process.env.F_PATH, connector);
 const themeLoader = new ThemeLoader(connector);
 themeLoader.loadAllThemes();
 const write = debug("soundme");
+Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+    if(v1 === v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 let hbsIndex;
 fs.readFile(Path.join(__dirname, "views", "index.hbs"), 'utf8', function (err, data) {
     hbsIndex = Handlebars.compile(data);
@@ -51,7 +57,7 @@ app.use(bodyParser());
 
 app.use(session({key: 'SoundME'}, app));
 
-app.use(hbs({defaultLayout: 'main'}));
+app.use(hbs({defaultLayout: 'main', handlebars: Handlebars}));
 
 let idCheck = async function (ctx, next) {
     if (ctx.session.userId || Path.basename(ctx.url) === "icon.png" ||
@@ -211,7 +217,7 @@ settingRouter
             theme: connector.getThemeFolder(ctx.session.theme),
             role: connector.getUser(ctx.session.userId).role === "admin",
             users: connector.getUsers(),
-            music_path: setting.music_path,
+            setting: setting,
             themes: connector.getThemes(),
             src_mp3: cnvSrc.includes("MP3"),
             src_ogg: cnvSrc.includes("OGG"),

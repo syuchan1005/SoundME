@@ -31,7 +31,7 @@
     <div id="send-data">
         <span class="setting">Path</span>
         <div>
-            <label for="music-path">MusicPath</label><input type="text" id="music-path" value="{{ music_path }}">
+            <label for="music-path">MusicPath</label><input type="text" id="music-path" value="{{ setting.music_path }}">
         </div>
 
         <span class="setting">Theme</span>
@@ -41,9 +41,9 @@
                 <input type="button" id="theme-upload" value="Upload"/>
             </form>
             <span>現在のテーマ:</span>
-            <select name="default-theme" size="1">
+            <select name="default-theme" id="theme-name" size="1">
                 {{#each themes}}
-                    <option value="{{name}}">{{name}}</option>
+                    <option {{#ifCond name ../setting.default_theme}}selected{{/ifCond}} value="{{name}}">{{name}}</option>
                 {{/each}}
             </select>
         </div>
