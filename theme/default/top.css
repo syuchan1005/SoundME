@@ -23,13 +23,7 @@ body {
 #logo {
     margin-top: 10%;
     color: white;
-    font-size: 10vh;
-}
-
-@media screen and (max-width: 640px) {
-    #logo {
-        margin-top: 15%;
-    }
+    font-size: 5rem;
 }
 
 #warnText {

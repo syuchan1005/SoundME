@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
         <meta charset="UTF-8">
+
+        <link rel="manifest" href="/manifest.json">
+        <script>
+            window.addEventListener('load', function() {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register("/sw.js", {scope: "./"})
+                            .then(function(registration) {
+                                console.log("serviceWorker registed.");
+                            }).catch(function(error) {
+                        console.warn("serviceWorker error.", error);
+                    });
+                }
+            });
+        </script>
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, maximum-scale=5">
+
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="shortcut icon" sizes="196x196" href="/icon.png">
         <link rel="apple-touch-icon" href="/icon.png"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, maximum-scale=1">
         <meta name="description" content="Simple Web Audio Player">
 
         <meta property="og:title" content="SoundME">
