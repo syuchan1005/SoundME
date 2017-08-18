@@ -1,26 +1,21 @@
-# SoundMeとは
- WebでiTunesみたいの欲しかっただけ
- スマートフォンでは一度ピンチイン操作をしないと動作しない場合があります
- 
-# どんな感じなの？
-   iTunesライクな感じのデザインです  
-   [Demo](https://sound.magitech.xyz)  <- ちょっと重たいかも
-   ```text
-UserName: user
-Password: pass
+# SoundME
+
+> A original Music Player
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
 ```
-   でログインできます
-   
-   Demoページはデフォルトテーマで構成されています  
-   テーマを自分で作成し使用することも出来ます
- 
-# 使い方
- マシンにffmpegをインストールしてから
- `npm install`して`npm start`してください
- 
- logが見たい場合には`DEBUG=soundme`をつけてください
- 
- dockerは[こちら(syuchan1005/soundme)](https://hub.docker.com/r/syuchan1005/soundme/)
- 
- adminユーザが存在しないときは自動でアカウントが作成されるのでコンソールを見てください
- 
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
