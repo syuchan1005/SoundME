@@ -1,52 +1,106 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank" rel="noopener">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank" rel="noopener">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="main">
+    <div id="wallpaper"></div>
+    <h1 class="title">SoundME</h1>
+    <md-whiteframe md-elevation="10" class="frame">
+      <form id="loginForm">
+        <md-input-container>
+          <label>Username</label>
+          <md-input v-model="username"></md-input>
+        </md-input-container>
+        <md-input-container md-has-password>
+          <label>Password</label>
+          <md-input type="password" v-model="password"></md-input>
+        </md-input-container>
+        <md-button class="md-raised loginButton" @click="clickLogin">Login</md-button>
+      </form>
+    </md-whiteframe>
   </div>
 </template>
 
 <script>
+import Particle from 'jparticles'
+import { mapGetters } from 'vuex'
+import store from './../vuex/store'
+import {CHANGE_LOGIN} from './../vuex/mutation-types'
+
 export default {
   name: 'hello',
-  data () {
+  data: () => {
     return {
-      msg: 'Welcome to Your Vue.js PWA'
+      username: "",
+      password: ""
     }
+  },
+  methods: {
+    clickLogin: function () {
+        this.$http({
+          method: 'get',
+          url: '/login',
+          data: {
+            username: this.username,
+            password: this.password
+          }
+        }).then((response) => {
+        });
+    }
+  },
+  mounted: () => {
+    new Particle.particle('#wallpaper', {
+      range: 3000,
+      num: 30,
+      lineWidth: 1,
+      proximity: 90,
+      maxR: 15,
+      minR: 10,
+      maxSpeed: 2
+    });
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
-}
+<style lang="scss">
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  #wallpaper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -9999;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  .title {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+  }
 
-a {
-  color: #35495E;
+  .frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 500px;
+    width: 50vw;
+    min-width: 290px;
+    max-height: 300px;
+    height: 30vh;
+    min-height: 215px;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  #loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+  }
 }
 </style>
